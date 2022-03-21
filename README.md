@@ -1,5 +1,5 @@
 # opencast-php-library
-This php composer package is meant to provide an unified easy-to-use Opencast RESTful API library. It has been designed to make most of commonly used REST Endpoints available to the developers of thisr-party application including LMSes such as Stud.IP, Moodle and ILIAS.
+This php composer package is meant to provide an unified easy-to-use Opencast RESTful API library. It has been designed to make most of commonly used REST Endpoints available to the developers of thirt-party applications including LMSes such as Stud.IP, Moodle and ILIAS.
 
 # Requisitions
 <b>PHP Version 7.2.5 or above</b> as well as <b>cURL</b> is required by this library.
