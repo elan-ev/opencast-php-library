@@ -2,7 +2,7 @@
 This php composer package is meant to provide an unified easy-to-use Opencast RESTful API library. It has been designed to make most of commonly used REST Endpoints available to the developers of thirt-party applications including LMSes such as Stud.IP, Moodle and ILIAS.
 
 # Requisitions
-<b>PHP Version 7.2.5 or above</b> as well as <b>cURL</b> is required by this library.
+<b>PHP Version 7.2.5 or above</b> as well as <b>cURL</b> are required, additionaly, the <a href="https://docs.guzzlephp.org/en/stable/overview.html#requirements" target="_blank">requirements</a> of <a href="https://packagist.org/packages/guzzlehttp/guzzle#7.0.0" target="_blank">guzzlehttp/guzzle</a> must be fullfiled.
 
 # Installation
 `composer require elan/opencast-api`
