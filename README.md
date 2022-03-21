@@ -23,8 +23,14 @@ NOTE: This approach also supports dual node Opencast configuration, you can pass
 ```php
 
 ```
+# Response
+The return result of each call is an `Array` containing the following information:
+```php
 
-# Available Nodes
+```
+
+
+# Available Opencast REST Service Endpoint
 
 - `/api/*`: all known API endpoints of Opencast are available to be used in this library. <a href="" target="_blank">Class Definitions WiKi for API endpoints</a>
   
