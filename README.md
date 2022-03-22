@@ -143,7 +143,7 @@ $sorts = [
 # Naming convention
 ## Classes: 
 Apart from 'OpenCast' class, all other classes under OpencastAPI namespace start with `Oc` followed by the name and the endpoint category. For example:
-- `OcEventApi` contains 3 parts including Oc + Endpoint Name (Events) + Endpoint Category (Api)
+- `OcEventsApi` contains 3 parts including Oc + Endpoint Name (Events) + Endpoint Category (Api)
 - `OcServices` contains 2 parts including Oc + Endpoint Name/Category (Services)
 
 ## OpenCast class properties:
