@@ -1,8 +1,8 @@
 # opencast-php-library
-This php composer package is meant to provide an unified easy-to-use Opencast RESTful API library. It has been designed to make most of commonly used REST Endpoints available to the developers of thirt-party applications including LMSes such as Stud.IP, Moodle and ILIAS.
+This php composer package is meant to provide an unified easy-to-use Opencast RESTful API library. It has been designed to make most of commonly used REST Endpoints available to the developers of thirt-party applications mainly LMSes such as Stud.IP, Moodle and ILIAS.
 
 # Requisitions
-<b>PHP Version 7.2.5 or above</b> as well as <b>cURL</b> are required, additionaly, the <a href="https://docs.guzzlephp.org/en/stable/overview.html#requirements" target="_blank">requirements</a> of <a href="https://packagist.org/packages/guzzlehttp/guzzle#7.0.0" target="_blank">guzzlehttp/guzzle</a> must be fullfiled.
+<b>PHP Version 7.2.5 or above</b> as well as <b>cURL</b> are required. Additionaly, the <a href="https://docs.guzzlephp.org/en/stable/overview.html#requirements" target="_blank">requirements</a> of <a href="https://packagist.org/packages/guzzlehttp/guzzle#7.0.0" target="_blank">guzzlehttp/guzzle</a> must be fullfiled.
 
 # Installation
 `composer require elan/opencast-api`
@@ -10,15 +10,14 @@ This php composer package is meant to provide an unified easy-to-use Opencast RE
 # Basic Usage
 There 2 approaches to use the Endpoints from this library:
 
-1. The first one is via the Generic `OpencastAPI\OpenCast` which contains all available opencast endpoints. The advantage of using this approach would be a better control over all endpoints. (Recommended)
+1. The first one is via the Generic `OpencastAPI\OpenCast` which contains all available opencast endpoints. The advantage of using this approach would be a better control over all endpoints. <b>(Recommended)</b>
 
-NOTE: This approach also supports dual node Opencast configuration, you can pass the secondary node config (a.k.a "engage" mostly use for search endpoint) to have it accessible throughout the `OpencastAPI\OpenCast` class. 
-.It depends on the way your Opencast Instance is configured
+<b>NOTE:</b> This approach also supports dual node Opencast configuration, you can pass the secondary node config (a.k.a "engage" mostly use for search endpoint) to have it accessible throughout the `OpencastAPI\OpenCast` class.
 ```php
 
 ```
 
-2. The second approach is to instatiate each endpoint when needed, but the down side of this would be the needs a `OpencastAPI\OcRestClient` when creating it. The advantage of this approach might be the methods' definitions in the IDE.
+2. The second approach is to instatiate each endpoint class when needed, but the down side of this would be that it needs a `OpencastAPI\OcRestClient` instance as its parameter. The advantage of this approach might be the methods' definitions in the IDE.
 
 ```php
 
