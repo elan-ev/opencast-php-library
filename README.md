@@ -107,7 +107,12 @@ NOTE: the configuration for `engage` node responsible for search has to follow t
 # Response
 The return result of each call is an `Array` containing the following information:
 ```php
-
+[
+      'code' => 200,                // The status code of the response
+      'body' => '' || [] || {},     // The result of the response
+      'reason' => 'OK',             // The reason/message of response
+      'location' => '',             // The location header of the response when available
+]
 ```
 # Filters and Sorts
 
