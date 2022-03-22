@@ -138,3 +138,14 @@ $sorts = [
 - `/services/services.json` : <a href="" target="_blank">Class Definitions WiKi for Services Endpoints</a>
 
 - `/search/{episode | lucene | series}.json` : <a href="" target="_blank">Class Definitions WiKi for Search Endpoints</a>
+
+
+# Naming convention for classes
+Apart from 'OpenCast' class, all other classes under OpencastAPI namespace start with `Oc` followed by the name and the endpoint category. For example:
+- OcEventApi contains 3 parts including Oc + Endpoint Name (Events) + Endpoint Category (Api)
+- OcServices contains 2 parts including Oc + Endpoint Name/Category (Services)
+
+
+# References
+- <a href="https://develop.opencast.org/rest_docs.html" target="_blank">Main Opencast REST Service Documentation</a>
+- <a href="https://docs.opencast.org/develop/developer/#api/#_top" target="_blank">Detailed Opencast REST API Endpoints Documentation</a>
