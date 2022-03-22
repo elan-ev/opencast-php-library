@@ -20,7 +20,7 @@ $config = [
       'password' => 'opencast',                       // The API password. (required)
       'timeout' => 30000,                             // The API timeout. In miliseconds (Default 30000 miliseconds or 30 seconds). (optional)
       'version' => null                               // The API Version. (Default null). (optional)
-]
+];
 
 $engageConfig = [
       'url' => 'https://develop.opencast.org/',       // The API url of the opencast instance (required)
@@ -28,7 +28,7 @@ $engageConfig = [
       'password' => 'opencast',                       // The API password. (required)
       'timeout' => 30000,                             // The API timeout. In miliseconds (Default 30000 miliseconds or 30 seconds). (optional)
       'version' => null                               // The API Version. (Default null). (optional)
-]
+];
 
 use OpencastAPI\OpenCast;
 
@@ -39,9 +39,16 @@ $opencastApi = new OpenCast($config);
 
 // Accessing Event Endpoints to get all events
 $events = [];
-$response = $opencastApi->eventsApi->getAll();
-if ($response['body']; == 200) {
-      $events = $response['body'];
+$eventsResponse = $opencastApi->eventsApi->getAll();
+if ($eventsResponse['body'] == 200) {
+      $events = $eventsResponse['body'];
+}
+
+// Accessing Series Endpoints to get all series
+$series = [];
+$seriesResponse = $opencastApi->seriesApi->getAll();
+if ($seriesResponse['body'] == 200) {
+      $series = $seriesResponse['body'];
 }
 
 // ...
@@ -50,7 +57,39 @@ if ($response['body']; == 200) {
 2. The second approach is to instatiate each endpoint class when needed, but the down side of this would be that it needs a `OpencastAPI\OcRestClient` instance as its parameter. The advantage of this approach might be the methods' definitions in the IDE.
 
 ```php
+$config = [
+      'url' => 'https://develop.opencast.org/',       // The API url of the opencast instance (required)
+      'username' => 'admin',                          // The API username. (required)
+      'password' => 'opencast',                       // The API password. (required)
+      'timeout' => 30000,                             // The API timeout. In miliseconds (Default 30000 miliseconds or 30 seconds). (optional)
+      'version' => null                               // The API Version. (Default null). (optional)
+];
 
+
+use OpencastAPI\OcRestClient;
+use OpencastAPI\OcEventsApi;
+use OpencastAPI\OcSeriesApi;
+
+// Get a client object.
+$opencastClient = OcRestClient($config);
+
+// To get events.
+$opencastEventsApi = OcEventsApi($opencastClient);
+$events = [];
+$eventsResponse = $opencastEventsApi->getAll();
+if ($eventsResponse['body'] == 200) {
+      $events = $eventsResponse['body'];
+}
+
+// To get series.
+$opencastSeriesApi = OcSeriesApi($opencastClient);
+$series = [];
+$seriesResponse = $opencastSeriesApi->getAll();
+if ($seriesResponse['body'] == 200) {
+      $series = $seriesResponse['body'];
+}
+
+// ...
 ```
 # Configuration
 The configuration is type of `Array` and has to be defined as follows:
@@ -70,6 +109,8 @@ The return result of each call is an `Array` containing the following informatio
 ```php
 
 ```
+# Filters and Sorts
+
 
 # Available Opencast REST Service Endpoint
 
