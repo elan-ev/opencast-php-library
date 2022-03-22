@@ -12,7 +12,7 @@ There 2 approaches to use the Endpoints from this library:
 
 1. The first one is via the Generic `OpencastAPI\OpenCast` which contains all available opencast endpoints. The advantage of using this approach would be a better control over all endpoints. <b>(Recommended)</b>
 
-<b>NOTE:</b> This approach also supports dual node Opencast configuration, you can pass the secondary node config (a.k.a "engage" mostly use for search endpoint) to have it accessible throughout the `OpencastAPI\OpenCast` class.
+<b>NOTE:</b> When your Opencast setup is configured as <b>dual node</b>, one responsible for main functionalities and the other one responsible for presentation <b>(a.k.a "engage node")</b>, you can pass another set of configuration as the second parameter when instantiating the `OpencastAPI\OpenCast`. As of verion 1.0, the engage node takes care of search endpoint only.
 ```php
 
 ```
@@ -22,12 +22,24 @@ There 2 approaches to use the Endpoints from this library:
 ```php
 
 ```
+# Configuration
+The configuration is type of `Array` and has to be defined as follows:
+```php
+$config = [
+      'url' => 'https://develop.opencast.org/',       // The API url of the opencast instance (required)
+      'username' => 'admin',                          // The API username. (required)
+      'password' => 'opencast',                       // The API password. (required)
+      'timeout' => 30000,                             // The API timeout. In miliseconds (Default 30000 miliseconds or 30 seconds). (optional)
+      'version' => null                               // The API Version. (Default null). (optional)
+];
+```
+NOTE: the configuration for `engage` node responsible for search has to follow the same definition as normal config. But in case any parameter is missing, the value will be taken from the main config param. 
+
 # Response
 The return result of each call is an `Array` containing the following information:
 ```php
 
 ```
-
 
 # Available Opencast REST Service Endpoint
 
