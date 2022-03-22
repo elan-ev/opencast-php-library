@@ -14,7 +14,37 @@ There 2 approaches to use the Endpoints from this library:
 
 <b>NOTE:</b> When your Opencast setup is configured as <b>dual node</b>, one responsible for main functionalities and the other one responsible for presentation <b>(a.k.a "engage node")</b>, you can pass another set of configuration as the second parameter when instantiating the `OpencastAPI\OpenCast`. As of verion 1.0, the engage node takes care of search endpoint only.
 ```php
+$config = [
+      'url' => 'https://develop.opencast.org/',       // The API url of the opencast instance (required)
+      'username' => 'admin',                          // The API username. (required)
+      'password' => 'opencast',                       // The API password. (required)
+      'timeout' => 30000,                             // The API timeout. In miliseconds (Default 30000 miliseconds or 30 seconds). (optional)
+      'version' => null                               // The API Version. (Default null). (optional)
+]
 
+$engageConfig = [
+      'url' => 'https://develop.opencast.org/',       // The API url of the opencast instance (required)
+      'username' => 'admin',                          // The API username. (required)
+      'password' => 'opencast',                       // The API password. (required)
+      'timeout' => 30000,                             // The API timeout. In miliseconds (Default 30000 miliseconds or 30 seconds). (optional)
+      'version' => null                               // The API Version. (Default null). (optional)
+]
+
+use OpencastAPI\OpenCast;
+
+// In case of dual oc setup
+$opencastDualApi = new OpenCast($config, $engageConfig);
+// Or simply 
+$opencastApi = new OpenCast($config);
+
+// Accessing Event Endpoints to get all events
+$events = [];
+$response = $opencastApi->eventsApi->getAll();
+if ($response['body']; == 200) {
+      $events = $response['body'];
+}
+
+// ...
 ```
 
 2. The second approach is to instatiate each endpoint class when needed, but the down side of this would be that it needs a `OpencastAPI\OcRestClient` instance as its parameter. The advantage of this approach might be the methods' definitions in the IDE.
