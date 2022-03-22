@@ -109,14 +109,26 @@ The return result of each call is an `Array` containing the following informatio
 ```php
 [
       'code' => 200,                // The status code of the response
-      'body' => '' || [] || {},     // The result of the response
+      'body' => '',                 // The result of the response. It can be type of string, array or object ('' || [] || {})
       'reason' => 'OK',             // The reason/message of response
       'location' => '',             // The location header of the response when available
 ]
 ```
 # Filters and Sorts
+Filters and Sorts must be define as associative `Array`, as follows:
+```php
+// for example:
 
+$filters = [
+      'title' => 'The title name',
+      'creator' => 'opencast admin'
+];
 
+$sorts = [
+      'title' => 'DESC',
+      'startDate' => 'ASC'
+];
+```
 # Available Opencast REST Service Endpoint
 
 - `/api/*`: all known API endpoints of Opencast are available to be used in this library. <a href="" target="_blank">Class Definitions WiKi for API endpoints</a>
