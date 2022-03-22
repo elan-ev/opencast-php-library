@@ -143,8 +143,8 @@ $sorts = [
 # Naming convention
 ## Classes: 
 Apart from 'OpenCast' class, all other classes under OpencastAPI namespace start with `Oc` followed by the name and the endpoint category. For example:
-- OcEventApi contains 3 parts including Oc + Endpoint Name (Events) + Endpoint Category (Api)
-- OcServices contains 2 parts including Oc + Endpoint Name/Category (Services)
+- `OcEventApi` contains 3 parts including Oc + Endpoint Name (Events) + Endpoint Category (Api)
+- `OcServices` contains 2 parts including Oc + Endpoint Name/Category (Services)
 
 ## OpenCast class properties:
 The naming convetion to access the endpoint subclasses from `OpencastAPI\OpenCast` as its properties, includes the name of the class without `Oc` in camelCase format. For example:
@@ -154,7 +154,7 @@ $config = [/*the config*/];
 $opencast = new OpenCast($config);
 
 // Accessing OcEventsApi would be like: (without Oc and in camelCase format)
-$ocEventsApi = $opencast->eventApi; 
+$ocEventsApi = $opencast->eventsApi; 
 ```
 # References
 - <a href="https://develop.opencast.org/rest_docs.html" target="_blank">Main Opencast REST Service Documentation</a>
