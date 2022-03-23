@@ -54,7 +54,7 @@ if ($seriesResponse['body'] == 200) {
 // ...
 ```
 
-2. The second approach is to instatiate each REST endpoint class when needed, but the down side of this would be that it needs a `OpencastApi\Rest\OcRestClient` instance as its parameter. The advantage of this approach might be the methods' definitions in the IDE.
+2. The second approach is to instatiate each REST endpoint class, which are located under `OpencastApi\Rest\` namespace, when needed, but the down side of this would be that it needs a `OpencastApi\Rest\OcRestClient` instance as its parameter. The advantage of this approach might be the methods' definitions in the IDE.
 
 ```php
 $config = [
