@@ -10,9 +10,9 @@ This php composer package is meant to provide an unified easy-to-use Opencast RE
 # Basic Usage
 There 2 approaches to use the Endpoints from this library:
 
-1. The first one is via the Generic `OpencastAPI\OpenCast` which contains all available opencast endpoints. The advantage of using this approach would be a better control over all endpoints. <b>(Recommended)</b>
+1. The first one is via the Generic `OpencastApi\OpenCast` which contains all available opencast endpoints. The advantage of using this approach would be a better control over all endpoints that are available under the API version definedin the config. <b>(Recommended)</b>
 
-<b>NOTE:</b> When your Opencast setup is configured as <b>dual node</b>, one responsible for main functionalities and the other one responsible for presentation <b>(a.k.a "engage node")</b>, you can pass another set of configuration as the second parameter when instantiating the `OpencastAPI\OpenCast`. As of verion 1.0, the engage node takes care of search endpoint only.
+<b>NOTE:</b> When your Opencast setup is configured as <b>dual node</b>, one responsible for main functionalities and the other one responsible for presentation <b>(a.k.a "engage node")</b>, you can pass another set of configuration as the second parameter when instantiating the `OpencastApi\OpenCast`. As of verion 1.0, the engage node takes care of search endpoint only.
 ```php
 $config = [
       'url' => 'https://develop.opencast.org/',       // The API url of the opencast instance (required)
@@ -30,7 +30,7 @@ $engageConfig = [
       'version' => null                               // The API Version. (Default null). (optional)
 ];
 
-use OpencastAPI\OpenCast;
+use OpencastApi\OpenCast;
 
 // In case of dual oc setup
 $opencastDualApi = new OpenCast($config, $engageConfig);
@@ -54,7 +54,7 @@ if ($seriesResponse['body'] == 200) {
 // ...
 ```
 
-2. The second approach is to instatiate each endpoint class when needed, but the down side of this would be that it needs a `OpencastAPI\OcRestClient` instance as its parameter. The advantage of this approach might be the methods' definitions in the IDE.
+2. The second approach is to instatiate each endpoint class when needed, but the down side of this would be that it needs a `OpencastApi\OcRestClient` instance as its parameter. The advantage of this approach might be the methods' definitions in the IDE.
 
 ```php
 $config = [
@@ -66,9 +66,9 @@ $config = [
 ];
 
 
-use OpencastAPI\OcRestClient;
-use OpencastAPI\OcEventsApi;
-use OpencastAPI\OcSeriesApi;
+use OpencastApi\Rest\OcRestClient;
+use OpencastApi\Rest\OcEventsApi;
+use OpencastApi\Rest\OcSeriesApi;
 
 // Get a client object.
 $opencastClient = OcRestClient($config);
@@ -142,14 +142,14 @@ $sorts = [
 
 # Naming convention
 ## Classes: 
-Apart from 'OpenCast' class, all other classes under OpencastAPI namespace start with `Oc` followed by the name and the endpoint category. For example:
+Apart from 'OpenCast' class, all other classes under OpencastApi namespace start with `Oc` followed by the name and the endpoint category. For example:
 - `OcEventsApi` contains 3 parts including Oc + Endpoint Name (Events) + Endpoint Category (Api)
 - `OcServices` contains 2 parts including Oc + Endpoint Name/Category (Services)
 
 ## OpenCast class properties:
-The naming convetion to access the endpoint subclasses from `OpencastAPI\OpenCast` as its properties, includes the name of the class without `Oc` in camelCase format. For example:
+The naming convetion to access the endpoint subclasses from `OpencastApi\OpenCast` as its properties, includes the name of the class without `Oc` in camelCase format. For example:
 ```php
-use OpencastAPI\OpenCast;
+use OpencastApi\OpenCast;
 $config = [/*the config*/];
 $opencast = new OpenCast($config);
 
