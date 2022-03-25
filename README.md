@@ -139,6 +139,16 @@ $sorts = [
 
 - `/search/{episode | lucene | series}.json` : <a href="" target="_blank">Class Definitions WiKi for Search Endpoints</a>
 
+- `/capture-admin/*` : <a href="" target="_blank">Class Definitions WiKi for Capture admin Endpoints</a>
+
+- `/admin-ng/event/delete` : <a href="" target="_blank">Class Definitions WiKi for Admin Ng Event Endpoints</a>
+
+- `/recordings/*` : <a href="" target="_blank">Class Definitions WiKi for Recordnings Endpoints</a>
+
+- `/series/*` : <a href="" target="_blank">Class Definitions WiKi for Series Endpoints</a>
+
+- `/workflow/*` : <a href="" target="_blank">Class Definitions WiKi for Workflow Endpoints</a>
+
 
 # Naming convention
 ## Classes: 
