@@ -2,7 +2,7 @@
 This php composer package is meant to provide an unified easy-to-use Opencast RESTful API library. It has been designed to make most of commonly used REST Endpoints available to the developers of thirt-party applications mainly LMSes such as Stud.IP, Moodle and ILIAS.
 
 # Requisitions
-<b>PHP Version 7.2.5 or above</b> as well as <b>cURL</b> are required. Additionaly, the <a href="https://docs.guzzlephp.org/en/stable/overview.html#requirements" target="_blank">requirements</a> of <a href="https://packagist.org/packages/guzzlehttp/guzzle#7.0.0" target="_blank">guzzlehttp/guzzle</a> must be fullfiled.
+<b>PHP Version 7.2.5 or above</b> as well as <b>cURL</b> are required. Additionaly, the [requirements](https://docs.guzzlephp.org/en/stable/overview.html#requirements) of [guzzlehttp/guzzle](https://packagist.org/packages/guzzlehttp/guzzle#7.0.0) must be fullfiled.
 
 # Installation
 `composer require elan/opencast-api`
@@ -133,21 +133,21 @@ $sorts = [
 
 - `/api/*`: all known API endpoints of Opencast are available to be used in this library. <a href="" target="_blank">Class Definitions WiKi for API endpoints</a>
   
-- `/ingest/*` : all known Ingest endpoints are available. <a href="" target="_blank">Class Definitions WiKi for Ingest Endpoints</a>
+- `/ingest/*`: all known Ingest endpoints are available. [Ingest Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki)
 
-- `/services/services.json` : <a href="" target="_blank">Class Definitions WiKi for Services Endpoints</a>
+- `/services/services.json`: only services.json is available. [Services Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki)
 
-- `/search/{episode | lucene | series}.json` : <a href="" target="_blank">Class Definitions WiKi for Search Endpoints</a>
+- `/search/{episode | lucene | series}.{json | xml}`: only episode, lucene and series in JSON or XML format are available. [Search Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki)
 
-- `/capture-admin/*` : <a href="" target="_blank">Class Definitions WiKi for Capture admin Endpoints</a>
+- `/capture-admin/*`: all known Capture Admin endpoints are available. [Capture Admin Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki)
 
-- `/admin-ng/event/delete` : <a href="" target="_blank">Class Definitions WiKi for Admin Ng Event Endpoints</a>
+- `/admin-ng/event/delete`: only delete endpoint is available. [Admin Ng Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki)
 
-- `/recordings/*` : <a href="" target="_blank">Class Definitions WiKi for Recordnings Endpoints</a>
+- `/recordings/*`: all known Recording endpoints are available. [Recordings Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki)
 
-- `/series/*` : <a href="" target="_blank">Class Definitions WiKi for Series Endpoints</a>
+- `/series/*`: all known Series endpoints are available. [Series Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki)
 
-- `/workflow/*` : <a href="" target="_blank">Class Definitions WiKi for Workflow Endpoints</a>
+- `/workflow/*`: all known Workflow endpoints are available. [Workflow Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki)
 
 
 # Naming convention
