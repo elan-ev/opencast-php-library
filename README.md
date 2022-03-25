@@ -131,7 +131,7 @@ $sorts = [
 ```
 # Available Opencast REST Service Endpoint
 
-- `/api/*`: all known API endpoints of Opencast are available to be used in this library. <a href="" target="_blank">Class Definitions WiKi for API endpoints</a>
+- `/api/*`: all known API endpoints of Opencast are available to be used in this library. [API Endpoints definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki/API-Endpoints)
   
 - `/ingest/*`: all known Ingest endpoints are available. [Ingest Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki)
 
