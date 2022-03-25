@@ -15,7 +15,7 @@ class OcBaseApi extends OcRest
     /**
      * Returns key characteristics of the API such as the server name and the default version.
      * 
-     * @return array the response result
+     * @return array the response result ['code' => 200, 'body' => '{The api information is returned.}']
      */
     public function get()
     {
@@ -25,7 +25,7 @@ class OcBaseApi extends OcRest
     /**
      * Returns information on the logged in user.
      * 
-     * @return array the response result
+     * @return array the response result ['code' => 200, 'body' => '{The api user information is returned.}']
      */
     public function getUserInfo()
     {
@@ -35,7 +35,7 @@ class OcBaseApi extends OcRest
     /**
      * Returns current user's roles.
      * 
-     * @return array the response result
+     * @return array the response result ['code' => 200, 'body' => '{The set of roles is returned. }']
      */
     public function getUserRole()
     {
@@ -45,7 +45,7 @@ class OcBaseApi extends OcRest
     /**
      * Returns the current organization.
      * 
-     * @return array the response result
+     * @return array the response result ['code' => 200, 'body' => '{The organization details are returned.}']
      */
     public function getOrg()
     {
@@ -55,7 +55,7 @@ class OcBaseApi extends OcRest
     /**
      * Returns the current organization's properties.
      * 
-     * @return array the response result
+     * @return array the response result ['code' => 200, 'body' => '{The organization properties are returned.}']
      */
     public function getOrgProps()
     {
@@ -65,7 +65,7 @@ class OcBaseApi extends OcRest
     /**
      * Returns the engage ui url property.
      * 
-     * @return array the response result
+     * @return array the response result ['code' => 200, 'body' => '{The engage ui url is returned.}']
      */
     public function getOrgEngageUIUrl()
     {
@@ -75,7 +75,7 @@ class OcBaseApi extends OcRest
     /**
      * Returns a list of available version as well as the default version.
      * 
-     * @return array the response result
+     * @return array the response result ['code' => 200, 'body' => '{The version list is returned}']
      */
     public function getVersion()
     {
@@ -85,7 +85,7 @@ class OcBaseApi extends OcRest
     /**
      * Returns the default version.
      * 
-     * @return array the response result
+     * @return array the response result ['code' => 200, 'body' => '{The default version is returned}']
      */
     public function getDefaultVersion()
     {

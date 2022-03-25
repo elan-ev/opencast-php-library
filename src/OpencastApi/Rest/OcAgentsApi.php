@@ -17,11 +17,10 @@ class OcAgentsApi extends OcRest
     /**
      * Returns a list of capture agents.
      * 
-     * @param int $limit The maximum number of results to return for a single request
-     * @param int $offset The index of the first result to return
+     * @param int $limit (optional) The maximum number of results to return for a single request (Default value=0)
+     * @param int $offset (optional) The index of the first result to return (Default value=0)
      * 
-     * @return array the response result
-     * @return array the response result
+     * @return array the response result ['code' => 200, 'body' => '{A (potentially empty) list of agents is returned}']
      */
     public function getAll($limit = 0, $offset = 0)
     {
@@ -41,7 +40,7 @@ class OcAgentsApi extends OcRest
      * 
      * @param string $agentId The agent id
      * 
-     * @return array the response result
+     * @return array the response result ['code' => 200, 'body' => '{The agent is returned}']
      */
     public function get($agentId)
     {

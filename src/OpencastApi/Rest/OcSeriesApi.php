@@ -61,7 +61,7 @@ class OcSeriesApi extends OcRest
      * Returns a single series.
      * 
      * @param string $seriesId the identifier of the series.
-     * @param bool $withacl (optional) Whether the acl should be included in the response (version 1.5.0 and higher)
+     * @param boolean $withacl (optional) Whether the acl should be included in the response (version 1.5.0 and higher)
      * 
      * @return array the response result ['code' => 200, 'body' => '{The series (object)}']
      */
@@ -248,7 +248,7 @@ class OcSeriesApi extends OcRest
     }
 
     /**
-     * Empties all Acls for the series.
+     * Removes all Acls for the series.
      * 
      * @param string $seriesId the series identifier
      * @param boolean $override (optional) Whether the episode Acl of all events of this series should be removed (Default value: false) (version 1.2.0 or heigher)

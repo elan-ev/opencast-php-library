@@ -142,7 +142,7 @@ class OcEventsApi extends OcRest
      * @param string|array $scheduling (optional) Scheduling information (version 1.1.0 and higher)
      * @param file $presenterFile (optional) Presenter movie track
      * @param file $presentationFile (optional) Presentation movie track
-     * @param file $audioFile Audio (optional) track
+     * @param file $audioFile (optional) Audio track
      * 
      * @return array the response result ['code' => 201, 'body' => '{A new event is created and its identifier is returned}', 'location' => '{the url of new event'}]
      */
@@ -269,8 +269,8 @@ class OcEventsApi extends OcRest
      * Note that this is a convenience method to avoid having to build and post a complete access control list.
      * 
      * @param string $eventId the event identifier 
-     * @param string @action The action that is allowed to be executed
-     * @param string @role The role that is granted permission
+     * @param string $action The action that is allowed to be executed
+     * @param string $role The role that is granted permission
      * 
      * @return array the response result ['code' => 204, 'reason' => 'NO CONTENT'] (The permission has been created in the access control list of the specified event)
      */
@@ -283,7 +283,7 @@ class OcEventsApi extends OcRest
     }
 
     /**
-     * Empties all ACLs for the event.
+     * Removes all ACLs for the event.
      * @param string $eventId the event identifier
      * 
      * @return array the response result ['code' => 204, 'reason' => 'NO CONTENT'] (The access control list for the specified event is updated)
@@ -298,8 +298,8 @@ class OcEventsApi extends OcRest
      * Revokes permission to execute action on the specified event from any user with specified role.
      * 
      * @param string $eventId the event identifier
-     * @param string @action The action that is no longer allowed to be executed
-     * @param string @role The role that is no longer granted permission
+     * @param string $action The action that is no longer allowed to be executed
+     * @param string $role The role that is no longer granted permission
      * 
      * @return array the response result ['code' => 204, 'reason' => 'NO CONTENT'] (The permission has been revoked from the access control list of the specified event)
      */
@@ -354,7 +354,7 @@ class OcEventsApi extends OcRest
      * For a metadata catalog there is the flavor such as dublincore/episode and this is the unique type.
      * 
      * @param string $eventId the event identifier
-     * @param string $type The type of metadata to get
+     * @param string $type The type of metadata to update
      * @param string|array $metadata Event metadata
      * 
      * @return array the response result ['code' => 200, 'reason' => 'OK'] (The metadata of the given namespace has been updated)

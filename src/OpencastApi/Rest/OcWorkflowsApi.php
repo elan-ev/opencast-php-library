@@ -64,8 +64,8 @@ class OcWorkflowsApi extends OcRest
      * Returns a single workflow instance.
      * 
      * @param string $workflowInstanceId The workflow instance id 
-     * @param bool $withoperations (optional) Whether the workflow operations should be included in the response (Default value=false)
-     * @param bool $withconfiguration (optional) Whether the workflow configuration should be included in the response (Default value=false)
+     * @param boolean $withoperations (optional) Whether the workflow operations should be included in the response (Default value=false)
+     * @param boolean $withconfiguration (optional) Whether the workflow configuration should be included in the response (Default value=false)
      * 
      * @return array the response result ['code' => 200, 'body' => '{ The workflow instance}']
      */
@@ -91,8 +91,8 @@ class OcWorkflowsApi extends OcRest
      * @param string $eventIdentifier The event identifier this workflow should run against
      * @param string $definitionIdentifier The identifier of the workflow definition to use
      * @param string|array $configuration (optional) The optional configuration for this workflow
-     * @param bool $withoperations (optional) Whether the workflow operations should be included in the response (Default value=false)
-     * @param bool $withconfiguration (optional) Whether the workflow configuration should be included in the response (Default value=false)
+     * @param boolean $withoperations (optional) Whether the workflow operations should be included in the response (Default value=false)
+     * @param boolean $withconfiguration (optional) Whether the workflow configuration should be included in the response (Default value=false)
      * 
      * @return array the response result ['code' => 201, 'body' => '{A new workflow is created and its identifier as Object is returned}', 'location' => 'The url']
      */
@@ -127,7 +127,7 @@ class OcWorkflowsApi extends OcRest
      * 
      * @param string $workflowInstanceId The workflow instance id 
      * @param string $state (optional) The optional state transition for this workflow
-     * @param array $configuration (optional) The optional configuration for this workflow
+     * @param string|array $configuration (optional) The optional configuration for this workflow
      * @param bool $withoperations (optional) Whether the workflow operations should be included in the response (Default value=false)
      * @param bool $withconfiguration (optional) Whether the workflow configuration should be included in the response (Default value=false)
      * 
@@ -221,8 +221,8 @@ class OcWorkflowsApi extends OcRest
      * Returns a single workflow definition.
      * 
      * @param string $workflowDefinitionId the identifier of the workflow definition.
-     * @param bool $withoperations (optional) Whether the workflow operations should be included in the response (Default value=false)
-     * @param bool $withconfigurationpanel (optional) Whether the workflow configuration should be included in the response (Default value=false)
+     * @param boolean $withoperations (optional) Whether the workflow operations should be included in the response (Default value=false)
+     * @param boolean $withconfigurationpanel (optional) Whether the workflow configuration should be included in the response (Default value=false)
      * 
      * @return array the response result ['code' => 200, 'body' => '{ The workflow definition is returned as JSON object}']
      */
