@@ -71,7 +71,7 @@ class OcIngest extends OcRest
     }
 
     /**
-     * Add a dublincore episode catalog to a given media package using an url
+     * Add a dublincore episode catalog to a given media package
      *
      * @param string $mediaPackage The media package
      * @param string $dublinCore DublinCore catalog
@@ -152,7 +152,7 @@ class OcIngest extends OcRest
      * (*) The special treatment of the identifier field is deprecated and may be removed in future versions without further notice in favor of a random UUID generation to ensure uniqueness of identifiers. 
      * 
      *
-     * @param array (optional) $flavor The kind of media track. This has to be specified prior to each media track (default: "presenter/source"):
+     * @param array $flavor (optional) The kind of media track. This has to be specified prior to each media track (default: "presenter/source"):
      * @param array $file (partially optional) media track file, could be null if mediaUri in $params is defined.
      * @param array $params (optional) The available form params to send the list possible values:
      *  [
