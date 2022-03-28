@@ -143,7 +143,7 @@ $sorts = [
 
 - `/admin-ng/event/delete`: only delete endpoint is available. [Admin Ng Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki/OcEventAdminNg)
 
-- `/recordings/*`: all known Recording endpoints are available. [Recordings Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki)
+- `/recordings/*`: all known Recording endpoints are available. [Recordings Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki/OcRecordings)
 
 - `/series/*`: all known Series endpoints are available. [Series Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki)
 
