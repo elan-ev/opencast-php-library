@@ -31,7 +31,7 @@ class OcRecordings extends OcRest
      * @param int $end End time of conflicting period, in milliseconds 
      * @param string $format (optional) The output format (json or xml) of the response body. (Default value = 'json')
      * @param string $rrule (optional)  Rule for recurrent conflicting, specified as: "FREQ=WEEKLY;BYDAY=day(s);BYHOUR=hour;BYMINUTE=minute". FREQ is required. BYDAY may include one or more (separated by commas) of the following: SU,MO,TU,WE,TH,FR,SA.
-     * @param int $duration (optional) The output format (json or xml) of the response body. (Default value = 'json')
+     * @param int $duration (optional) If recurrence rule is specified duration of each conflicting period, in milliseconds . (Default value=0)
      * @param string $timezone (optional) The timezone of the capture device 
      *
      * @return array the response result (NO CONTENT if no recordings are in conflict within specified period or list of conflicting recordings in XML or JSON)
@@ -75,7 +75,7 @@ class OcRecordings extends OcRest
      *
      * @return array the response result ['code' => 200, 'body' => '{JSON (Object) DublinCore of current capture event is in the body of response}','reason' => 'OK']
      */
-    public function getCaptureEventCatalog($agentId)
+    public function getCurrentCapute($agentId)
     {
         $uri = self::URI . "/capture/{$agentId}";
         return $this->restClient->performGet($uri);
@@ -88,7 +88,7 @@ class OcRecordings extends OcRest
      *
      * @return array the response result ['code' => 200, 'body' => '{XML (text) current event is in the body of response}','reason' => 'OK']
      */
-    public function getCaptureEvent($agentId)
+    public function getCurrentRecording($agentId)
     {
         $uri = self::URI . "/currentRecording/{$agentId}";
         return $this->restClient->performGet($uri);
@@ -110,7 +110,7 @@ class OcRecordings extends OcRest
      *
      * @return array the response result ['code' => 200, 'body' => '{ (Array) all known recordings.}','reason' => 'OK']
      */
-    public function getRegisteredRecordings()
+    public function getAllRecordings()
     {
         $uri = self::URI . "/recordingStatus";
         return $this->restClient->performGet($uri);
@@ -145,13 +145,37 @@ class OcRecordings extends OcRest
     }
 
     /**
+     * Returns a calendar in JSON format for specified events. This endpoint is not yet stable and might change in the future with no priot notice
+     * 
+     * @param string $agentId (optional) Filter events by capture agent 
+     * @param int $cutOff (optional)  A cutoff date in UNIX milliseconds to limit the number of events returned in the calendar. (Default value=0)
+     * 
+     * @return array the response result ['code' => 200, 'body' => '{ (Object) Calendar for events in JSON format.}']
+     */
+    public function getCalendarJSON($agentId = '', $cutOff = 0)
+    {
+        $uri = self::URI . "/calendar.json";
+
+        $query = [];
+        if (!empty($agentId)) {
+            $query['agentid'] = $agentId;
+        }
+        if (!empty($cutOff)) {
+            $query['cutoff'] = intval($cutOff);
+        }
+        
+        $options = $this->restClient->getQueryParams($query);
+        return $this->restClient->performGet($uri, $options);
+    }
+
+    /**
      * Retrieves media package in XML (text) for specified event
      * 
      * @param string $eventId ID of event for which media package will be retrieved 
      * 
      * @return array the response result ['code' => 200, 'body' => '{ XML (text) DublinCore of event is in the body of response.}','reason' => 'OK']
      */
-    public function getEventMediapackage($eventId)
+    public function getEventMediaPackageXML($eventId)
     {
         $uri = self::URI . "/{$eventId}/mediapackage.xml";
         return $this->restClient->performGet($uri);
@@ -164,7 +188,7 @@ class OcRecordings extends OcRest
      * 
      * @return array the response result ['code' => 200, 'body' => '{ Returns the state of the recording with the correct id.}','reason' => 'OK']
      */
-    public function getRecordingStatus($recordingId)
+    public function getRecordingState($recordingId)
     {
         $uri = self::URI . "/{$recordingId}/recordingStatus";
         return $this->restClient->performGet($uri);
@@ -177,7 +201,7 @@ class OcRecordings extends OcRest
      * 
      * @return array the response result ['code' => 200, 'body' => '{technical metadata as JSON (Object) of event is in the body of response}','reason' => 'OK']
      */
-    public function getEventTechnical($eventId)
+    public function getTechnicalMetadataJSON($eventId)
     {
         $uri = self::URI . "/{$eventId}/technical.json";
         return $this->restClient->performGet($uri);
@@ -303,7 +327,7 @@ class OcRecordings extends OcRest
      *
      * @return array the response result ['code' => 200, 'reason' => 'OK'] (Event was successfully removed)
      */
-    public function deleteEvent($eventId)
+    public function deleteRecording($eventId)
     {
         $uri = self::URI . "/{$eventId}";
         return $this->restClient->performDelete($uri);
@@ -324,7 +348,7 @@ class OcRecordings extends OcRest
      *
      * @return array the response result ['code' => 201, 'reason' => 'Created'] (Event is successfully created)
      */
-    public function createEvent($start, $end, $agent, $mediaPackage, $users = '', $wfproperties = '', $agentparameters = '', $source = '')
+    public function createRecording($start, $end, $agent, $mediaPackage, $users = '', $wfproperties = '', $agentparameters = '', $source = '')
     {
         $uri = self::URI;
 
@@ -370,7 +394,7 @@ class OcRecordings extends OcRest
      *
      * @return array the response result ['code' => 201, 'reason' => 'Created'] (Event is successfully created)
      */
-    public function createEventMultiple($rrule, $start, $end, $duration, $tz, $agent, $templateMp, $users = '', $wfproperties = '', $agentparameters = '', $source = '')
+    public function createRecordingsMulti($rrule, $start, $end, $duration, $tz, $agent, $templateMp, $users = '', $wfproperties = '', $agentparameters = '', $source = '')
     {
         $uri = self::URI . "/multiple";
 
@@ -454,7 +478,7 @@ class OcRecordings extends OcRest
      *
      * @return array the response result ['code' => 201, 'reason' => 'CREATED'] (If events were successfully generated, status CREATED is returned)
      */
-    public function createImmediateEvent($agentId, $workflowDefinitionId = '')
+    public function startCapture($agentId, $workflowDefinitionId = '')
     {
         $uri = self::URI . "/capture/{$agentId}";
         
@@ -473,7 +497,7 @@ class OcRecordings extends OcRest
      *
      * @return array the response result ['code' => 200, 'reason' => 'OK'] (OK if event were successfully stopped)
      */
-    public function stopImmediateCapture($agentId)
+    public function stopCapture($agentId)
     {
         $uri = self::URI . "/capture/{$agentId}";
         return $this->restClient->performDelete($uri);
@@ -493,7 +517,7 @@ class OcRecordings extends OcRest
      *
      * @return array the response result ['code' => 200, 'reason' => 'OK'] (Status OK is returned if event was successfully updated, NOT FOUND if specified event does not exist or BAD REQUEST if data is missing or invalid)
      */
-    public function updateEvent($eventId, $start = 0, $end = 0, $agent = '', $users = '', $mediaPackage = '', $wfproperties = '', $agentparameters = '')
+    public function updateRecording($eventId, $start = 0, $end = 0, $agent = '', $users = '', $mediaPackage = '', $wfproperties = '', $agentparameters = '')
     {
         $uri = self::URI . "/{$eventId}";
 
@@ -533,7 +557,7 @@ class OcRecordings extends OcRest
      *
      * @return array the response result ['code' => 200, 'reason' => 'OK'] ({recordingId} set to {state})
      */
-    public function setRecordingStatus($recordingId, $state)
+    public function updateRecordingState($recordingId, $state)
     {
         $uri = self::URI . "/{$recordingId}/recordingStatus";
 
