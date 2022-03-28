@@ -141,7 +141,7 @@ $sorts = [
 
 - `/capture-admin/*`: all known Capture Admin endpoints are available. [Capture Admin Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki/OcCaptureAdmin)
 
-- `/admin-ng/event/delete`: only delete endpoint is available. [Admin Ng Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki)
+- `/admin-ng/event/delete`: only delete endpoint is available. [Admin Ng Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki/OcEventAdminNg)
 
 - `/recordings/*`: all known Recording endpoints are available. [Recordings Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki)
 
