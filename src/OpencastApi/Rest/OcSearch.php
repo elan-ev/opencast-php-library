@@ -13,7 +13,7 @@ class OcSearch extends OcRest
 
     
     /**
-     * Search for episodes matching the query parameters.
+     * Search for episodes matching the query parameters as object (JSON) by default or XML (text) on demand.
      * 
      * @param array $params the params to pass to the call: it must cointain the following: 
      * $params = [
@@ -85,7 +85,7 @@ class OcSearch extends OcRest
     }
 
     /**
-     * Search a lucene query.
+     * Search a lucene query as object (JSON) by default or XML (text) on demand.
      * 
      * @param array $params the params to pass to the call: it must cointain the following: 
      * $params = [

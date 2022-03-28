@@ -11,7 +11,7 @@ class OcCaptureAdmin extends OcRest
     }
 
     /**
-     * Return the state of a given capture agent. (JSON by default | XML on demand)
+     * Returns the state of a given capture agent. (JSON by default | XML on demand)
      *
      * @param string $name Name of the capture agent
      * @param string $format (optional) The output format (json or xml) of the response body. (Default value = 'json')
@@ -28,7 +28,7 @@ class OcCaptureAdmin extends OcRest
     }
 
     /**
-     * Return the capabilities of a given capture agent. (JSON by default | XML on demand)
+     * Returns the capabilities of a given capture agent. (JSON by default | XML on demand)
      *
      * @param string $name Name of the capture agent
      * @param string $format (optional) The output format (json or xml) of the response body. (Default value = 'json')
@@ -108,13 +108,13 @@ class OcCaptureAdmin extends OcRest
     /**
      * Remove record of a given capture agent
      *
-     * @param string $name Name of the capture agent
+     * @param string $agentName Name of the capture agent
      *
      * @return array the response result ['code' => 200, 'reason' => 'OK'] ({agentName} removed)
      */
-    public function deleteAgent($name)
+    public function deleteAgent($agentName)
     {
-        $uri = self::URI . "/agents/{$name}";
+        $uri = self::URI . "/agents/{$agentName}";
         return $this->restClient->performDelete($uri);
     }
 
@@ -134,15 +134,15 @@ class OcCaptureAdmin extends OcRest
     /**
      *  Set the status of a given capture agent
      *
-     * @param string $name Name of the capture agent
+     * @param string $agentName Name of the capture agent
      * @param string $state The state of the capture agent. Known states are: idle, shutting_down, capturing, uploading, unknown, offline, error
-     * @param string $address Address of the agent 
+     * @param string $address (optional) Address of the agent 
      *
      * @return array the response result ['code' => 200, 'reason' => 'OK'] ({agentName} set to {state})
      */
-    public function setAgentStatus($name, $state, $address = '')
+    public function setAgentState($agentName, $state, $address = '')
     {
-        $uri = self::URI . "/agents/{$name}";
+        $uri = self::URI . "/agents/{$agentName}";
 
         $formData = [
             'state' => $state
@@ -158,14 +158,14 @@ class OcCaptureAdmin extends OcRest
     /**
      * Set the configuration of a given capture agent, registering it if it does not exist
      *
-     * @param string $name Name of the capture agent
+     * @param string $agentName Name of the capture agent
      * @param string $configuration An XML or JSON representation of the capabilities. XML as specified in http://java.sun.com/dtd/properties.dtd (friendly names as keys, device locations as corresponding values) 
      *
      * @return array the response result ['code' => 200, 'body' => '{ An XML or JSON representation of the agent configuration }']
      */
-    public function setAgentConfiguration($name, $configuration)
+    public function setAgentStateConfiguration($agentName, $configuration)
     {
-        $uri = self::URI . "/agents/{$name}/configuration";
+        $uri = self::URI . "/agents/{$agentName}/configuration";
 
         $formData = [
             'configuration' => $configuration
@@ -181,7 +181,7 @@ class OcCaptureAdmin extends OcRest
      * @param string $recordingId The ID of a given recording
      * @param string $state The state of the recording. Known states: unknown, capturing, capture_finished, capture_error, manifest, manifest_error, manifest_finished, compressing, compressing_error, uploading, upload_finished, upload_error. 
      *
-     * @return array the response result ['code' => 200, 'reason' => 'OK'] ({id} set to {state})
+     * @return array the response result ['code' => 200, 'reason' => 'OK'] ({recordingId} set to {state})
      */
     public function setRecordingStatus($recordingId, $state)
     {
