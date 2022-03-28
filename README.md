@@ -133,7 +133,7 @@ $sorts = [
 
 - `/api/*`: all known API endpoints of Opencast are available to be used in this library. [API Endpoints definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki/API-Endpoints)
   
-- `/ingest/*`: all known Ingest endpoints are available. [Ingest Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki)
+- `/ingest/*`: all known Ingest endpoints are available. [Ingest Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki/OcIngest)
 
 - `/services/services.json`: only services.json is available. [Services Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki)
 
