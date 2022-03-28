@@ -137,7 +137,7 @@ $sorts = [
 
 - `/services/services.json`: only services.json is available. [Services Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki/OcServices)
 
-- `/search/{episode | lucene | series}.{json | xml}`: only episode, lucene and series in JSON or XML format are available. [Search Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki)
+- `/search/{episode | lucene | series}.{json | xml}`: only episode, lucene and series in JSON or XML format are available. [Search Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki/OcSearch)
 
 - `/capture-admin/*`: all known Capture Admin endpoints are available. [Capture Admin Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki)
 
