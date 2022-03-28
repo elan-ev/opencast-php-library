@@ -135,13 +135,13 @@ $sorts = [
   
 - `/ingest/*`: all known Ingest endpoints are available. [Ingest Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki/OcIngest)
 
-- `/services/services.json`: only services.json is available. [Services Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki)
+- `/services/services.json`: only services.json is available. [Services Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki/OcServices)
 
-- `/search/{episode | lucene | series}.{json | xml}`: only episode, lucene and series in JSON or XML format are available. [Search Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki)
+- `/search/{episode | lucene | series}.{json | xml}`: only episode, lucene and series in JSON or XML format are available. [Search Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki/OcSearch)
 
-- `/capture-admin/*`: all known Capture Admin endpoints are available. [Capture Admin Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki)
+- `/capture-admin/*`: all known Capture Admin endpoints are available. [Capture Admin Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki/OcCaptureAdmin)
 
-- `/admin-ng/event/delete`: only delete endpoint is available. [Admin Ng Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki)
+- `/admin-ng/event/delete`: only delete endpoint is available. [Admin Ng Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki/OcEventAdminNg)
 
 - `/recordings/*`: all known Recording endpoints are available. [Recordings Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki)
 
