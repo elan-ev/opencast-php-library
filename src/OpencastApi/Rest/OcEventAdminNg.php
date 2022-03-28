@@ -15,7 +15,7 @@ class OcEventAdminNg extends OcRest
      *
      * @param string $eventId The id of the event to delete.
      *
-     * @return array the response result ['code' => 200, 'reason' => 'NOK'] (OK if the event has been deleted.)
+     * @return array the response result ['code' => 200, 'reason' => 'OK'] (OK if the event has been deleted.)
      */
     public function delete($eventId)
     {
