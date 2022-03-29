@@ -145,7 +145,7 @@ $sorts = [
 
 - `/recordings/*`: all known Recording endpoints are available. [Recordings Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki/OcRecordings)
 
-- `/series/*`: all known Series endpoints are available. [Series Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki)
+- `/series/*`: all known Series endpoints are available. [Series Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki/OcSeries)
 
 - `/workflow/*`: all known Workflow endpoints are available. [Workflow Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki)
 
