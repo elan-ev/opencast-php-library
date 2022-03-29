@@ -7,6 +7,7 @@ class OcEventAdminNg extends OcRest
 
     public function __construct($restClient)
     {
+        $restClient->registerHeaderException('Accept', self::URI);
         parent::__construct($restClient);
     }
 

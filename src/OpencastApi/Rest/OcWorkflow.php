@@ -56,7 +56,7 @@ class OcWorkflow extends OcRest
     }
 
     /**
-     * Returns a single workflow definition
+     *Returns a single workflow definition as JSON by default or XML on demand
      *
      * @param string $definitionId The workflow definition identifier
      * @param string $format (optional) The output format (json or xml) of the response body. (Default value = 'json')
@@ -220,7 +220,7 @@ class OcWorkflow extends OcRest
      * In most circumstances, /stop is what you should use.
      *
      * @param string $instanceId The workflow instance identifier 
-     * @param bool $force (optional) If the workflow status should be ignored and the workflow removed anyway (Default value=false)
+     * @param boolean $force (optional) If the workflow status should be ignored and the workflow removed anyway (Default value=false)
      *
      * @return array the response result ['code' => 204, 'reason' => 'No Content'] (If workflow instance could be removed successfully, no content is returned)
      */
@@ -286,8 +286,8 @@ class OcWorkflow extends OcRest
     /**
      * Start a new workflow instance.
      *
-     * @param string|object $definition The workflow definition ID or an XML representation of a workflow definition
-     * @param string|object $mediapackage The XML representation of a mediapackage
+     * @param string $definition The workflow definition ID or an XML representation of a workflow definition
+     * @param string $mediapackage The XML representation of a mediapackage
      * @param string $parent (Optional) An optional parent workflow instance identifier
      * @param string|array $properties (Optional) An optional set of key=value properties
      *
@@ -315,7 +315,7 @@ class OcWorkflow extends OcRest
     /**
      * Stops a workflow instance.
      *
-     * @param string $identifier The workflow instance identifier
+     * @param string $instanceId The workflow instance identifier
      *
      * @return array the response result ['code' => 200, 'body' => '{An XML (as text) representation of the stopped workflow instance.}'] 
      */
