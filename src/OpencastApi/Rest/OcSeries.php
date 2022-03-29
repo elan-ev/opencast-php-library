@@ -244,7 +244,7 @@ class OcSeries extends OcRest
      *
      * @param string $seriesId The series identifier
      * @param string|object $acl The access control list for the series
-     * @param boolean $override (opetional) If true the series ACL will take precedence over any existing episode ACL (Default value=false)
+     * @param boolean $override (optional) If true the series ACL will take precedence over any existing episode ACL (Default value=false)
      *
      * @return array the response result:
      * ['code' => 201, 'reason' => 'Created'] (The access control list has been created)
@@ -301,11 +301,11 @@ class OcSeries extends OcRest
      *      'title' => {Series metadata value},
      *      'type' => {Series metadata value},
      * ]
-     * @param boolean $override (opetional)  If true the series ACL will take precedence over any existing episode ACL (Default value=false)
+     * @param boolean $override (optional) If true the series ACL will take precedence over any existing episode ACL (Default value=false)
      *
      * @return array the response result:
-     * ['code' => 201, 'reason' => 'Created'] (The access control (?) list has been created)
-     * ['code' => 204, 'reason' => 'No Content'] (The access control (?) list has been updated) 
+     * ['code' => 201, 'reason' => 'Created'] (series created)
+     * ['code' => 204, 'reason' => 'No Content'] (series updated) 
      * 
      */
     public function update($params, $override = false)
@@ -357,7 +357,7 @@ class OcSeries extends OcRest
      * @param string $name The property's name
      * @param string $value The property's value
      *
-     * @return array the response result ['code' => 204, 'reason' => 'No Content'] (The access control list (?) has been updated.)
+     * @return array the response result ['code' => 204, 'reason' => 'No Content'] (property has been updated.)
      */
     public function updateProperty($seriesId, $name, $value)
     {
