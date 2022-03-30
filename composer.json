@@ -23,11 +23,6 @@
         "php": ">=7.2.5",
         "guzzlehttp/guzzle": "^7.0"
     },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "master"
-        }
-    },
     "autoload": {
         "psr-4": {
             "OpencastApi\\": "src/OpencastApi/",
