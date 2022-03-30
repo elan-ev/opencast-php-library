@@ -13,11 +13,12 @@ class OcRestClient extends Client
     private $headerExceptions = [];
     /* 
         $config = [
-            'url' => 'https://develop.opencast.org/',  // The base uri of the opencast instance
-            'username' => 'admin',                          // The API username.
-            'password' => 'opencast',                       // The API password.
-            'timeout' => 30000,                             // The API timeout. In miliseconds (Default 30000 miliseconds or 30 seconds).
-            'version' => null                               // The API Version. Default null.
+            'url' => 'https://develop.opencast.org/',       // The API url of the opencast instance (required)
+            'username' => 'admin',                          // The API username. (required)
+            'password' => 'opencast',                       // The API password. (required)
+            'timeout' => 0,                                 // The API timeout. In seconds (default 0 to wait indefinitely). (optional)
+            'connect_timeout' => 0                          // The API connection timeout. In seconds (default 0 to wait indefinitely) (optional)
+            'version' => null                               // The API Version. (Default null). (optional)
         ]
     */
     public function __construct($config)
@@ -45,7 +46,13 @@ class OcRestClient extends Client
 
         $options['handler'] = $stack;
 
-        $options['timeout'] = isset($config['timeout']) ? $config['timeout'] : 30000;
+        if (isset($config['timeout'])) {
+            $options['timeout'] = intval($config['timeout']);
+        }
+
+        if (isset($config['connect_timeout'])) {
+            $options['connect_timeout'] = intval($config['connect_timeout']);
+        }
 
         parent::__construct($options);
     }

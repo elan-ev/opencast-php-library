@@ -17,7 +17,8 @@ class OpenCast
             'url' => 'https://develop.opencast.org/',       // The API url of the opencast instance (required)
             'username' => 'admin',                          // The API username. (required)
             'password' => 'opencast',                       // The API password. (required)
-            'timeout' => 30000,                             // The API timeout. In miliseconds (Default 30000 miliseconds or 30 seconds). (optional)
+            'timeout' => 0,                                 // The API timeout. In seconds (default 0 to wait indefinitely). (optional)
+            'connect_timeout' => 0                          // The API connection timeout. In seconds (default 0 to wait indefinitely) (optional)
             'version' => null                               // The API Version. (Default null). (optional)
         ]
 
@@ -25,7 +26,8 @@ class OpenCast
             'url' => 'https://develop.opencast.org/',       // The API url of the opencast instance (required)
             'username' => 'admin',                          // The API username. (required)
             'password' => 'opencast',                       // The API password. (required)
-            'timeout' => 30000,                             // The API timeout. In miliseconds (Default 30000 miliseconds or 30 seconds). (optional)
+            'timeout' => 0,                                 // The API timeout. In seconds (default 0 to wait indefinitely). (optional)
+            'connect_timeout' => 0                          // The API connection timeout. In seconds (default 0 to wait indefinitely) (optional)
             'version' => null                               // The API Version. (Default null). (optional)
         ]
     */
