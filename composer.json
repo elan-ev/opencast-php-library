@@ -1,7 +1,6 @@
 {
     "name": "elan-ev/opencast-api",
     "description": "A comprehensive PHP library for OpenCast",
-    "type": "library",
     "license": "GPL-3.0-or-later",
     "keywords": [
         "OpenCast",
@@ -17,8 +16,7 @@
     "support": {
         "issues": "https://github.com/elan-ev/opencast-php-library/issues"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
+    "homepage": "https://github.com/elan-ev/opencast-php-library",
     "require": {
         "php": ">=7.2.5",
         "guzzlehttp/guzzle": "^7.0"
@@ -35,6 +33,11 @@
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.1-dev"
         }
     }
 }
