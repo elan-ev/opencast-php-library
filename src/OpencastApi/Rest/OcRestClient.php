@@ -47,11 +47,11 @@ class OcRestClient extends Client
         $options['handler'] = $stack;
 
         if (isset($config['timeout'])) {
-            $options['timeout'] = intval($config['timeout']);
+            $options['timeout'] = floatval($config['timeout']);
         }
 
         if (isset($config['connect_timeout'])) {
-            $options['connect_timeout'] = intval($config['connect_timeout']);
+            $options['connect_timeout'] = floatval($config['connect_timeout']);
         }
 
         parent::__construct($options);

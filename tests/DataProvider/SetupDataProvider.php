@@ -8,14 +8,15 @@ class SetupDataProvider {
         $url = 'https://develop.opencast.org';
         $username = 'admin';
         $password = 'opencast';
-        $timeout = 3000;
+        $timeout = 3;
+        $connectTimeout = 3;
         $config =  [
             'url' => $url,
-            'withauth' => true,
             'username' => $username,
             'password' => $password,
             'timeout' => $timeout,
-            'version' => '1.6.0'
+            'version' => '1.6.0',
+            'connect_timeout' => $connectTimeout
         ];
         if (!empty($version)) {
             $config['version'] = $version;
