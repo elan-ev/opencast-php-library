@@ -5,7 +5,7 @@ This php composer package is meant to provide an unified easy-to-use Opencast RE
 <b>PHP Version 7.2.5 or above</b> as well as <b>cURL</b> are required. Additionaly, the [requirements](https://docs.guzzlephp.org/en/stable/overview.html#requirements) of [guzzlehttp/guzzle](https://packagist.org/packages/guzzlehttp/guzzle#7.0.0) must be fullfiled.
 
 # Installation
-`composer require elan/opencast-api`
+`composer require elan-ev/opencast-api`
 
 # Basic Usage
 There are 2 approaches to use the Opencast REST Endpoints from this library:
