@@ -42,14 +42,14 @@ $opencastApi = new OpenCast($config);
 // Accessing Event Endpoints to get all events
 $events = [];
 $eventsResponse = $opencastApi->eventsApi->getAll();
-if ($eventsResponse['body'] == 200) {
+if ($eventsResponse['code'] == 200) {
       $events = $eventsResponse['body'];
 }
 
 // Accessing Series Endpoints to get all series
 $series = [];
 $seriesResponse = $opencastApi->seriesApi->getAll();
-if ($seriesResponse['body'] == 200) {
+if ($seriesResponse['code'] == 200) {
       $series = $seriesResponse['body'];
 }
 
@@ -80,7 +80,7 @@ $opencastClient = OcRestClient($config);
 $opencastEventsApi = OcEventsApi($opencastClient);
 $events = [];
 $eventsResponse = $opencastEventsApi->getAll();
-if ($eventsResponse['body'] == 200) {
+if ($eventsResponse['code'] == 200) {
       $events = $eventsResponse['body'];
 }
 
