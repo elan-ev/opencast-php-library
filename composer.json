@@ -16,7 +16,7 @@
     "support": {
         "issues": "https://github.com/elan-ev/opencast-php-library/issues"
     },
-    "homepage": "https://github.com/elan-ev/opencast-php-library",
+    "homepage": "https://docs.opencast.org/",
     "require": {
         "php": ">=7.2.5",
         "guzzlehttp/guzzle": "^7.0"
