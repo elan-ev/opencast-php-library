@@ -1,5 +1,5 @@
 {
-    "name": "elan/opencast-api",
+    "name": "elan-ev/opencast-api",
     "description": "A comprehensive PHP library for OpenCast",
     "type": "library",
     "license": "GPL-3.0-or-later",
