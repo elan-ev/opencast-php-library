@@ -30,8 +30,18 @@ abstract class OcRest {
      * @return string consumable filtering string
      */
     protected function convertArrayToFiltering($filters) {
-        return implode(',', array_map(function (string $k, string $v) {
-            return "{$k}:{$v}";
+        return implode(',', array_map(function (string $k, $v) {
+            $filter = '';
+            if (is_array($v)) {
+                $filterArray = [];
+                foreach ($v as $filter_value) {
+                    $filterArray[] = "{$k}:{$filter_value}";
+                }
+                $filter = implode(',', $filterArray);
+            } else {
+                $filter = "{$k}:{$v}";
+            }
+            return $filter;
         }, array_keys($filters), array_values($filters)));
     }
 }

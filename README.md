@@ -133,6 +133,21 @@ $sorts = [
       'startDate' => 'ASC'
 ];
 ```
+<b>NOTE:</b> Sometime a filter can occur multiple times for example in [Series API `/get`](https://docs.opencast.org/develop/developer/#api/series-api/#get-apiseries), filters like `subject` and `identifier` can occur multiple times. Therefor, an `Array` should be passed as filter value like following:
+```php
+// for example:
+
+$filters = [
+      'identifier' => [
+            '{first ID}',  '{second ID}'
+      ],
+      'subject' => [
+            '{first Subject}',  '{second Subject}'
+      ]
+];
+
+```
+
 # Available Opencast REST Service Endpoint
 
 - `/api/*`: all known API endpoints of Opencast are available to be used in this library. [API Endpoints definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki/API-Endpoints)
