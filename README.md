@@ -95,7 +95,7 @@ if ($seriesResponse['body'] == 200) {
 // ...
 ```
 # runWithRoles
-Sometimes it is needed to perform the request with a disposable header of `X-RUN-WITH-ROLES` containing some roles (e.g. user ids) in order for Opencast to assume that those users has special access right.<br />It is commonly used to get data with `onlyWithWriteAccess` parameter for example to perform [`getAll`](https://github.com/elan-ev/opencast-php-library/wiki/OcSeriesApi#getallparams--) in `OcSeriesApi` and grab those series that only specified users have the access to!<br />In order to perform such requests it is needed to call the `runWithRoles` method <b>before</b> calling the desired function in a class:
+Sometimes it is needed to perform the request with a disposable header of `X-RUN-WITH-ROLES` containing some roles (e.g. user ids) in order for Opencast to assume that those users has special access right.<br />It is commonly used to get data with `onlyWithWriteAccess` parameter for example to perform [`getAll`](https://github.com/elan-ev/opencast-php-library/wiki/OcSeriesApi#getallparams--) in `OcSeriesApi` and grab those series that only specified users have access to!<br />In order to perform such requests it is needed to call the `runWithRoles` method <b>before</b> calling the desired function in a class:
 ```php
 // With OpenCast generic class
 use OpencastApi\OpenCast;
