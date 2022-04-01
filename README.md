@@ -106,8 +106,8 @@ $roles = ['ROLE_ADMIN'];
 $seriesResponse = $opencastApi->seriesApi->runWithRoles($roles)->getAll(['onlyWithWriteAccess' => true]);
 
 // Or direct class call
-$opencastClient = OpencastApi\Rest\OcRestClient($config);
-$ocSeriesApi = OpencastApi\Rest\OcSeriesApi($opencastClient);
+$opencastClient = \OpencastApi\Rest\OcRestClient($config);
+$ocSeriesApi = \OpencastApi\Rest\OcSeriesApi($opencastClient);
 // Role
 $roles = ['ROLE_ADMIN'];
 $seriesResponse = $ocSeriesApi->runWithRoles($roles)->getAll(['onlyWithWriteAccess' => true]);
