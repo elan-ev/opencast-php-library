@@ -30,6 +30,19 @@ class OcSeriesApiTest extends TestCase
     /**
      * @test
      */
+    public function get_all_series_with_roles(): void
+    {
+        $params = [
+            'onlyWithWriteAccess' => true
+        ];
+        $response = $this->ocSeriesApi->runWithRoles(['ROLE_ADMIN'])->getAll($params);
+
+        $this->assertSame(200, $response['code'], 'Failure to get series list');
+    }
+
+    /**
+     * @test
+     */
     public function empty_created_id(): string
     {
         $createdSeriesIdentifier = '';

@@ -94,6 +94,26 @@ if ($seriesResponse['body'] == 200) {
 
 // ...
 ```
+# runWithRoles
+Sometimes it is needed to perform the request with a disposal header of `X-RUN-WITH-ROLES` containing some roles (e.g. user ids) in order for Opencast to assume that those users has special access right.<br />It is commonly used to get data with `onlyWithWriteAccess` parameter for example to perform [`getAll`](https://github.com/elan-ev/opencast-php-library/wiki/OcSeriesApi#getallparams--) in `OcSeriesApi` and grab those series that only specificed users have the access to them!<br />In order to perform such requests it is needed to call the `runWithRoles` method <b>before</b> calling the desired function in a class:
+```php
+// With OpenCast generic class
+use OpencastApi\OpenCast;
+$opencastApi = new OpenCast($config);
+
+// Role
+$roles = ['ROLE_ADMIN'];
+$seriesResponse = $opencastApi->seriesApi->runWithRoles($roles)->getAll(['onlyWithWriteAccess' => true]);
+
+// Or direct class call
+$opencastClient = OpencastApi\Rest\OcRestClient($config);
+$ocSeriesApi = OpencastApi\Rest\OcSeriesApi($opencastClient);
+// Role
+$roles = ['ROLE_ADMIN'];
+$seriesResponse = $ocSeriesApi->runWithRoles($roles)->getAll(['onlyWithWriteAccess' => true]);
+```
+<b>NOTE:</b> Roles can be either an `Array` including each role, or comma separated string! 
+
 # Configuration
 The configuration is type of `Array` and has to be defined as follows:
 ```php

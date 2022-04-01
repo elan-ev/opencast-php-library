@@ -11,6 +11,7 @@ class OcRestClient extends Client
 {
     private $version;
     private $headerExceptions = [];
+    private $additionalHeaders = [];
     /* 
         $config = [
             'url' => 'https://develop.opencast.org/',       // The API url of the opencast instance (required)
@@ -62,6 +63,11 @@ class OcRestClient extends Client
         if (!isset($this->headerExceptions[$header]) || !in_array($path, $this->headerExceptions[$header])) {
             $this->headerExceptions[$header][] = $path;
         }
+    }
+
+    public function registerAdditionalHeader($header, $value)
+    {
+        $this->additionalHeaders[$header] = $value;
     }
 
     private function addHeader($header, $value)
@@ -142,12 +148,14 @@ class OcRestClient extends Client
 
     public function performGet($uri, $options = [])
     {
+        $options = $this->adjustOptions($options);
         $response = $this->get($uri, $options);
         return $this->returnResult($response);
     }
 
     public function performPost($uri, $options = [])
     {
+        $options = $this->adjustOptions($options);
         $response = $this->post($uri, $options);
         return $this->returnResult($response);
     }
@@ -155,14 +163,25 @@ class OcRestClient extends Client
 
     public function performPut($uri, $options = [])
     {
+        $options = $this->adjustOptions($options);
         $response = $this->put($uri, $options);
         return $this->returnResult($response);
     }
 
     public function performDelete($uri, $options = [])
     {
+        $options = $this->adjustOptions($options);
         $response = $this->delete($uri, $options);
         return $this->returnResult($response);
+    }
+
+    private function adjustOptions($options)
+    {
+        if (!empty($this->additionalHeaders)) {
+            $options['headers'] = $this->additionalHeaders;
+            $this->additionalHeaders = [];
+        }
+        return $options;
     }
 
     public function getFormParams($params)

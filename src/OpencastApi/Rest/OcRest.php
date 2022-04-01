@@ -44,5 +44,21 @@ abstract class OcRest {
             return $filter;
         }, array_keys($filters), array_values($filters)));
     }
+
+    /**
+     * To perform the request with disposable X-RUN-WITH-ROLES header.
+     *
+     * @param array $roles an array of roles to run with
+     *
+     * @return object $this the class object where the call is requested from.
+     */
+    public function runWithRoles($roles = [])
+    {
+        if (!empty($roles)) {
+            $roles = is_array($roles) ? implode(', ', $roles) : $roles;
+            $this->restClient->registerAdditionalHeader('X-RUN-WITH-ROLES', $roles);
+        }
+        return $this;
+    }
 }
 ?>
