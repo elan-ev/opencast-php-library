@@ -60,5 +60,16 @@ abstract class OcRest {
         }
         return $this;
     }
+
+    /**
+     * To perform the request without header.
+     *
+     * @return object $this the class object where the call is requested from.
+     */
+    public function noHeader()
+    {
+        $this->restClient->enableNoHeader();
+        return $this;
+    }
 }
 ?>

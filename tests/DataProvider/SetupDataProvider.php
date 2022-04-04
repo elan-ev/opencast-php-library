@@ -5,9 +5,14 @@ class SetupDataProvider {
     
     public static function getConfig($version = ''): array
     {
-        $url = 'https://develop.opencast.org';
-        $username = 'admin';
-        $password = 'opencast';
+        // $url = 'https://develop.opencast.org';
+        // $username = 'admin';
+        // $password = 'opencast';
+        // $timeout = 3;
+        // $connectTimeout = 3;
+        $url = 'https://moodle-opencast.opencast-niedersachsen.de/';
+        $username = 'moodle';
+        $password = '6dwt5qbuXEBkvsu';
         $timeout = 3;
         $connectTimeout = 3;
         $config =  [

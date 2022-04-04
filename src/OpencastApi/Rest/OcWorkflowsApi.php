@@ -1,8 +1,6 @@
 <?php
 namespace OpencastApi\Rest;
 
-use Exception;
-
 class OcWorkflowsApi extends OcRest
 {
     const URI = '/api/workflows';

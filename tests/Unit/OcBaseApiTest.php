@@ -28,6 +28,15 @@ class OcBaseApiTest extends TestCase
     /**
      * @test
      */
+    public function get_no_auth(): void
+    {
+        $response = $this->ocBaseApi->noHeader()->get();
+        $this->assertSame(200, $response['code'], 'Failure to get base info');
+    }
+
+    /**
+     * @test
+     */
     public function get_user_info(): void
     {
         $response = $this->ocBaseApi->getUserInfo();

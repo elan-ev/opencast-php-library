@@ -2,60 +2,47 @@
 namespace OpencastApi\Rest;
 
 use GuzzleHttp\Client;
-use Psr\Http\Message\RequestInterface;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Handler\CurlHandler;
-use Exception;
 
 class OcRestClient extends Client
 {
+    private $baseUri;
+    private $username;
+    private $password;
+    private $timeout = 0;
+    private $connectTimeout = 0;
     private $version;
     private $headerExceptions = [];
     private $additionalHeaders = [];
+    private $noHeader = false;
     /* 
         $config = [
             'url' => 'https://develop.opencast.org/',       // The API url of the opencast instance (required)
             'username' => 'admin',                          // The API username. (required)
             'password' => 'opencast',                       // The API password. (required)
             'timeout' => 0,                                 // The API timeout. In seconds (default 0 to wait indefinitely). (optional)
-            'connect_timeout' => 0                          // The API connection timeout. In seconds (default 0 to wait indefinitely) (optional)
+            'connect_timeout' => 0,                         // The API connection timeout. In seconds (default 0 to wait indefinitely) (optional)
             'version' => null                               // The API Version. (Default null). (optional)
         ]
     */
     public function __construct($config)
     {
-        $this->config = $config;
-
-        if (empty($config['url']) || empty($config['username']) || empty($config['password'])) {
-            throw new Exception("Invalid API configuration!");
+        $this->baseUri = $config['url'];
+        $this->username = $config['username'];
+        $this->password = $config['password'];
+        if (isset($config['timeout'])) {
+            $this->timeout = $config['timeout'];
+        }
+        if (isset($config['connect_timeout'])) {
+            $this->connectTimeout = $config['connect_timeout'];
         }
 
-        $stack = new HandlerStack();
-        $stack->setHandler(new CurlHandler());
-
-        $options = [];
-        $options['base_uri'] = $config['url'];
-
-        $basicAuth = base64_encode($config['username'] . ":" . $config['password']);
-        $stack->push($this->addHeader('Authorization', "Basic $basicAuth"));
-
         if (isset($config['version'])) {
-            $version = str_replace(['application/', 'v', '+json'], ['', '', ''], $config['version']);
-            $stack->push($this->addHeader('Accept', "application/v{$version}+json"));
             $this->setVersion($config['version']);
         }
 
-        $options['handler'] = $stack;
-
-        if (isset($config['timeout'])) {
-            $options['timeout'] = floatval($config['timeout']);
-        }
-
-        if (isset($config['connect_timeout'])) {
-            $options['connect_timeout'] = floatval($config['connect_timeout']);
-        }
-
-        parent::__construct($options);
+        parent::__construct([
+            'base_uri' => $this->baseUri
+        ]);
     }
 
     public function registerHeaderException($header, $path) {
@@ -70,22 +57,54 @@ class OcRestClient extends Client
         $this->additionalHeaders[$header] = $value;
     }
 
-    private function addHeader($header, $value)
+    public function enableNoHeader()
     {
-        return function (callable $handler) use ($header, $value) {
-            return function (
-                RequestInterface $request,
-                array $options
-            ) use ($handler, $header, $value) {
-                $headerExceptions = $this->headerExceptions;
-                $path = explode('/', ltrim($request->getUri()->getPath(), '/'))[0];
-                if (in_array($header, array_keys($headerExceptions)) && in_array($path, $headerExceptions[$header])) {
-                    return $handler($request, $options);
+        $this->noHeader = true;
+    }
+
+    private function addRequestOptions($uri, $options)
+    {
+
+        // Perform a temp no header request.
+        if ($this->noHeader) {
+            $this->noHeader = false;
+            return array_merge($options , ['headers' => null]);
+        }
+
+        $generalOptions = [];
+        // Auth
+        if (!empty($this->username) && !empty($this->password)) {
+            $generalOptions['auth'] = [$this->username, $this->password];
+        }
+
+        // Timeout
+        if (isset($this->timeout)) {
+            $generalOptions['timeout'] = $this->timeout;
+        }
+
+        // Connect Timeout
+        if (isset($this->connectTimeout)) {
+            $generalOptions['connect_timeout'] = $this->connectTimeout;
+        }
+
+        // Opencast API Version.
+        if (!empty($this->version)) {
+            $this->registerAdditionalHeader('Accept', "application/v{$this->version}+json");
+        }
+
+        if (!empty($this->additionalHeaders)) {
+            $generalOptions['headers'] = $this->additionalHeaders;
+            $this->additionalHeaders = [];
+            foreach ($generalOptions['headers'] as $header => $value) {
+                $path = explode('/', ltrim($uri, '/'))[0];
+                if (isset($this->headerExceptions[$header]) && in_array($path, $this->headerExceptions[$header]) ) {
+                    unset($generalOptions['headers'][$header]);
                 }
-                $request = $request->withHeader($header, $value);
-                return $handler($request, $options);
-            };
-        };
+            }
+        }
+
+        $requestOptions = array_merge($generalOptions, $options);
+        return $requestOptions;
     }
 
     public function hasVersion($version)
@@ -152,40 +171,27 @@ class OcRestClient extends Client
 
     public function performGet($uri, $options = [])
     {
-        $options = $this->adjustOptions($options);
-        $response = $this->get($uri, $options);
+        $response = $this->get($uri, $this->addRequestOptions($uri, $options));
         return $this->returnResult($response);
     }
 
     public function performPost($uri, $options = [])
     {
-        $options = $this->adjustOptions($options);
-        $response = $this->post($uri, $options);
+        $response = $this->post($uri, $this->addRequestOptions($uri, $options));
         return $this->returnResult($response);
     }
 
 
     public function performPut($uri, $options = [])
     {
-        $options = $this->adjustOptions($options);
-        $response = $this->put($uri, $options);
+        $response = $this->put($uri, $this->addRequestOptions($uri, $options));
         return $this->returnResult($response);
     }
 
     public function performDelete($uri, $options = [])
     {
-        $options = $this->adjustOptions($options);
-        $response = $this->delete($uri, $options);
+        $response = $this->delete($uri, $this->addRequestOptions($uri, $options));
         return $this->returnResult($response);
-    }
-
-    private function adjustOptions($options)
-    {
-        if (!empty($this->additionalHeaders)) {
-            $options['headers'] = $this->additionalHeaders;
-            $this->additionalHeaders = [];
-        }
-        return $options;
     }
 
     public function getFormParams($params)

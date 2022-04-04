@@ -1,8 +1,6 @@
 <?php
 namespace OpencastApi\Rest;
 
-use Exception;
-
 class OcIngest extends OcRest
 {
     const URI = '/ingest';
