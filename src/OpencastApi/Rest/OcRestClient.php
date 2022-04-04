@@ -154,7 +154,7 @@ class OcRestClient extends Client
     {
         $result = [];
         $result['code'] = $response->getStatusCode();
-        $result['reasone'] = $response->getReasonPhrase();
+        $result['reason'] = $response->getReasonPhrase();
         $body = '';
         if ($result['code'] < 400 && !empty((string) $response->getBody())) {
             $body = $this->resolveResponseBody((string) $response->getBody());
@@ -171,27 +171,67 @@ class OcRestClient extends Client
 
     public function performGet($uri, $options = [])
     {
-        $response = $this->get($uri, $this->addRequestOptions($uri, $options));
-        return $this->returnResult($response);
+        try {
+            $response = $this->get($uri, $this->addRequestOptions($uri, $options));
+            return $this->returnResult($response);
+        } catch (\Throwable $th) {
+            return $this->resolveException($th);
+        }
     }
 
     public function performPost($uri, $options = [])
     {
-        $response = $this->post($uri, $this->addRequestOptions($uri, $options));
-        return $this->returnResult($response);
+        try {
+            $response = $this->post($uri, $this->addRequestOptions($uri, $options));
+            return $this->returnResult($response);
+        } catch (\Throwable $th) {
+            return $this->resolveException($th);
+        }
     }
 
 
     public function performPut($uri, $options = [])
     {
-        $response = $this->put($uri, $this->addRequestOptions($uri, $options));
-        return $this->returnResult($response);
+        try {
+            $response = $this->put($uri, $this->addRequestOptions($uri, $options));
+            return $this->returnResult($response);
+        } catch (\Throwable $th) {
+            return $this->resolveException($th);
+        }
     }
 
     public function performDelete($uri, $options = [])
     {
-        $response = $this->delete($uri, $this->addRequestOptions($uri, $options));
-        return $this->returnResult($response);
+        try {
+            $response = $this->delete($uri, $this->addRequestOptions($uri, $options));
+            return $this->returnResult($response);
+        } catch (\Throwable $th) {
+            return $this->resolveException($th);
+        }
+    }
+
+    private function resolveException(\Throwable $th)
+    {
+        $error = [];
+        $error['code'] = $th->getCode();
+        $error['reason'] = $th->getMessage();
+        if (!empty($error['reason'])) {
+            return $error;
+        }
+
+        $reason = 'Unable to perform the request!';
+        if ($th instanceof \GuzzleHttp\Exception\ConnectException) {
+            $reason = 'Connection Error';
+        } else if ($th instanceof \GuzzleHttp\Exception\ServerException) {
+            $reason = 'Internal Server Error';
+        } else if ($th instanceof \GuzzleHttp\Exception\ClientException) {
+            $reason = 'Client Error';
+        } else if ($th instanceof \GuzzleHttp\Exception\TooManyRedirectsException) {
+            $reason = 'Too Many Redirect Error';
+        }
+        $error['reason'] = $reason;
+        
+        return $error;
     }
 
     public function getFormParams($params)
