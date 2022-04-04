@@ -7,11 +7,8 @@ class OcStatisticsApi extends OcRest
 
     public function __construct($restClient)
     {
-        parent::__construct($restClient);
         // The Statistics API is available since API version 1.3.0.
-        if (!$this->restClient->hasVersion('1.3.0')) {
-            throw new Exception('The Statistics API is available since API version 1.3.0.');
-        }
+        parent::__construct($restClient);
     }
 
     /**

@@ -91,10 +91,14 @@ class OcRestClient extends Client
     public function hasVersion($version)
     {
         if (empty($this->version)) {
-            $defaultVersion = $this->performGet('/api/version/default');
-            if (!empty($defaultVersion['body']) && isset($defaultVersion['body']->default)) {
-                $this->setVersion(str_replace(['application/', 'v', '+json'], ['', '', ''], $defaultVersion['body']->default));
-            } else {
+            try {
+                $defaultVersion = $this->performGet('/api/version/default');
+                if (!empty($defaultVersion['body']) && isset($defaultVersion['body']->default)) {
+                    $this->setVersion(str_replace(['application/', 'v', '+json'], ['', '', ''], $defaultVersion['body']->default));
+                } else {
+                    return false;
+                }
+            } catch (\Throwable $th) {
                 return false;
             }
         }

@@ -7,11 +7,8 @@ class OcAgentsApi extends OcRest
 
     public function __construct($restClient)
     {
-        parent::__construct($restClient);
         // The Agents API is available since API version 1.1.0.
-        if (!$this->restClient->hasVersion('1.1.0')) {
-            throw new Exception('The Agents API is available since API version 1.1.0.');
-        }
+        parent::__construct($restClient);
     }
 
     /**

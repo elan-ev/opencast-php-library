@@ -55,11 +55,6 @@ class OpenCast
                 $client = $this->engageRestClient;
             }
 
-            $versionFilters = $this->versionFilters();
-            if (array_key_exists($className, $versionFilters) && !$client->hasVersion($versionFilters[$className])) {
-                continue;
-            }
-
             $this->{$propertyName} = new $fullClassName($client);
         }
 
@@ -80,15 +75,6 @@ class OpenCast
     {
         return [
             'OcSearch'
-        ];
-    }
-
-    private function versionFilters()
-    {
-        return [
-            'OcWorkflowsApi' => '1.1.0',
-            'OcAgentsApi' => '1.1.0',
-            'OcStatisticsApi' => '1.3.0',
         ];
     }
 

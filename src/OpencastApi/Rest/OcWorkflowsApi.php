@@ -10,11 +10,8 @@ class OcWorkflowsApi extends OcRest
 
     public function __construct($restClient)
     {
-        parent::__construct($restClient);
         // The Workflow API is available since API version 1.1.0.
-        if (!$this->restClient->hasVersion('1.1.0')) {
-            throw new Exception('The Workflow API is available since API version 1.1.0.');
-        }
+        parent::__construct($restClient);
     }
 
     ## [Section 1]: General API endpoints.
