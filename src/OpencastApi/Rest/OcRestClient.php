@@ -215,6 +215,8 @@ class OcRestClient extends Client
         $error = [];
         $error['code'] = $th->getCode();
         $error['reason'] = $th->getMessage();
+        $error['body'] = '';
+        $error['location'] = '';
         if (!empty($error['reason'])) {
             return $error;
         }
@@ -230,7 +232,7 @@ class OcRestClient extends Client
             $reason = 'Too Many Redirect Error';
         }
         $error['reason'] = $reason;
-        
+
         return $error;
     }
 
