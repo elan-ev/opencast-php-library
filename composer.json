@@ -1,9 +1,9 @@
 {
     "name": "elan-ev/opencast-api",
-    "description": "A comprehensive PHP library for OpenCast",
+    "description": "A comprehensive PHP library for Opencast",
     "license": "GPL-3.0-or-later",
     "keywords": [
-        "OpenCast",
+        "Opencast",
         "API",
         "RESTful"
     ],
