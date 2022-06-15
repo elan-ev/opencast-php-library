@@ -95,7 +95,8 @@ class OcEventsApiTest extends TestCase
             '',
             \Tests\DataProvider\EventsDataProvider::getPresenterFile(), 
             \Tests\DataProvider\EventsDataProvider::getPresentationFile(), 
-            \Tests\DataProvider\EventsDataProvider::getAudioFile(), 
+            \Tests\DataProvider\EventsDataProvider::getAudioFile(),
+            array($this, 'progressCallback')
         );
         $this->assertContains($responseCreate['code'], [200, 201], 'Failure to create an event');
         $createdEventIdentifier = $responseCreate['body']->identifier;
@@ -110,6 +111,20 @@ class OcEventsApiTest extends TestCase
         $this->assertSame(204, $responseUpdate['code'], 'Failure to update an event');
         
         return $createdEventIdentifier;
+    }
+
+    public function progressCallback($downloadSize, $downloaded, $uploadSize, $uploaded)
+	{
+        set_time_limit(0);// Reset time limit for big files
+        static $previous_progress = 0;
+		$progress = 0;
+        if($uploadSize > 0) {
+			$progress = round(($uploaded / $uploadSize)  * 100);
+		}
+        if ($progress > $previous_progress) {
+			$previous_progress = $progress;
+            file_put_contents(__DIR__ . '/../Results/progress.txt', $progress);
+		}
     }
 
     /**

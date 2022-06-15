@@ -94,7 +94,9 @@ class OcIngestTest extends TestCase
         $responseAddTrackPresenter = $this->ocIngest->addTrack(
             $ingestData['mediaPackage'],
             $flavor,
-            \Tests\DataProvider\IngestDataProvider::getPresenterFile()
+            \Tests\DataProvider\IngestDataProvider::getPresenterFile(),
+            '',
+            array($this, 'progressCallback')
         );
         $this->assertSame(200, $responseAddTrackPresenter['code'], 'Failure to add presenter track ingest');
         $mediaPackage = $responseAddTrackPresenter['body'];
@@ -116,6 +118,20 @@ class OcIngestTest extends TestCase
 
         $this->assertNotEmpty($ingestData);
         return $ingestData;
+    }
+
+    public function progressCallback($downloadSize, $downloaded, $uploadSize, $uploaded)
+	{
+        set_time_limit(0);// Reset time limit for big files
+        static $previous_progress = 0;
+		$progress = 0;
+        if($uploadSize > 0) {
+			$progress = round(($uploaded / $uploadSize)  * 100);
+		}
+        if ($progress > $previous_progress) {
+			$previous_progress = $progress;
+            file_put_contents(__DIR__ . '/../Results/progress_ingest.txt', $progress);
+		}
     }
 
     /**

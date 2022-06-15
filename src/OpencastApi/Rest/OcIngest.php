@@ -338,10 +338,17 @@ class OcIngest extends OcRest
      * @param string $flavor The kind of media track
      * @param object $file The media track file
      * @param string $tags (optional) The Tags of the media track
+     * @param callable $progressCallable (optional) Defines a function to invoke when transfer progress is made. The function accepts the following positional arguments:
+     * function (
+     *      $downloadTotal: the total number of bytes expected to be downloaded, zero if unknown,
+     *      $downloadedBytes: the number of bytes downloaded so far,
+     *      $uploadTotal: the total number of bytes expected to be uploaded,
+     *      $uploadedBytes: the number of bytes uploaded so far
+     * )
      *
      * @return array the response result ['code' => 200, 'body' => '{XML (text) augmented media package}']
      */
-    public function addTrack($mediaPackage, $flavor, $file, $tags = '')
+    public function addTrack($mediaPackage, $flavor, $file, $tags = '', $progressCallable = null)
     {
         $uri = self::URI . "/addTrack";
 
@@ -355,7 +362,11 @@ class OcIngest extends OcRest
             $formData['tags'] = $tags;
         }
 
-        $options = $this->restClient->getMultiPartFormParams($formData);        
+        $options = $this->restClient->getMultiPartFormParams($formData);
+        if (!empty($progressCallable)) {
+            $options['progress'] = $progressCallable;
+        }
+
         return $this->restClient->performPost($uri, $options);
     }
 

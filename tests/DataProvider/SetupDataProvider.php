@@ -8,8 +8,8 @@ class SetupDataProvider {
         $url = 'https://develop.opencast.org';
         $username = 'admin';
         $password = 'opencast';
-        $timeout = 3;
-        $connectTimeout = 3;
+        $timeout = 600;
+        $connectTimeout = 600;
         $config =  [
             'url' => $url,
             'username' => $username,

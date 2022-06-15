@@ -143,10 +143,17 @@ class OcEventsApi extends OcRest
      * @param file $presenterFile (optional) Presenter movie track
      * @param file $presentationFile (optional) Presentation movie track
      * @param file $audioFile (optional) Audio track
+     * @param callable $progressCallable (optional) Defines a function to invoke when transfer progress is made. The function accepts the following positional arguments:
+     * function (
+     *      $downloadTotal: the total number of bytes expected to be downloaded, zero if unknown,
+     *      $downloadedBytes: the number of bytes downloaded so far,
+     *      $uploadTotal: the total number of bytes expected to be uploaded,
+     *      $uploadedBytes: the number of bytes uploaded so far
+     * )
      * 
      * @return array the response result ['code' => 201, 'body' => '{A new event is created and its identifier is returned}', 'location' => '{the url of new event'}]
      */
-    public function create($acls, $metadata, $processing, $scheduling = '', $presenterFile = null, $presentationFile = null, $audioFile = null)
+    public function create($acls, $metadata, $processing, $scheduling = '', $presenterFile = null, $presentationFile = null, $audioFile = null, $progressCallable = null)
     {
         $uri = self::URI;
 
@@ -169,6 +176,10 @@ class OcEventsApi extends OcRest
         }
 
         $options = $this->restClient->getMultiPartFormParams($formData);
+        if (!empty($progressCallable)) {
+            $options['progress'] = $progressCallable;
+        }
+
         return $this->restClient->performPost($uri, $options);
     }
 
