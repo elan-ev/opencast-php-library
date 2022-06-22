@@ -205,6 +205,7 @@ $baseResponse = $ocBaseApi->noHeader()->get();
 
 - `/workflow/*`: all known Workflow endpoints are available. [Workflow Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki/OcWorkflow)
 
+- `/sysinfo/bundles/version`: (v1.1.1) only bundle version endpoint is available. [Sysinfo Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki/OcSysinfo)
 
 # Naming convention
 ## Classes: 
