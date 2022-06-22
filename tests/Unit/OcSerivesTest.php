@@ -26,5 +26,14 @@ class OcSerivesTest extends TestCase
         );
         $this->assertSame(200, $response['code'], 'Failure to get services list');
     }
+
+    /**
+     * @test
+     */
+    public function get_all_services(): void
+    {
+        $response = $this->ocServices->getServiceJSON();
+        $this->assertSame(200, $response['code'], 'Failure to get services list');
+    }
 }
 ?>
