@@ -1,5 +1,5 @@
 # opencast-php-library
-This php composer package is meant to provide an unified easy-to-use Opencast RESTful API library. It has been designed to make most of commonly used REST Endpoints available to the developers of thirt-party applications mainly LMSes such as Stud.IP, Moodle and ILIAS.
+This PHP composer package is meant to provide a unified easy-to-use Opencast RESTful API library. It has been designed to make most of commonly used REST Endpoints available to the developers of thirt-party applications mainly LMSes such as Stud.IP, Moodle and ILIAS.
 
 # Requisitions
 <b>PHP Version 7.2.5 or above</b> as well as <b>cURL</b> are required. Additionaly, the [requirements](https://docs.guzzlephp.org/en/stable/overview.html#requirements) of [guzzlehttp/guzzle](https://packagist.org/packages/guzzlehttp/guzzle#7.0.0) must be fullfiled.
@@ -10,31 +10,31 @@ This php composer package is meant to provide an unified easy-to-use Opencast RE
 # Basic Usage
 There are 2 approaches to use the Opencast REST Endpoints from this library:
 
-1. The first one is via the Generic `OpencastApi\OpenCast` which contains all available opencast endpoints (which are capable with the API version defined in the config). The advantage of using this approach would be a better control over all available endpoints. <b>(Recommended)</b>
+1. The first one is via the generic `OpencastApi\OpenCast` which contains all available Opencast endpoints (which are capable with the API version defined in the config). The advantage of using this approach is a better control over all available endpoints. <b>(Recommended)</b>
 
-<b>NOTE:</b> When your Opencast setup is configured as <b>dual node</b>, one responsible for main functionalities and the other one responsible for presentation <b>(a.k.a "engage node")</b>, you can pass another set of configuration as the second parameter when instantiating the `OpencastApi\OpenCast`. Initially, the engage node only takes care of search endpoint.
+<b>NOTE:</b> When using this library against a distributed Opencast setup with admin and presentation split, you can pass another set of configuration as the second parameter when instantiating the `OpencastApi\OpenCast`. Initially, the presentation node only takes care of search endpoint.
 ```php
 $config = [
-      'url' => 'https://develop.opencast.org/',       // The API url of the opencast instance (required)
+      'url' => 'https://develop.opencast.org/',       // The API URL of the Opencast instance. (required)
       'username' => 'admin',                          // The API username. (required)
       'password' => 'opencast',                       // The API password. (required)
       'timeout' => 0,                                 // The API timeout. In seconds (default 0 to wait indefinitely). (optional)
-      'connect_timeout' => 0                          // The API connection timeout. In seconds (default 0 to wait indefinitely) (optional)
-      'version' => null                               // The API Version. (Default null). (optional)
+      'connect_timeout' => 0,                         // The API connection timeout. In seconds (default 0 to wait indefinitely) (optional)
+      'version' => null,                              // The API Version. (Default null). (optional)
 ];
 
 $engageConfig = [
-      'url' => 'https://develop.opencast.org/',       // The API url of the opencast instance (required)
+      'url' => 'https://develop.opencast.org/',       // The API URL of the Opencast instance. (required)
       'username' => 'admin',                          // The API username. (required)
       'password' => 'opencast',                       // The API password. (required)
       'timeout' => 0,                                 // The API timeout. In seconds (default 0 to wait indefinitely). (optional)
-      'connect_timeout' => 0                          // The API connection timeout. In seconds (default 0 to wait indefinitely) (optional)
-      'version' => null                               // The API Version. (Default null). (optional)
+      'connect_timeout' => 0,                         // The API connection timeout. In seconds (default 0 to wait indefinitely) (optional)
+      'version' => null,                              // The API version. (Default null). (optional)
 ];
 
 use OpencastApi\OpenCast;
 
-// In case of dual oc setup
+// In case of a distributed Opencast setup
 $opencastDualApi = new OpenCast($config, $engageConfig);
 // Or simply 
 $opencastApi = new OpenCast($config);
@@ -56,16 +56,16 @@ if ($seriesResponse['code'] == 200) {
 // ...
 ```
 
-2. The second approach is to instatiate each REST endpoint class, which are located under `OpencastApi\Rest\` namespace, when needed, but the down side of this would be that it needs a `OpencastApi\Rest\OcRestClient` instance as its parameter. The advantage of this approach might be the methods' definitions in the IDE.
+2. The second approach is to instantiate each REST endpoint class, which are located under `OpencastApi\Rest\` namespace, when needed, but the down side of this is that it needs a `OpencastApi\Rest\OcRestClient` instance as its parameter. The advantage of this approach might be the methods' definitions in the IDE.
 
 ```php
 $config = [
-      'url' => 'https://develop.opencast.org/',       // The API url of the opencast instance (required)
+      'url' => 'https://develop.opencast.org/',       // The API URL of the Opencast instance. (required)
       'username' => 'admin',                          // The API username. (required)
       'password' => 'opencast',                       // The API password. (required)
       'timeout' => 0,                                 // The API timeout. In seconds (default 0 to wait indefinitely). (optional)
-      'connect_timeout' => 0                          // The API connection timeout. In seconds (default 0 to wait indefinitely) (optional)
-      'version' => null                               // The API Version. (Default null). (optional)
+      'connect_timeout' => 0,                         // The API connection timeout. In seconds (default 0 to wait indefinitely) (optional)
+      'version' => null,                              // The API version. (Default null). (optional)
 ];
 
 
@@ -98,15 +98,15 @@ if ($seriesResponse['body'] == 200) {
 The configuration is type of `Array` and has to be defined as follows:
 ```php
 $config = [
-      'url' => 'https://develop.opencast.org/',       // The API url of the opencast instance (required)
+      'url' => 'https://develop.opencast.org/',       // The API URL of the Opencast instance. (required)
       'username' => 'admin',                          // The API username. (required)
       'password' => 'opencast',                       // The API password. (required)
       'timeout' => 0,                                 // The API timeout. In seconds (default 0 to wait indefinitely). (optional)
-      'connect_timeout' => 0                          // The API connection timeout. In seconds (default 0 to wait indefinitely) (optional)
-      'version' => null                               // The API Version. (Default null). (optional)
+      'connect_timeout' => 0,                         // The API connection timeout. In seconds (default 0 to wait indefinitely) (optional)
+      'version' => null,                              // The API version. (Default null). (optional)
 ];
 ```
-NOTE: the configuration for `engage` node responsible for search has to follow the same definition as normal config. But in case any parameter is missing, the value will be taken from the main config param. 
+NOTE: the configuration for presentation (`engage` node) responsible for search has to follow the same definition as normal config. But in case any parameter is missing, the value will be taken from the main config param.
 
 # Response
 The return result of each call is an `Array` containing the following information:
@@ -119,7 +119,7 @@ The return result of each call is an `Array` containing the following informatio
 ]
 ```
 # Filters and Sorts
-Filters and Sorts must be define as associative `Array`, as follows:
+Filters and Sorts must be defined as associative `Array`, as follows:
 ```php
 // for example:
 
@@ -133,7 +133,7 @@ $sorts = [
       'startDate' => 'ASC'
 ];
 ```
-<b>NOTE:</b> Sometime a filter can occur multiple times for example in [Series API `/get`](https://docs.opencast.org/develop/developer/#api/series-api/#get-apiseries), filters like `subject` and `identifier` can occur multiple times. Therefor, an `Array` should be passed as filter value like following:
+<b>NOTE:</b> Sometimes a filter can occur multiple times for example in [Series API `/get`](https://docs.opencast.org/develop/developer/#api/series-api/#get-apiseries), filters like `subject` and `identifier` can occur multiple times. Therefore, an `Array` should be passed as filter value like following:
 ```php
 // for example:
 
@@ -150,7 +150,7 @@ $filters = [
 
 # `runWithRoles([])`
 Sometimes it is needed to perform the request with a disposable header of `X-RUN-WITH-ROLES` containing some roles (e.g. user ids) in order for Opencast to assume that those users has special access right.<br />It is commonly used to get data with `onlyWithWriteAccess` parameter for example to perform [`getAll`](https://github.com/elan-ev/opencast-php-library/wiki/OcSeriesApi#getallparams--) in `OcSeriesApi` and grab those series that only specified users have access to!<br />In order to perform such requests it is needed to call the `runWithRoles` method <b>before</b> calling the desired function in a class:<br />
-NOTE: This method <b>accepts</b> an `Array` defining the roles to check against!.
+NOTE: This method <b>accepts</b> an `Array` defining the roles to check against!
 ```php
 // With OpenCast generic class
 use OpencastApi\OpenCast;
@@ -167,7 +167,7 @@ $ocSeriesApi = \OpencastApi\Rest\OcSeriesApi($opencastClient);
 $roles = ['ROLE_ADMIN'];
 $seriesResponse = $ocSeriesApi->runWithRoles($roles)->getAll(['onlyWithWriteAccess' => true]);
 ```
-<b>NOTE:</b> Roles can be either an `Array` including each role, or comma separated string!
+<b>NOTE:</b> Roles can be either an `Array` including each role, or a comma separated string!
 
 # `noHeader()`
 In order to perform a request call to an endpoint without any request headers/options, you can use this method <b>before</b> calling the desired function in an endpoint class:
@@ -214,7 +214,7 @@ Apart from 'OpenCast' class, all other classes under `OpencastApi\Rest\` namespa
 - `OcServices` contains 2 parts including Oc + Endpoint Name/Category (Services)
 
 ## OpenCast class properties:
-The naming convetion to access the endpoint subclasses from `OpencastApi\OpenCast` as its properties, includes the name of the class without `Oc` in camelCase format. For example:
+The naming convention to access the endpoint subclasses from `OpencastApi\OpenCast` as its properties, includes the name of the class without `Oc` in camelCase format. For example:
 ```php
 use OpencastApi\OpenCast;
 $config = [/*the config*/];
