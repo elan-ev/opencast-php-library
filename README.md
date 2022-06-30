@@ -74,10 +74,10 @@ use OpencastApi\Rest\OcEventsApi;
 use OpencastApi\Rest\OcSeriesApi;
 
 // Get a client object.
-$opencastClient = OcRestClient($config);
+$opencastClient = new OcRestClient($config);
 
 // To get events.
-$opencastEventsApi = OcEventsApi($opencastClient);
+$opencastEventsApi = new OcEventsApi($opencastClient);
 $events = [];
 $eventsResponse = $opencastEventsApi->getAll();
 if ($eventsResponse['code'] == 200) {
@@ -85,7 +85,7 @@ if ($eventsResponse['code'] == 200) {
 }
 
 // To get series.
-$opencastSeriesApi = OcSeriesApi($opencastClient);
+$opencastSeriesApi = new OcSeriesApi($opencastClient);
 $series = [];
 $seriesResponse = $opencastSeriesApi->getAll();
 if ($seriesResponse['body'] == 200) {
