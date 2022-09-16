@@ -159,7 +159,7 @@ class OcEventsApiTest extends TestCase
         $this->assertSame(204, $response3['code'], 'Failure to update ACLs of an event');
 
         // Set Single ACL
-        $response3 = $this->ocEventsApi->addSinlgeAcl($identifier, 'write', 'ROLE_PHPUNIT_TESTING_USER_2');
+        $response3 = $this->ocEventsApi->addSingleAcl($identifier, 'write', 'ROLE_PHPUNIT_TESTING_USER_2');
         $this->assertSame(204, $response3['code'], 'Failure to set single ACL for an event');
 
         // Delete single acl.

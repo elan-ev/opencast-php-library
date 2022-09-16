@@ -285,7 +285,7 @@ class OcEventsApi extends OcRest
      * 
      * @return array the response result ['code' => 204, 'reason' => 'NO CONTENT'] (The permission has been created in the access control list of the specified event)
      */
-    public function addSinlgeAcl($eventId, $action, $role)
+    public function addSingleAcl($eventId, $action, $role)
     {
         $uri = self::URI . "/{$eventId}/acl/{$action}";
         $params['role'] = $role;
