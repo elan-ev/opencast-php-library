@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
-use OpencastApi\OpenCast;
+use OpencastApi\Opencast;
 
 class OcAgentsApiTest extends TestCase
 {
@@ -12,7 +12,7 @@ class OcAgentsApiTest extends TestCase
     {
         parent::setUp();
         $config = \Tests\DataProvider\SetupDataProvider::getConfig();
-        $ocRestApi = new OpenCast($config);
+        $ocRestApi = new Opencast($config);
         
         $this->ocAgentsApi = $ocRestApi->agentsApi;
     }

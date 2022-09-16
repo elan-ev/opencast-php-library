@@ -4,7 +4,7 @@ namespace OpencastApi;
 use OpencastApi\Rest\OcRestClient;
 use OpencastApi\Rest\OcIngest;
 
-class OpenCast
+class Opencast
 {
     /** @var OpencastApi\Rest\OcRestClient the rest client */
     private $restClient;
