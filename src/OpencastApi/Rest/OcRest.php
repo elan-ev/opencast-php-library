@@ -71,5 +71,31 @@ abstract class OcRest {
         $this->restClient->enableNoHeader();
         return $this;
     }
+
+    /**
+     * Sets a timeout for a single request
+     *
+     * @param int $timeout the timeout in seconds (Default = 0)
+     *
+     * @return object $this the class object where the call is requested from.
+     */
+    public function setRequestTimeout($timeout = 0)
+    {
+        $this->restClient->setRequestTimeout($timeout);
+        return $this;
+    }
+
+    /**
+     * Sets a connection timeout for a single request
+     *
+     * @param int $connectionTimeout the connection timeout in seconds (Default = 0)
+     *
+     * @return object $this the class object where the call is requested from.
+     */
+    public function setRequestConnectionTimeout($connectionTimeout = 0)
+    {
+        $this->restClient->setRequestConnectionTimeout($connectionTimeout);
+        return $this;
+    }
 }
 ?>

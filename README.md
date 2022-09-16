@@ -185,6 +185,38 @@ $ocBaseApi = \OpencastApi\Rest\OcBaseApi($opencastClient);
 $baseResponse = $ocBaseApi->noHeader()->get();
 ```
 
+# `setRequestTimeout($timeout = 0)`
+In order to perform a request call with a different timeout value other than the one set in the configuration, you can use this method <b>before</b> calling the desired function in an endpoint class:
+NOTE: This method <b>accepts</b> integer defining a single use timeout in second.<br />
+```php
+// With OpenCast generic class
+use OpencastApi\OpenCast;
+$opencastApi = new OpenCast($config);
+
+$baseResponse = $opencastApi->baseApi->setRequestTimeout(10)->get();
+
+// Or direct class call
+$opencastClient = \OpencastApi\Rest\OcRestClient($config);
+$ocBaseApi = \OpencastApi\Rest\OcBaseApi($opencastClient);
+$baseResponse = $ocBaseApi->setRequestTimeout(10)->get();
+```
+
+# `setRequestConnectionTimeout($connectionTimeout = 0)`
+In order to perform a request call with a different connection timeout value other than the one set in the configuration, you can use this method <b>before</b> calling the desired function in an endpoint class:
+NOTE: This method <b>accepts</b> integer defining a single use connection timeout in second.<br />
+```php
+// With OpenCast generic class
+use OpencastApi\OpenCast;
+$opencastApi = new OpenCast($config);
+
+$baseResponse = $opencastApi->baseApi->setRequestConnectionTimeout(10)->get();
+
+// Or direct class call
+$opencastClient = \OpencastApi\Rest\OcRestClient($config);
+$ocBaseApi = \OpencastApi\Rest\OcBaseApi($opencastClient);
+$baseResponse = $ocBaseApi->setRequestConnectionTimeout(10)->get();
+```
+
 # Available Opencast REST Service Endpoint
 
 - `/api/*`: all known API endpoints of Opencast are available to be used in this library. [API Endpoints definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki/API-Endpoints)

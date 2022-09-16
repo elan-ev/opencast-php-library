@@ -10,6 +10,8 @@ class OcRestClient extends Client
     private $password;
     private $timeout = 0;
     private $connectTimeout = 0;
+    private $disposableTimeout = null;
+    private $disposableConnectTimeout = null;
     private $version;
     private $headerExceptions = [];
     private $additionalHeaders = [];
@@ -62,6 +64,16 @@ class OcRestClient extends Client
         $this->noHeader = true;
     }
 
+    public function setRequestTimeout($timeout)
+    {
+        $this->disposableTimeout = $timeout;
+    }
+
+    public function setRequestConnectionTimeout($connectionTimeout)
+    {
+        $this->disposableConnectTimeout = $connectionTimeout;
+    }
+
     private function addRequestOptions($uri, $options)
     {
 
@@ -77,14 +89,24 @@ class OcRestClient extends Client
             $generalOptions['auth'] = [$this->username, $this->password];
         }
 
-        // Timeout
+        // Timeout + disposable
         if (isset($this->timeout)) {
             $generalOptions['timeout'] = $this->timeout;
         }
 
-        // Connect Timeout
+        if (!is_null($this->disposableTimeout)) {
+            $generalOptions['timeout'] = $this->disposableTimeout;
+            $this->disposableTimeout = null;
+        }
+
+        // Connect Timeout + disposable
         if (isset($this->connectTimeout)) {
             $generalOptions['connect_timeout'] = $this->connectTimeout;
+        }
+
+        if (!is_null($this->disposableConnectTimeout)) {
+            $generalOptions['connect_timeout'] = $this->disposableConnectTimeout;
+            $this->disposableConnectTimeout = null;
         }
 
         // Opencast API Version.
