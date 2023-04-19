@@ -83,7 +83,7 @@ class OcSeriesApi extends OcRest
      *      'count' => '{Results per page (max 100)}',
      * ]
      *
-     * @return array the response result ['code' => 200, 'body' => '{the series search results as JSON (array) or XML (text)}']
+     * @return array the response result ['code' => 200, 'body' => '{the series search results as JSON (array)}']
      */
     public function getAllFullTextSearch($params = [])
     {
