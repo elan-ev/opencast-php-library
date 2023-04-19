@@ -12,7 +12,7 @@ class Opencast
     /** @var OpencastApi\Rest\OcRestClient the engage node rest client */
     private $engageRestClient;
 
-    /* 
+    /*
         $config = [
             'url' => 'https://develop.opencast.org/',       // The API url of the opencast instance (required)
             'username' => 'admin',                          // The API username. (required)
@@ -20,6 +20,7 @@ class Opencast
             'timeout' => 0,                                 // The API timeout. In seconds (default 0 to wait indefinitely). (optional)
             'connect_timeout' => 0                          // The API connection timeout. In seconds (default 0 to wait indefinitely) (optional)
             'version' => null                               // The API Version. (Default null). (optional)
+            'handler' => null                               // The Mock Response Handler with Closure type. (Default null). (optional)
         ]
 
         $engageConfig = [
@@ -29,6 +30,7 @@ class Opencast
             'timeout' => 0,                                 // The API timeout. In seconds (default 0 to wait indefinitely). (optional)
             'connect_timeout' => 0                          // The API connection timeout. In seconds (default 0 to wait indefinitely) (optional)
             'version' => null                               // The API Version. (Default null). (optional)
+            'handler' => null                               // The Mock Response Handler with Closure type. (Default null). (optional)
         ]
     */
     public function __construct($config, $engageConfig = [])
@@ -94,6 +96,9 @@ class Opencast
         }
         if (!isset($engageConfig['version']) && isset($config['version'])) {
             $engageConfig['version'] = $config['version'];
+        }
+        if (!isset($engageConfig['handler']) && isset($config['handler'])) {
+            $engageConfig['handler'] = $config['handler'];
         }
         $this->engageRestClient = new OcRestClient($engageConfig);
     }

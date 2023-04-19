@@ -24,6 +24,7 @@ class OcRestClient extends Client
             'timeout' => 0,                                 // The API timeout. In seconds (default 0 to wait indefinitely). (optional)
             'connect_timeout' => 0,                         // The API connection timeout. In seconds (default 0 to wait indefinitely) (optional)
             'version' => null                               // The API Version. (Default null). (optional)
+            'handler' => null                               // The Mock Response Handler with Closure type. (Default null). (optional)
         ]
     */
     public function __construct($config)
@@ -42,9 +43,14 @@ class OcRestClient extends Client
             $this->setVersion($config['version']);
         }
 
-        parent::__construct([
+        $parentConstructorConfig = [
             'base_uri' => $this->baseUri
-        ]);
+        ];
+
+        if (isset($config['handler']) && is_callable($config['handler'])) {
+            $parentConstructorConfig['handler'] = $config['handler'];
+        }
+        parent::__construct($parentConstructorConfig);
     }
 
     public function registerHeaderException($header, $path) {
