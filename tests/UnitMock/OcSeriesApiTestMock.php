@@ -5,42 +5,31 @@ namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use OpencastApi\Opencast;
+use \OpencastApi\Mock\OcMockHanlder;
 
-class OcSeriesApiTest extends TestCase
+class OcSeriesApiTestMock extends TestCase
 {
     protected function setUp(): void
     {
         parent::setUp();
+        $mockResponse = \Tests\DataProvider\SetupDataProvider::getMockResponses('api_series');
+        if (empty($mockResponse)) {
+            $this->markTestIncomplete('No mock responses for series api could be found!');
+        }
+        $mockHandler = OcMockHanlder::getHandlerStackWithPath($mockResponse);
         $config = \Tests\DataProvider\SetupDataProvider::getConfig();
+        $config['handler'] = $mockHandler;
         $ocRestApi = new Opencast($config);
         $this->ocSeriesApi = $ocRestApi->seriesApi;
     }
 
     /**
      * @test
-     * @dataProvider \Tests\DataProvider\SeriesDataProvider::getAllCases()
      */
-    public function get_all_series($params): void
-    {
-        $response = $this->ocSeriesApi->getAll($params);
-
-        $this->assertSame(200, $response['code'], 'Failure to get series list');
-    }
-
-
-    /**
-     * @test
-     */
-    public function get_series_with_full_text_search(): void
+    public function get_all_series(): void
     {
         $response = $this->ocSeriesApi->getAll();
         $this->assertSame(200, $response['code'], 'Failure to get series list');
-
-        $series = $response['body'][0];
-        $param['seriesTitle'] = $series->title;
-        $response3 = $this->ocSeriesApi->getAllFullTextSearch($param);
-        $this->markTestIncomplete('As of 18.04.23 this endpoint returns 404 error because of false authentification');
-        $this->assertSame(200, $response3['code'], 'Failure to get a series with full text search');
     }
 
     /**
@@ -125,13 +114,13 @@ class OcSeriesApiTest extends TestCase
             '(UPDATED WITH TYPE)',
             \Tests\DataProvider\SeriesDataProvider::getDCMetadata()
         );
-        sleep(5);
+
         $response4 = $this->ocSeriesApi->updateMetadata($identifier, $dcMetadata, $type);
         $this->assertSame(200, $response4['code'], 'Failure to update series metadata');
-
+        
         // Delete metadata.
-        $response4 = $this->ocSeriesApi->deleteMetadata($identifier, $type);
-        $this->assertSame(403, $response4['code'], 'Failure to delete type metadata of a series');
+        $response5 = $this->ocSeriesApi->deleteMetadata($identifier, $type);
+        $this->assertSame(403, $response5['code'], 'Failure to delete type metadata of a series');
 
         $this->assertNotEmpty($identifier);
         return $identifier;

@@ -5,25 +5,30 @@ namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use OpencastApi\Opencast;
+use \OpencastApi\Mock\OcMockHanlder;
 
-class OcEventsApiTest extends TestCase
+class OcEventsApiTestMock extends TestCase
 {
     protected function setUp(): void
     {
         parent::setUp();
+        $mockResponse = \Tests\DataProvider\SetupDataProvider::getMockResponses('api_events');
+        if (empty($mockResponse)) {
+            $this->markTestIncomplete('No mock responses for events api could be found!');
+        }
+        $mockHandler = OcMockHanlder::getHandlerStackWithPath($mockResponse);
         $config = \Tests\DataProvider\SetupDataProvider::getConfig();
+        $config['handler'] = $mockHandler;
         $ocRestApi = new Opencast($config);
         $this->ocEventsApi = $ocRestApi->eventsApi;
     }
 
     /**
      * @test
-     * @dataProvider \Tests\DataProvider\EventsDataProvider::getAllCases()
      */
-    public function get_all_events($params): void
+    public function get_all_events(): void
     {
-        $response =  $this->ocEventsApi->getAll($params);
-        
+        $response =  $this->ocEventsApi->getAll();
         $this->assertSame(200, $response['code'], 'Failure to get event list');
     }
 
@@ -54,7 +59,7 @@ class OcEventsApiTest extends TestCase
      */
     public function get_single_event(string $identifier): string
     {
-        $responseAll =  $this->ocEventsApi->getAll(['withacl' => true]);
+        $responseAll =  $this->ocEventsApi->getAll();
         $this->assertSame(200, $responseAll['code'], 'Failure to get event list');
         $events = $responseAll['body'];
         if (!empty($events)) {
@@ -141,32 +146,6 @@ class OcEventsApiTest extends TestCase
      * @test
      * @depends get_single_event
      */
-    public function add_tracks(string $identifier)
-    {
-        // Add Track no override.
-        $response1 = $this->ocEventsApi->addTrack(
-            $identifier,
-            'captions/vtt+de',
-            \Tests\DataProvider\EventsDataProvider::getVttFile()
-        );
-        $this->assertSame(200, $response1['code'], 'Failure to add Track with no override');
-
-        // Add Track with override.
-        $response2 = $this->ocEventsApi->addTrack(
-            $identifier,
-            'captions/vtt+de',
-            \Tests\DataProvider\EventsDataProvider::getVttFile(),
-            true
-        );
-        $this->assertSame(200, $response2['code'], 'Failure to add Track with override');
-
-        return $identifier;
-    }
-
-    /**
-     * @test
-     * @depends add_tracks
-     */
     public function get_update_delete_acls(string $identifier): string
     {
         // Get ACL.
@@ -223,7 +202,7 @@ class OcEventsApiTest extends TestCase
         $this->assertSame(200, $response2['code'], 'Failure to get type metadata of an event');
 
         $metadata = $response2['body'];
-        $metadata[0]->value .= ' (PHPUNIT UPDATED)';
+        $metadata[0]->fields[0]->value .= ' (PHPUNIT UPDATED)';
         $this->assertNotEmpty($metadata);
 
         $response3 = $this->ocEventsApi->updateMetadata($identifier, $type, $metadata);
@@ -248,7 +227,7 @@ class OcEventsApiTest extends TestCase
 
         $publications = $response1['body'];
         if (!empty($publications)) {
-            $publication = is_array($publications) ? $publications[0] : $publications;
+            $publication = $publications[0];
             $response2 = $this->ocEventsApi->getSinglePublication($identifier, $publication->id, true);
             $this->assertSame(200, $response2['code'], 'Failure to get single publication of an event');
 

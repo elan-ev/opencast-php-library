@@ -5,13 +5,20 @@ namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use OpencastApi\Opencast;
+use \OpencastApi\Mock\OcMockHanlder;
 
-class OcIngestTest extends TestCase
+class OcIngestTestMock extends TestCase
 {
     protected function setUp(): void
     {
         parent::setUp();
+        $mockResponse = \Tests\DataProvider\SetupDataProvider::getMockResponses('ingests');
+        if (empty($mockResponse)) {
+            $this->markTestIncomplete('No mock responses for ingests could be found!');
+        }
+        $mockHandler = OcMockHanlder::getHandlerStackWithPath($mockResponse);
         $config = \Tests\DataProvider\SetupDataProvider::getConfig();
+        $config['handler'] = $mockHandler;
         $ocRestApi = new Opencast($config);
         $this->ocIngest = $ocRestApi->ingest;
     }
@@ -52,11 +59,10 @@ class OcIngestTest extends TestCase
     public function add_catalog_all(array $ingestData): array
     {
         $flavor = 'dublincore/episode';
-        $tags = 'episode';
-
+        
         // Add Catalog with file
         if ($episodeXmlFile = \Tests\DataProvider\IngestDataProvider::getEpisodeXMLFile()) {
-            $responseAddCatalogFile = $this->ocIngest->addCatalog($ingestData['mediaPackage'], $flavor, $episodeXmlFile, $tags);
+            $responseAddCatalogFile = $this->ocIngest->addCatalog($ingestData['mediaPackage'], $flavor, $episodeXmlFile);
             $this->assertSame(200, $responseAddCatalogFile['code'], 'Failure to add catalog file ingest');
             $mediaPackage = $responseAddCatalogFile['body'];
             $this->assertNotEmpty($mediaPackage);
@@ -72,7 +78,7 @@ class OcIngestTest extends TestCase
 
         // Add Catalog with url
         if ($url = \Tests\DataProvider\IngestDataProvider::getCatalogURL()) {
-            $responseAddCatalogUrl = $this->ocIngest->addCatalogUrl($ingestData['mediaPackage'], $flavor, $url, $tags);
+            $responseAddCatalogUrl = $this->ocIngest->addCatalogUrl($ingestData['mediaPackage'], $flavor, $url);
             $this->assertSame(200, $responseAddCatalogUrl['code'], 'Failure to add catalog url ingest');
             $mediaPackage = $responseAddCatalogUrl['body'];
             $this->assertNotEmpty($mediaPackage);
@@ -176,10 +182,9 @@ class OcIngestTest extends TestCase
     public function add_attachment_all(array $ingestData): array
     {
         $flavor = 'security/xacml+episode';
-        $tags = 'attachment';
         // Add attachment file
         if ($episodeAclXmlFile = \Tests\DataProvider\IngestDataProvider::getEpisodeAclXMLFile()) {
-            $responseAddAttachment = $this->ocIngest->addAttachment($ingestData['mediaPackage'], $flavor, $episodeAclXmlFile, $tags);
+            $responseAddAttachment = $this->ocIngest->addAttachment($ingestData['mediaPackage'], $flavor, $episodeAclXmlFile);
             $this->assertSame(200, $responseAddAttachment['code'], 'Failure to add attachment file ingest');
             $mediaPackage = $responseAddAttachment['body'];
             $this->assertNotEmpty($mediaPackage);
@@ -187,7 +192,7 @@ class OcIngestTest extends TestCase
 
         // Add attachment url
         if ($url = \Tests\DataProvider\IngestDataProvider::getAttachmentURL()) {
-            $responseAddAttachmentUrl = $this->ocIngest->addAttachmentUrl($ingestData['mediaPackage'], $flavor, $url, $tags);
+            $responseAddAttachmentUrl = $this->ocIngest->addAttachmentUrl($ingestData['mediaPackage'], $flavor, $url);
             $this->assertSame(200, $responseAddAttachmentUrl['code'], 'Failure to add attachment url ingest');
             $mediaPackage = $responseAddAttachmentUrl['body'];
             $this->assertNotEmpty($mediaPackage);
