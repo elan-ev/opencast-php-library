@@ -33,14 +33,20 @@ class Opencast
             'handler' => null                               // The Mock Response Handler with Closure type. (Default null). (optional)
         ]
     */
-    public function __construct($config, $engageConfig = [])
+    /**
+     * constructor
+     * @param array $config Configuration
+     * @param array $engageConfig Enage node Configuration
+     * @param boolean $enableingest whether to load ingest or not (Default true)
+     */
+    public function __construct($config, $engageConfig = [], $enableingest = true)
     {
         $this->restClient = new OcRestClient($config);
         $this->setEngageRestClient($config, $engageConfig);
-        $this->setEndpointProperties($config);
+        $this->setEndpointProperties($config, $enableingest);
     }
 
-    private function setEndpointProperties($config)
+    private function setEndpointProperties($config, $enableingest)
     {
         foreach(glob(__DIR__   . '/Rest/*.php') as $classPath) {
             
@@ -60,8 +66,10 @@ class Opencast
             $this->{$propertyName} = new $fullClassName($client);
         }
 
-        // NOTE: services must be instantiated before calling setIngest method!
-        $this->setIngestProperty($config);
+        if ($enableingest) {
+            // NOTE: services must be instantiated before calling setIngest method!
+            $this->setIngestProperty($config);
+        }
     }
 
     private function excludeFilters()
