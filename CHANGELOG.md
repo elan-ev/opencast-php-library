@@ -26,3 +26,4 @@
 - Depricated Methods OcSeries->getAll() or (/series/series.json|xml Endpoints) since it is has been removed from Opencast 12.
 - Add the series fulltext search query into Series API in: OcSeriesApi->getAllFullTextSearch()
 - The ingest API now allows setting tags when ingesting attachments or catalogs via URL, therefore OcIngest methods including addCatalog, addCatalogUrl, addAttachment and addAttachmentUrl now accept an array parameter containing the tags.
+- Dynamic ingest endpoint loading into Opencast class.

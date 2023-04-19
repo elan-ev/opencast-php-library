@@ -116,6 +116,16 @@ $config = [
 ```
 NOTE: the configuration for presentation (`engage` node) responsible for search has to follow the same definition as normal config. But in case any parameter is missing, the value will be taken from the main config param.
 
+#### Extra: Dynamically loading the ingest endpoint class into Opencast instance.
+As of v1.3 it is possible to enable (Default) or disable  the ingest endpoint to be loaded into `OpencastApi\Opencast` by passing a boolean value as the last argument of the class as follows:
+
+```php
+use OpencastApi\Opencast;
+$opencastApiWithIngest = new Opencast($config, $engageConfig);
+$opencastApiWithoutIngest = new Opencast($config, $engageConfig, false);
+// ...
+```
+
 # Response
 The return result of each call is an `Array` containing the following information:
 ```php
