@@ -323,7 +323,8 @@ $config['handler'] = $mockHandler;
 $opencast = new \OpencastApi\Opencast($config);
 
 ```
-#### Extra: if you want to have a list of request uri, you can pass a file path variable as the second argument into the `\OpencastApi\Mock\OcMockHanlder::getHandlerStackWithPath` to write/append every uri into that file, like so;
+#### Extra: Log requests uri
+if you want to have a list of request uri, you can pass a file path variable as the second argument into the `\OpencastApi\Mock\OcMockHanlder::getHandlerStackWithPath` to write/append every uri into that file, like so;
 ```php
 $filePath = '{A valid writeable file path}';
 $mockResponses = [...]; // As described above.
