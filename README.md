@@ -42,7 +42,7 @@ use OpencastApi\Opencast;
 
 // In case of a distributed Opencast setup
 $opencastDualApi = new Opencast($config, $engageConfig);
-// Or simply 
+// Or simply
 $opencastApi = new Opencast($config);
 
 // Accessing Event Endpoints to get all events
@@ -187,6 +187,26 @@ $seriesResponse = $ocSeriesApi->runWithRoles($roles)->getAll(['onlyWithWriteAcce
 ```
 <b>NOTE:</b> Roles can be either an `Array` including each role, or a comma separated string!
 
+# `runAsUser($user)`
+Sometimes it is needed to perform the request with a disposable header of `X-RUN-AS-USER` containing the user id in order for Opencast to assume that this user has access right.
+NOTE: This method <b>accepts</b> an `String` defining the user id to check against!
+```php
+// With Opencast generic class
+use OpencastApi\Opencast;
+$opencastApi = new Opencast($config);
+
+// Role
+$user = 'lms-admin';
+$seriesResponse = $opencastApi->seriesApi->runAsUser($user)->getAll(['onlyWithWriteAccess' => true]);
+
+// Or direct class call
+$opencastClient = \OpencastApi\Rest\OcRestClient($config);
+$ocSeriesApi = \OpencastApi\Rest\OcSeriesApi($opencastClient);
+// Role
+$user = 'lms-admin';
+$seriesResponse = $ocSeriesApi->runAsUser($user)->getAll(['onlyWithWriteAccess' => true]);
+```
+
 # `noHeader()`
 In order to perform a request call to an endpoint without any request headers/options, you can use this method <b>before</b> calling the desired function in an endpoint class:
 NOTE: This method <b>accepts</b> nothing (`void`).<br />
@@ -238,7 +258,7 @@ $baseResponse = $ocBaseApi->setRequestConnectionTimeout(10)->get();
 # Available Opencast REST Service Endpoint
 
 - `/api/*`: all known API endpoints of Opencast are available to be used in this library. [API Endpoints definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki/API-Endpoints)
-  
+
 - `/ingest/*`: all known Ingest endpoints are available. [Ingest Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki/OcIngest)
 
 - `/services/services.json`: only services.json is available. [Services Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki/OcServices)
@@ -346,7 +366,7 @@ $opencast = new \OpencastApi\Opencast($config);
 
 ```
 # Naming convention
-## Classes: 
+## Classes:
 Apart from 'Opencast' class, all other classes under `OpencastApi\Rest\` namespace start with `Oc` followed by the name and the endpoint category. For example:
 - `OcEventsApi` contains 3 parts including Oc + Endpoint Name (Events) + Endpoint Category (Api)
 - `OcServices` contains 2 parts including Oc + Endpoint Name/Category (Services)
@@ -359,7 +379,7 @@ $config = [/*the config*/];
 $opencast = new Opencast($config);
 
 // Accessing OcEventsApi would be like: (without Oc and in camelCase format)
-$ocEventsApi = $opencast->eventsApi; 
+$ocEventsApi = $opencast->eventsApi;
 ```
 # References
 - <a href="https://develop.opencast.org/rest_docs.html" target="_blank">Main Opencast REST Service Documentation</a>
