@@ -201,7 +201,7 @@ $seriesResponse = $ocSeriesApi->runWithRoles($roles)->getAll(['onlyWithWriteAcce
 <b>NOTE:</b> Roles can be either an `Array` including each role, or a comma separated string!
 
 # `runAsUser($user)`
-Sometimes it is needed to perform the request with a disposable header of `X-RUN-AS-USER` containing the user id in order for Opencast to assume that this user has access right.
+Sometimes it is needed to perform the request with a disposable header of `X-RUN-AS-USER` containing the user id in order for Opencast to assume that this user has access right. This feature is added since v1.4.
 NOTE: This method <b>accepts</b> an `String` defining the user id to check against!
 ```php
 // With Opencast generic class
