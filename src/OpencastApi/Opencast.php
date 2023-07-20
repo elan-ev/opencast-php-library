@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace OpencastApi;
 
 use OpencastApi\Rest\OcRestClient;
@@ -20,7 +20,7 @@ class Opencast
             'timeout' => 0,                                 // The API timeout. In seconds (default 0 to wait indefinitely). (optional)
             'connect_timeout' => 0                          // The API connection timeout. In seconds (default 0 to wait indefinitely) (optional)
             'version' => null                               // The API Version. (Default null). (optional)
-            'handler' => null                               // The Mock Response Handler with Closure type. (Default null). (optional)
+            'handler' => null                               // The Response Handler with Closure type or of HandlerStack type. (Default null). (optional)
         ]
 
         $engageConfig = [
@@ -30,7 +30,7 @@ class Opencast
             'timeout' => 0,                                 // The API timeout. In seconds (default 0 to wait indefinitely). (optional)
             'connect_timeout' => 0                          // The API connection timeout. In seconds (default 0 to wait indefinitely) (optional)
             'version' => null                               // The API Version. (Default null). (optional)
-            'handler' => null                               // The Mock Response Handler with Closure type. (Default null). (optional)
+            'handler' => null                               // The Response Handler with Closure type or of HandlerStack type. (Default null). (optional)
         ]
     */
     /**
@@ -49,7 +49,7 @@ class Opencast
     private function setEndpointProperties($config, $enableingest)
     {
         foreach(glob(__DIR__   . '/Rest/*.php') as $classPath) {
-            
+
             $className = basename($classPath, '.php');
             $fullClassName = "\\OpencastApi\\Rest\\{$className}";
             $propertyName = lcfirst(str_replace('Oc', '', $className));
