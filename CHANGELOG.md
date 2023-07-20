@@ -31,3 +31,4 @@
 
 # 1.4.0
 - Introducing runAsUser method to add X-RUN-AS-USER into the request headers.
+- Introducing OcListProvidersApi REST API service endpoint.
