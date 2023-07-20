@@ -128,12 +128,25 @@ $opencastApiWithoutIngest = new Opencast($config, $engageConfig, false);
 
 # Response
 The return result of each call is an `Array` containing the following information:
+From v1.4 the 5th response parameter 'origin' is available!
 ```php
 [
-      'code' => 200,                // The status code of the response
-      'body' => '',                 // The result of the response. It can be type of string, array or object ('' || [] || {})
-      'reason' => 'OK',             // The reason/message of response
-      'location' => '',             // The location header of the response when available
+      'code' => 200,                            // The status code of the response
+      'body' => '',                             // The result of the response. It can be type of string, array or objec ('' || [] || {})
+      'reason' => 'OK',                         // The reason/message of response
+      'location' => '',                         // The location header of the response when available,
+      'origin' => [                             // The information about the origin of the request (ADDED in v1.4)
+            'base' => 'https://example.com',    // Request base url address
+            'path' => '/api/path',              // Request url path
+            'method' => 'GET',                  // Request method
+            'params' => [                       // Request parameters
+                'query_params' => [],
+                'form_params' => [],
+                'form_multipart_params' => [],
+                'json' => [],
+                'body' => null,
+            ]
+      ]
 ]
 ```
 # Filters and Sorts
