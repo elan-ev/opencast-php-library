@@ -12,7 +12,7 @@ class OcSeriesApiTest extends TestCase
     {
         parent::setUp();
         $config = \Tests\DataProvider\SetupDataProvider::getConfig();
-        $ocRestApi = new Opencast($config);
+        $ocRestApi = new Opencast($config, [], false);
         $this->ocSeriesApi = $ocRestApi->seriesApi;
     }
 

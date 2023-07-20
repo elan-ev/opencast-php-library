@@ -1,4 +1,4 @@
-<?php 
+<?php
 declare(strict_types=1);
 
 namespace Tests\Unit;
@@ -12,7 +12,7 @@ class OcWorkflowsApiTest extends TestCase
     {
         parent::setUp();
         $config = \Tests\DataProvider\SetupDataProvider::getConfig();
-        $ocRestApi = new Opencast($config);
+        $ocRestApi = new Opencast($config, [], false);
         $this->ocWorkflowsApi = $ocRestApi->workflowsApi;
         $this->ocEventsApi = $ocRestApi->eventsApi;
     }
@@ -61,7 +61,7 @@ class OcWorkflowsApiTest extends TestCase
         $this->assertNotEmpty($definition);
         $data['workflow_definition_identifier'] = $definition->identifier;
 
-        
+
         // Create (run) Workflow.
         $response3 = $this->ocWorkflowsApi->run(
             $data['event_identifier'],

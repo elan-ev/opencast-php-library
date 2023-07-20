@@ -1,4 +1,4 @@
-<?php 
+<?php
 declare(strict_types=1);
 
 namespace Tests\Unit;
@@ -12,7 +12,7 @@ class OcEventsApiTest extends TestCase
     {
         parent::setUp();
         $config = \Tests\DataProvider\SetupDataProvider::getConfig();
-        $ocRestApi = new Opencast($config);
+        $ocRestApi = new Opencast($config, [], false);
         $this->ocEventsApi = $ocRestApi->eventsApi;
     }
 
@@ -23,7 +23,7 @@ class OcEventsApiTest extends TestCase
     public function get_all_events($params): void
     {
         $response =  $this->ocEventsApi->getAll($params);
-        
+
         $this->assertSame(200, $response['code'], 'Failure to get event list');
     }
 
@@ -89,12 +89,12 @@ class OcEventsApiTest extends TestCase
     public function create_and_update_event(string $createdEventIdentifier): string
     {
         $responseCreate = $this->ocEventsApi->create(
-            \Tests\DataProvider\EventsDataProvider::getAcls(), 
-            \Tests\DataProvider\EventsDataProvider::getMetadata('presenter'), 
-            \Tests\DataProvider\EventsDataProvider::getProcessing(), 
+            \Tests\DataProvider\EventsDataProvider::getAcls(),
+            \Tests\DataProvider\EventsDataProvider::getMetadata('presenter'),
+            \Tests\DataProvider\EventsDataProvider::getProcessing(),
             '',
-            \Tests\DataProvider\EventsDataProvider::getPresenterFile(), 
-            \Tests\DataProvider\EventsDataProvider::getPresentationFile(), 
+            \Tests\DataProvider\EventsDataProvider::getPresenterFile(),
+            \Tests\DataProvider\EventsDataProvider::getPresentationFile(),
             \Tests\DataProvider\EventsDataProvider::getAudioFile(),
             array($this, 'progressCallback')
         );
@@ -109,7 +109,7 @@ class OcEventsApiTest extends TestCase
         );
         $responseUpdate = $this->ocEventsApi->update($createdEventIdentifier, '', $metadata);
         $this->assertSame(204, $responseUpdate['code'], 'Failure to update an event');
-        
+
         return $createdEventIdentifier;
     }
 
