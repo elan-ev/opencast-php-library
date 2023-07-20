@@ -25,7 +25,7 @@ $config = [
       'timeout' => 0,                                 // The API timeout. In seconds (default 0 to wait indefinitely). (optional)
       'connect_timeout' => 0,                         // The API connection timeout. In seconds (default 0 to wait indefinitely) (optional)
       'version' => null,                              // The API Version. (Default null). (optional)
-      'handler' => null                               // The Mock Response Handler with Closure type. (Default null). (optional)
+      'handler' => null                               // The callable Handler or HandlerStack. (Default null). (optional)
 ];
 
 $engageConfig = [
@@ -35,7 +35,7 @@ $engageConfig = [
       'timeout' => 0,                                 // The API timeout. In seconds (default 0 to wait indefinitely). (optional)
       'connect_timeout' => 0,                         // The API connection timeout. In seconds (default 0 to wait indefinitely) (optional)
       'version' => null,                              // The API version. (Default null). (optional)
-      'handler' => null                               // The Mock Response Handler with Closure type. (Default null). (optional)
+      'handler' => null                               // The callable Handler or HandlerStack. (Default null). (optional)
 ];
 
 use OpencastApi\Opencast;
@@ -72,7 +72,7 @@ $config = [
       'timeout' => 0,                                 // The API timeout. In seconds (default 0 to wait indefinitely). (optional)
       'connect_timeout' => 0,                         // The API connection timeout. In seconds (default 0 to wait indefinitely) (optional)
       'version' => null,                              // The API version. (Default null). (optional)
-      'handler' => null                               // The Mock Response Handler with Closure type. (Default null). (optional)
+      'handler' => null                               // The callable Handler or HandlerStack. (Default null). (optional)
 ];
 
 
@@ -111,7 +111,7 @@ $config = [
       'timeout' => 0,                                 // The API timeout. In seconds (default 0 to wait indefinitely). (optional)
       'connect_timeout' => 0,                         // The API connection timeout. In seconds (default 0 to wait indefinitely) (optional)
       'version' => null,                              // The API version. (Default null). (optional)
-      'handler' => null                               // The Mock Response Handler with Closure type. (Default null). (optional)
+      'handler' => null                               // The callable Handler or HandlerStack. (Default null). (optional)
 ];
 ```
 NOTE: the configuration for presentation (`engage` node) responsible for search has to follow the same definition as normal config. But in case any parameter is missing, the value will be taken from the main config param.
