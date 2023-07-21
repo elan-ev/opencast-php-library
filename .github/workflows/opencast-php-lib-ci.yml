@@ -3,8 +3,8 @@ name: Opencast PHP Library CI
 on: [push, pull_request]
 
 jobs:
-  tests:
-    name: PHPUnit Tests
+  compatibility:
+    name: PHPCompatibility checks
     runs-on: ubuntu-latest
 
     strategy:
@@ -34,32 +34,12 @@ jobs:
         with:
           dependency-versions: ${{ matrix.dependency-versions }}
 
-      - name: Run PHPUnit
-        run: vendor/bin/phpunit
-
-  compatibility:
-    name: PHPCompatibility checks
-    runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: false
-      matrix:
-        php-version:
-          - "7.4"
-          - "8.0"
-          - "8.1"
-          - "8.2"
-        dependency-versions:
-          - "lowest"
-          - "highest"
-
-    steps:
-      - name: Repo checkout
-        uses: actions/checkout@v3
-
       - name: PHP Compatibility
         uses: pantheon-systems/phpcompatibility-action@v1
         with:
+          skip-php-setup: true
           test-versions: ${{ matrix.dependency-versions }}-
           paths: ${{ github.workspace }}/src
 
+      - name: Run PHPUnit
+        run: vendor/bin/phpunit
