@@ -3,8 +3,8 @@ name: Opencast PHP Library CI
 on: [push, pull_request]
 
 jobs:
-  tests:
-    name: Comaptibility with Unit tests
+  compatibility:
+    name: Comaptibility
     runs-on: ubuntu-latest
 
     strategy:
@@ -37,6 +37,25 @@ jobs:
 
       - name: PHP Compatibility
         run: composer sniffer:php${{ matrix.php-version }}
+
+  unittest:
+    needs: compatibility
+    name: PHPUnit Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repo checkout
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.1
+          coverage: none
+
+      - name: Install composer dependencies
+        uses: ramsey/composer-install@v2
+        with:
+          dependency-versions: 8.1
 
       - name: Run PHPUnit
         run: vendor/bin/phpunit
