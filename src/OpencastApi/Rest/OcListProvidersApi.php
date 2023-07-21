@@ -43,7 +43,6 @@ class OcListProvidersApi extends OcRest
                 'reason' => 'API Version (>= 1.10.0) is required'
             ];
         }
-        $source = strtolower($source);
         $uri = self::URI . "/{$source}.json";
         return $this->restClient->performGet($uri);
     }
