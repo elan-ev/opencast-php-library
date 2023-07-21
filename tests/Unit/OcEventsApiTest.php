@@ -101,6 +101,7 @@ class OcEventsApiTest extends TestCase
         $this->assertContains($responseCreate['code'], [200, 201], 'Failure to create an event');
         $createdEventIdentifier = $responseCreate['body']->identifier;
         $this->assertNotEmpty($createdEventIdentifier);
+        sleep(5);
 
         $metadata = str_replace(
             '{update_replace}',

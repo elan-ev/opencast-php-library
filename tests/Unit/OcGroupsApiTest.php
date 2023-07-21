@@ -43,7 +43,7 @@ class OcGroupsApiTest extends TestCase
      */
     public function create_get_update_delete_group(string $identifier): string
     {
-        $name = 'PHPUNIT_TESTING_GROUP';
+        $name = 'PHPUNIT_TESTING_GROUP_' . uniqid();
         // Get the group.
         $response0 = $this->ocGroupsApi->get(strtolower($name));
         if ($response0['code'] == 404) {
