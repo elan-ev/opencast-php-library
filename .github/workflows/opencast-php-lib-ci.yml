@@ -33,13 +33,10 @@ jobs:
         uses: ramsey/composer-install@v2
         with:
           dependency-versions: ${{ matrix.dependency-versions }}
+          custom-cache-key: composer-${{ matrix.php-version }}-${{ matrix.dependency-versions }}-${{ hashFiles('**/composer.lock') }}
 
       - name: PHP Compatibility
-        uses: pantheon-systems/phpcompatibility-action@v1
-        with:
-          skip-php-setup: true
-          test-versions: ${{ matrix.php-version }}-
-          paths: ${{ github.workspace }}/src
+        run: composer sniffer:php${{ matrix.php-version }}
 
       - name: Run PHPUnit
         run: vendor/bin/phpunit
