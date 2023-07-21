@@ -253,6 +253,7 @@ class OcRestClient extends Client
         $error['reason'] = $th->getMessage();
         $error['body'] = '';
         $error['location'] = '';
+        $error['origin'] = !empty($this->origin) ? $this->origin : null;
         if (!empty($error['reason'])) {
             return $error;
         }
@@ -268,8 +269,6 @@ class OcRestClient extends Client
             $reason = 'Too Many Redirect Error';
         }
         $error['reason'] = $reason;
-
-        $error['origin'] = !empty($this->origin) ? $this->origin : null;
 
         return $error;
     }

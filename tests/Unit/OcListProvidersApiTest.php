@@ -11,8 +11,7 @@ class OcListProvidersApiTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $config = \Tests\DataProvider\SetupDataProvider::getConfig();
-        $config['version'] = '1.10.0';
+        $config = \Tests\DataProvider\SetupDataProvider::getConfig('1.10.0');
         $ocRestApi = new Opencast($config, [], false);
 
         $this->ocListProvidersApi = $ocRestApi->listProvidersApi;
