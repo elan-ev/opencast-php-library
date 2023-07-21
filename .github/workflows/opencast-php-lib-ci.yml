@@ -33,7 +33,6 @@ jobs:
         uses: ramsey/composer-install@v2
         with:
           dependency-versions: ${{ matrix.dependency-versions }}
-          custom-cache-key: composer-${{ matrix.php-version }}-${{ matrix.dependency-versions }}-${{ hashFiles('**/composer.lock') }}
 
       - name: PHP Compatibility
         run: composer sniffer:php${{ matrix.php-version }}

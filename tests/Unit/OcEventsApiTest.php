@@ -54,7 +54,7 @@ class OcEventsApiTest extends TestCase
      */
     public function get_single_event(string $identifier): string
     {
-        $responseAll =  $this->ocEventsApi->getAll(['withacl' => true]);
+        $responseAll = $this->ocEventsApi->getAll(['withacl' => true]);
         $this->assertSame(200, $responseAll['code'], 'Failure to get event list');
         $events = $responseAll['body'];
         if (!empty($events)) {
@@ -175,6 +175,16 @@ class OcEventsApiTest extends TestCase
         $this->assertSame(200, $response1['code'], 'Failure to get ACLs of an event');
 
         $acls = $response1['body'];
+        if (empty($acls)) {
+            $response1_1 = $this->ocEventsApi->addSingleAcl($identifier, 'write', 'ROLE_PHPUNIT_TESTING_USER_0');
+            $this->assertSame(204, $response1_1['code'], 'Failure to set single ACL for an event');
+
+            $response1_2 = $this->ocEventsApi->getAcl($identifier);
+            $this->assertSame(200, $response1_2['code'], 'Failure to get ACLs of an event');
+
+            $acls = $response1_2['body'];
+        }
+
         $this->assertNotEmpty($acls);
 
         // Delete all acls.
