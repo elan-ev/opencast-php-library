@@ -3,8 +3,8 @@ name: Opencast PHP Library CI
 on: [push, pull_request]
 
 jobs:
-  compatibility:
-    name: PHPCompatibility checks
+  tests:
+    name: Comaptibility with Unit tests
     runs-on: ubuntu-latest
 
     strategy:
@@ -38,7 +38,7 @@ jobs:
         uses: pantheon-systems/phpcompatibility-action@v1
         with:
           skip-php-setup: true
-          test-versions: ${{ matrix.dependency-versions }}-
+          test-versions: ${{ matrix.php-version }}-
           paths: ${{ github.workspace }}/src
 
       - name: Run PHPUnit
