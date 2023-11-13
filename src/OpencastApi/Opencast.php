@@ -12,6 +12,23 @@ class Opencast
     /** @var OpencastApi\Rest\OcRestClient the engage node rest client */
     private $engageRestClient;
 
+    public \OpencastApi\Rest\OcAgentsApi $agentsApi;
+    public \OpencastApi\Rest\OcBaseApi $baseApi;
+    public \OpencastApi\Rest\OcCaptureAdmin $captureAdmin;
+    public \OpencastApi\Rest\OcEventAdminNg $eventAdminNg;
+    public \OpencastApi\Rest\OcEventsApi $eventsApi;
+    public \OpencastApi\Rest\OcGroupsApi $groupsApi;
+    public \OpencastApi\Rest\OcRecordings $recordings;
+    public \OpencastApi\Rest\OcSearch $search;
+    public \OpencastApi\Rest\OcSecurityApi $securityApi;
+    public \OpencastApi\Rest\OcSeriesApi $seriesApi;
+    public \OpencastApi\Rest\OcSeries $series;
+    public \OpencastApi\Rest\OcServices $services;
+    public \OpencastApi\Rest\OcStatisticsApi $statisticsApi;
+    public \OpencastApi\Rest\OcSysinfo $sysinfo;
+    public \OpencastApi\Rest\OcWorkflow $workflow;
+    public \OpencastApi\Rest\OcWorkflowsApi $workflowsApi;
+
     /*
         $config = [
             'url' => 'https://develop.opencast.org/',       // The API url of the opencast instance (required)
@@ -55,7 +72,7 @@ class Opencast
             $propertyName = lcfirst(str_replace('Oc', '', $className));
             $client = $this->restClient;
 
-            if (in_array($className, $this->excludeFilters()) || property_exists($this, $propertyName)) {
+            if (in_array($className, $this->excludeFilters())) {
                 continue;
             }
 
@@ -142,4 +159,4 @@ class Opencast
         return [];
     }
 }
-?>
+
