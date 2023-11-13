@@ -27,7 +27,7 @@ class OcListProvidersApiTest extends TestCase
         $providers = $response['body'];
         if (!empty($providers) && is_array($providers)) {
             $provider = $providers[array_rand($providers)];
-            $responseList = $this->ocListProvidersApi->get($provider);
+            $responseList = $this->ocListProvidersApi->getList($provider);
             $this->assertSame(200, $responseList['code'], 'failure to get provider list');
         } else {
             $this->markTestIncomplete('No provider to complete the test!');
