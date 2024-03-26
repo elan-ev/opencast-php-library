@@ -13,6 +13,16 @@ class OcPlaylistsApiTest extends TestCase
         parent::setUp();
         $config = \Tests\DataProvider\SetupDataProvider::getConfig();
         $ocRestApi = new Opencast($config, [], false);
+
+        // Check if rest api supports playlists api
+        $response = $ocRestApi->baseApi->getVersion();
+        if ($response['code'] != 200 || !in_array('v1.11.0', $response['body']->versions)) {
+            $this->markTestSkipped('Playlists api is not available in configured Opencast and is supported since api version 1.11.0.');
+        }
+
+        // Setup playlists api
+        $config = \Tests\DataProvider\SetupDataProvider::getConfig('1.11.0');
+        $ocRestApi = new Opencast($config, [], false);
         $this->ocPlaylistsApi = $ocRestApi->playlistsApi;
     }
 
