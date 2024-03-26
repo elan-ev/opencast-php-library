@@ -33,6 +33,9 @@ class Opencast
     /** @var \OpencastApi\Rest\OcGroupsApi $groupsApi */
     public $groupsApi;
 
+    /** @var \OpencastApi\Rest\OcPlaylistsApi $playlistsApi */
+    public $playlistsApi;
+
     /** @var \OpencastApi\Rest\OcRecordings $recordings */
     public $recordings;
 
