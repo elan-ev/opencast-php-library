@@ -140,7 +140,7 @@ class OcRestClient extends Client
     {
         if (empty($this->version)) {
             try {
-                // We have to use and aux object, in order to prevent overwriting arguments of current object.
+                // We have to use an aux object, in order to prevent overwriting arguments of current object.
                 $aux = clone $this;
                 $defaultVersion = $aux->performGet('/api/version/default');
                 if (!empty($defaultVersion['body']) && isset($defaultVersion['body']->default)) {
