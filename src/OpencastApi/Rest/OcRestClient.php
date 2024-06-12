@@ -140,7 +140,10 @@ class OcRestClient extends Client
     {
         if (empty($this->version)) {
             try {
-                $defaultVersion = $this->performGet('/api/version/default');
+                // We have to use an aux object, in order to prevent overwriting arguments of current object.
+                $aux = clone $this;
+                $aux->enableNoHeader();
+                $defaultVersion = $aux->performGet('/api/version/default');
                 if (!empty($defaultVersion['body']) && isset($defaultVersion['body']->default)) {
                     $this->setVersion(str_replace(['application/', 'v', '+json'], ['', '', ''], $defaultVersion['body']->default));
                 } else {
