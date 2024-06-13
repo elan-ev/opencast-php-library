@@ -35,5 +35,19 @@ class OcSearchTest extends TestCase
         $response = $this->ocSearch->getSeries($params, $format);
         $this->assertSame(200, $response['code'], 'Failure to search series');
     }
+
+    /**
+     * @test
+     * @dataProvider \Tests\DataProvider\SearchDataProvider::getLuceneQueryCases()
+     */
+    public function get_lucenes($params, $format): void
+    {
+        if ($this->ocSearch->lucene) {
+            $response = $this->ocSearch->getLucene($params, $format);
+            $this->assertSame(200, $response['code'], 'Failure to search lucene');
+        } else {
+            $this->assertTrue(true);
+        }
+    }
 }
 ?>

@@ -133,6 +133,13 @@ class Opencast
             // NOTE: services must be instantiated before calling setIngest method!
             $this->setIngestProperty($config);
         }
+
+        // allow to disable lucene search present only up to oc 15, default is enabled
+        if (isset($config['features']['lucene'])
+            && $config['features']['lucene'] == false
+        ) {
+            $this->search->lucene = false;
+        }
     }
 
     private function excludeFilters()

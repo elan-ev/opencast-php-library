@@ -16,7 +16,10 @@ class SetupDataProvider {
             'password' => $password,
             'timeout' => $timeout,
             'version' => '1.9.0',
-            'connect_timeout' => $connectTimeout
+            'connect_timeout' => $connectTimeout,
+            'features' => [
+                'lucene' => false
+            ]
         ];
         if (!empty($version)) {
             $config['version'] = $version;
