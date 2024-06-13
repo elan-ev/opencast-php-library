@@ -36,3 +36,13 @@
 
 # 1.5.0
 - PHP 8.2 compatibility: prevent dynamic property declarations
+
+# 1.6.0
+- Introducing OcPlaylistApi REST API service endpoint.
+- Fix ingest tags issues
+
+# 1.7.0
+- Adopt Opencast 16 changes (lucene search endpoint removal by toggle it in the config -> features -> lucene [default false])
+- runWithRoles does not apply the headers when api version is not defined
+- Playlist endpoint minor changes
+- Add workflow configuration params into ingest method.
