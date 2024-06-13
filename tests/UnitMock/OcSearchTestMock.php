@@ -37,10 +37,15 @@ class OcSearchTestMock extends TestCase
      * @test
      */
     public function get_lucenes(): void
-    {
+{
         $params = ['series' => true];
         $response = $this->ocSearch->getLucene($params);
-        $this->assertSame(200, $response['code'], 'Failure to search lucene');
+
+        if ($this->ocSearch->lucene) {
+            $this->assertSame(200, $response['code'], 'Failure to search lucene');
+        } else {
+            $this->assertFalse($response);
+        }
     }
 
     /**
