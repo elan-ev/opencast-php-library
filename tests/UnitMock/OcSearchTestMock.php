@@ -40,12 +40,7 @@ class OcSearchTestMock extends TestCase
 {
         $params = ['series' => true];
         $response = $this->ocSearch->getLucene($params);
-
-        if ($this->ocSearch->lucene) {
-            $this->assertSame(200, $response['code'], 'Failure to search lucene');
-        } else {
-            $this->assertFalse($response);
-        }
+        $this->assertContains($response['code'], [200, 410], 'Failure to create an event');
     }
 
     /**

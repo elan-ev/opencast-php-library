@@ -42,12 +42,8 @@ class OcSearchTest extends TestCase
      */
     public function get_lucenes($params, $format): void
     {
-        if ($this->ocSearch->lucene) {
-            $response = $this->ocSearch->getLucene($params, $format);
-            $this->assertSame(200, $response['code'], 'Failure to search lucene');
-        } else {
-            $this->assertTrue(true);
-        }
+        $response = $this->ocSearch->getLucene($params, $format);
+        $this->assertContains($response['code'], [200, 410], 'Failure to create an event');
     }
 }
 ?>

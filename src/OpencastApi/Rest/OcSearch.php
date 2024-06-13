@@ -4,12 +4,15 @@ namespace OpencastApi\Rest;
 class OcSearch extends OcRest
 {
     const URI = '/search';
-    public $lucene = true;
+    public $lucene = false; // By default false, main support for OC 16.
 
     public function __construct($restClient)
     {
         $restClient->registerHeaderException('Accept', self::URI);
         parent::__construct($restClient);
+        if ($restClient->readFeatures('lucene')) {
+            $this->lucene = true;
+        }
     }
 
 
@@ -114,6 +117,8 @@ class OcSearch extends OcRest
     /**
      * Search a lucene query as object (JSON) by default or XML (text) on demand.
      *
+     * INFO: This endpoint is removed in Opencast 16.
+     *
      * @param array $params the params to pass to the call: it must cointain the following:
      * $params = [
      *      'q' => '{ The lucene query. }',
@@ -131,7 +136,7 @@ class OcSearch extends OcRest
     public function getLucene($params = [], $format = '')
     {
         if (!$this->lucene) {
-            return false;
+            return ['code' => 410, 'reason' => 'Lucene search endpoint is not available!'];
         }
 
         $uri = self::URI . "/lucene.json";
