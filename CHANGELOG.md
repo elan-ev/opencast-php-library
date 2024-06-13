@@ -46,3 +46,4 @@
 - runWithRoles does not apply the headers when api version is not defined
 - Playlist endpoint minor changes
 - Add workflow configuration params into ingest method.
+- Make guzzle version require from (>=) v7.5.1 in composer.
