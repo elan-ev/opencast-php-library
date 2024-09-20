@@ -47,3 +47,6 @@
 - Playlist endpoint minor changes
 - Add workflow configuration params into ingest method.
 - Make guzzle version require from (>=) v7.5.1 in composer.
+
+# 1.8.0
+- Fix for unauthorized access when extracting the Opencast API Version.
