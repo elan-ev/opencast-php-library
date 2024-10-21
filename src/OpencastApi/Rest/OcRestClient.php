@@ -18,6 +18,8 @@ class OcRestClient extends Client
     private $noHeader = false;
     private $origin;
     private $features = [];
+    private $global_options = [];
+
     /*
         $config = [
             'url' => 'https://develop.opencast.org/',       // The API url of the opencast instance (required)
@@ -57,6 +59,8 @@ class OcRestClient extends Client
         if (isset($config['features'])) {
             $this->features = $config['features'];
         }
+
+        $this->global_options = $config['guzzle'] ?: [];
 
         parent::__construct($parentConstructorConfig);
     }
@@ -101,6 +105,7 @@ class OcRestClient extends Client
 
     private function addRequestOptions($uri, $options)
     {
+        $globalOptions = $this->global_options;
 
         // Perform a temp no header request.
         if ($this->noHeader) {
@@ -150,7 +155,7 @@ class OcRestClient extends Client
             }
         }
 
-        $requestOptions = array_merge($generalOptions, $options);
+        $requestOptions = array_merge($generalOptions, $globalOptions, $options);
         return $requestOptions;
     }
 
