@@ -50,3 +50,6 @@
 
 # 1.8.0
 - Fix for unauthorized access when extracting the Opencast API Version.
+
+# 1.9.0
+- Allow passing additonal options to Guzzle #30
