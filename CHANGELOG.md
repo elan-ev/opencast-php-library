@@ -52,4 +52,7 @@
 - Fix for unauthorized access when extracting the Opencast API Version.
 
 # 1.9.0
-- Allow passing additonal options to Guzzle #30
+- Allow passing additional options to Guzzle [#30]
+- WorkflowApi endpoint methods got updated
+  - `withconfigurationpaneljson` parameter has been added to `/api/workflow-definitions` endpoints. [#34]
+  - `@deprecated` removal of OcWorkflowsApi::geAll() method!
