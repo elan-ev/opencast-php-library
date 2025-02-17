@@ -53,3 +53,5 @@
 
 # 1.9.0
 - Allow passing additonal options to Guzzle #30
+- Added `OcUtils` class, a utility class providing additional functionality to simplify the integration and consumption of this library.
+  - Initially includes the `findValueByKey` function, which is meant to retrieve a specific value from the response body. [#33]

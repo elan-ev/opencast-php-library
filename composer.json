@@ -25,7 +25,8 @@
         "psr-4": {
             "OpencastApi\\": "src/OpencastApi/",
             "OpencastApi\\Rest\\": "src/OpencastApi/Rest/",
-            "OpencastApi\\Mock\\": "src/OpencastApi/Mock/"
+            "OpencastApi\\Mock\\": "src/OpencastApi/Mock/",
+            "OpencastApi\\Util\\": "src/OpencastApi/Util/"
         }
     },
     "scripts": {

@@ -301,6 +301,26 @@ $baseResponse = $ocBaseApi->setRequestConnectionTimeout(10)->get();
 
 - `/sysinfo/bundles/version`: (v1.1.1) only bundle version endpoint is available. [Sysinfo Endpoint definitions WiKi](https://github.com/elan-ev/opencast-php-library/wiki/OcSysinfo)
 
+# Utility Class
+Starting from version **v1.9.0**, a new utility class has been introduced to provide additional functionality, making it easier to integrate and consume this library's output within applications.
+## How to use
+To use the utility class, initialize it directly via its namespace and start calling its functions:
+```php
+use OpencastApi\Opencast;
+use OpencastApi\Util\OcUtils;
+...
+$config = [...];
+$opencastApi = new Opencast($config);
+
+$params = [...];
+$response = $opencastApi->ocSearch->getEpisodes($params);
+
+// Use `findValueByKey` from the Utility class to extract the mediapackage from the response,
+// regardless of the response's structure.
+$mediapackage = OcUtils::findValueByKey($response['body'], 'mediapackage');
+...
+```
+
 # Mocking Responses
 In order to conduct proper testing, a mocking mechanism is provided.
 ## How to use
