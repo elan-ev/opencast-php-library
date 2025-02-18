@@ -13,10 +13,10 @@ class OcEventsApi extends OcRest
     ## [Section 1]: General API endpoints.
 
     /**
-     * Returns a list of events. 
+     * Returns a list of events.
      * By setting the optional sign parameter to true, the method will pre-sign distribution urls if signing is turned on in Opencast.
      * Remember to consider the maximum validity of signed URLs when caching this response.
-     * 
+     *
      * @param array $params (optional) The list of query params to pass which can contain the followings:
      * [
      *      'sign' => (boolean) {Whether public distribution urls should be signed.},
@@ -30,7 +30,7 @@ class OcEventsApi extends OcRest
      *      'offset' => (int) {the index of the first result to return},
      *      'filter' => (array) {an assiciative array for filtering e.g. ['is_part_of' => '{series id}']},
      * ]
-     * 
+     *
      * @return array the response result ['code' => 200, 'body' => 'A (potentially empty) array list of events is returned.']
      */
     public function getAll($params = [])
@@ -66,7 +66,7 @@ class OcEventsApi extends OcRest
 
     /**
      * Returns the list of events in a series.
-     * 
+     *
      * @param string $seriesId the identifier for a series
      * @param array $params (optional) The list of query params to pass which can contain the followings:
      * [
@@ -81,7 +81,7 @@ class OcEventsApi extends OcRest
      *      'offset' => (int) {the index of the first result to return},
      *      'filter' => (array) {an assiciative array for filtering e.g. ['is_part_of' => '{series id}']},
      * ]
-     * 
+     *
      * @return array the response result ['code' => 200, 'body' => 'A (potentially empty) array list of events in a series is returned.']
      */
     public function getBySeries($seriesId, $params = [])
@@ -92,12 +92,12 @@ class OcEventsApi extends OcRest
 
         return $this->getAll($params);
     }
-    
+
     /**
      * Returns a single event.
      * By setting the optional sign parameter to true, the method will pre-sign distribution urls if signing is turned on in Opencast.
      * Remember to consider the maximum validity of signed URLs when caching this response.
-     * 
+     *
      * @param string $eventId the identifier of the event.
      * @param array $params (optional) The list of query params to pass which can contain the followings:
      * [
@@ -107,7 +107,7 @@ class OcEventsApi extends OcRest
      *      'withscheduling' => (boolean) {Whether the scheduling information should be included in the response. (version 1.1.0 and higher)},
      *      'withpublications' => (boolean) {Whether the publication ids and urls should be included in the response.}
      * ]
-     * 
+     *
      * @return array the response result ['code' => 200, 'body' => 'The event (Object)']
      */
     public function get($eventId, $params = [])
@@ -135,7 +135,7 @@ class OcEventsApi extends OcRest
 
     /**
      * Creates an event by sending metadata, access control list, processing instructions and files in a multipart request.
-     * 
+     *
      * @param string|array $acls A collection of roles with their possible action
      * @param string|array $metadata Event metadata
      * @param string|array $processing Processing instructions task configuration
@@ -150,7 +150,7 @@ class OcEventsApi extends OcRest
      *      $uploadTotal: the total number of bytes expected to be uploaded,
      *      $uploadedBytes: the number of bytes uploaded so far
      * )
-     * 
+     *
      * @return array the response result ['code' => 201, 'body' => '{A new event is created and its identifier is returned}', 'location' => '{the url of new event'}]
      */
     public function create($acls, $metadata, $processing, $scheduling = '', $presenterFile = null, $presentationFile = null, $audioFile = null, $progressCallable = null)
@@ -185,7 +185,7 @@ class OcEventsApi extends OcRest
 
     /**
      * Updates an event.
-     * 
+     *
      * @param string $eventId the event identifier
      * @param string|array $acls (optional) A collection of roles with their possible action
      * @param string|array $metadata (optional) Event metadata
@@ -194,7 +194,7 @@ class OcEventsApi extends OcRest
      * @param file $presenterFile (optional) Presenter movie track
      * @param file $presentationFile (optional) Presentation movie track
      * @param file $audioFile (optional) Audio track
-     * 
+     *
      * @return array the response result ['code' => 204, 'reason' => 'NO CONTENT'] (The event has been updated)
      */
     public function update($eventId, $acls = '', $metadata = '', $processing = '', $scheduling = '', $presenterFile = null, $presentationFile = null, $audioFile = null)
@@ -231,9 +231,9 @@ class OcEventsApi extends OcRest
      * Retracts possible publications and deletes an event.
      * Since version 1.6.0 published events will be retracted by this endpoint,
      * if you use a version previous to 1.6.0 don't call this endpoint before retracting published events.
-     * 
+     *
      * @param string $eventId the event identifier
-     * 
+     *
      * @return array the response result ['code' => 204, 'reason' => 'NO CONTENT'] (The event has been deleted)
      */
     public function delete($eventId)
@@ -248,9 +248,9 @@ class OcEventsApi extends OcRest
 
     /**
      * Returns an event's access policy.
-     * 
+     *
      * @param string $eventId the event identifier
-     * 
+     *
      * @return array the response result ['code' => 200, 'body' => '{The access control list for the specified event (Object)}']
      */
     public function getAcl($eventId)
@@ -261,10 +261,10 @@ class OcEventsApi extends OcRest
 
     /**
      * Update an event's access policy.
-     * 
+     *
      * @param string $eventId the event identifier
      * @param string|array $acl Access policy
-     * 
+     *
      * @return array the response result ['code' => 204, 'reason' => 'NO CONTENT'] (The access control list for the specified event is updated)
      */
     public function updateAcl($eventId, $acl)
@@ -278,11 +278,11 @@ class OcEventsApi extends OcRest
     /**
      * Grants permission to execute action on the specified event to any user with role role.
      * Note that this is a convenience method to avoid having to build and post a complete access control list.
-     * 
-     * @param string $eventId the event identifier 
+     *
+     * @param string $eventId the event identifier
      * @param string $action The action that is allowed to be executed
      * @param string $role The role that is granted permission
-     * 
+     *
      * @return array the response result ['code' => 204, 'reason' => 'NO CONTENT'] (The permission has been created in the access control list of the specified event)
      */
     public function addSingleAcl($eventId, $action, $role)
@@ -296,7 +296,7 @@ class OcEventsApi extends OcRest
     /**
      * Removes all ACLs for the event.
      * @param string $eventId the event identifier
-     * 
+     *
      * @return array the response result ['code' => 204, 'reason' => 'NO CONTENT'] (The access control list for the specified event is updated)
      */
     public function emptyAcl($eventId)
@@ -307,11 +307,11 @@ class OcEventsApi extends OcRest
 
     /**
      * Revokes permission to execute action on the specified event from any user with specified role.
-     * 
+     *
      * @param string $eventId the event identifier
      * @param string $action The action that is no longer allowed to be executed
      * @param string $role The role that is no longer granted permission
-     * 
+     *
      * @return array the response result ['code' => 204, 'reason' => 'NO CONTENT'] (The permission has been revoked from the access control list of the specified event)
      */
     public function deleteSingleAcl($eventId, $action, $role)
@@ -323,7 +323,7 @@ class OcEventsApi extends OcRest
     ## End of [Section 2]: Access Policy.
 
     ## [Section 3]: Media.
-    
+
     /**
      * Returns the complete set of media tracks.
      * @param string $eventId the event identifier
@@ -339,18 +339,26 @@ class OcEventsApi extends OcRest
     /**
      * Adds the given track to the given flavor in the event. It does not start a workflow.
      * @param string $eventId the event identifier
-     * @param string $flavor Denotes type and subtype, e.g. 'captions/source+en'
+     * @param string $flavor Denotes type and subtype, e.g. 'captions/source+en' or now that we have tags flavor could be 'captions/source'
      * @param file $track The track file
      * @param boolean $overwriteExisting If true, all other tracks in the specified flavor are REMOVED (Default: false)
+     * @param mixed $tags (optional) Comma separated list of tags either as an array or a string for the given track, e.g. archive,publish. If a 'lang:LANG-CODE' tag exists and 'overwriteExisting=true' only tracks with same lang tag and flavor will be replaced. This behavior is used for captions. (Default: null) (Array | String)
      *
      * @return array the response result ['code' => 200, 'body' => '{The track was added successfully.}']
      */
-    public function addTrack($eventId, $flavor, $track, $overwriteExisting = false)
+    public function addTrack($eventId, $flavor, $track, $overwriteExisting = false, $tags = null)
     {
         $uri = self::URI . "/{$eventId}/track";
         $formData['flavor'] = $flavor;
         $formData['track'] = $track;
-        $formData['overwriteExisting'] = $overwriteExisting;
+        if ($overwriteExisting) {
+            $formData['overwriteExisting'] = 'true';
+        }
+
+        if (!empty($tags)) {
+            $tagStr = is_array($tags) ? implode(',', $tags) : $tags;
+            $formData['tags'] = $tagStr;
+        }
 
         $options = $this->restClient->getMultiPartFormParams($formData);
         return $this->restClient->performPost($uri, $options);
@@ -363,10 +371,10 @@ class OcEventsApi extends OcRest
     /**
      * Returns the event's metadata (if type is defined of the specified type).
      * For a metadata catalog there is the flavor such as 'dublincore/episode' and this is the unique type.
-     * 
+     *
      * @param string $eventId the event identifier
      * @param string $type (optional) The type of metadata to get
-     * 
+     *
      * @return array the response result ['code' => 200, 'body' => '{The metadata collection (array)}']
      */
     public function getMetadata($eventId, $type = '')
@@ -383,11 +391,11 @@ class OcEventsApi extends OcRest
     /**
      * Update the metadata with the matching type of the specified event.
      * For a metadata catalog there is the flavor such as dublincore/episode and this is the unique type.
-     * 
+     *
      * @param string $eventId the event identifier
      * @param string $type The type of metadata to update
      * @param string|array $metadata Event metadata
-     * 
+     *
      * @return array the response result ['code' => 200, 'reason' => 'OK'] (The metadata of the given namespace has been updated)
      */
     public function updateMetadata($eventId, $type, $metadata)
@@ -407,10 +415,10 @@ class OcEventsApi extends OcRest
     /**
      * Delete the metadata namespace catalog of the specified event. This will remove all fields and values of the catalog.
      * Note that the metadata catalog of type dublincore/episode cannot be deleted.
-     * 
+     *
      * @param string $eventId the event identifier
      * @param string $type The type of metadata to delete
-     * 
+     *
      * @return array the response result ['code' => 204, 'reason' => 'No Content'] (The metadata of the given namespace has been delete)
      */
     public function deleteMetadata($eventId, $type)
@@ -427,10 +435,10 @@ class OcEventsApi extends OcRest
 
     /**
      * Returns an event's list of publications.
-     * 
+     *
      * @param string $eventId the event identifier
      * @param boolean $sign (optional) Whether publication urls (version 1.7.0 or higher) and distribution urls should be pre-signed.
-     * 
+     *
      * @return array the response result ['code' => 200, 'body' => '{The list of publications}']
      */
     public function getPublications($eventId, $sign = false)
@@ -443,11 +451,11 @@ class OcEventsApi extends OcRest
 
     /**
      * Returns a single publication.
-     * 
+     *
      * @param string $eventId the event identifier
      * @param string $publicationId the publication id
      * @param boolean $sign (optional) Whether publication urls (version 1.7.0 or higher) and distribution urls should be pre-signed.
-     * 
+     *
      * @return array the response result ['code' => 200, 'body' => '{The track details}']
      */
     public function getSinglePublication($eventId, $publicationId ,$sign = false)
@@ -465,9 +473,9 @@ class OcEventsApi extends OcRest
     /**
      * Returns an event's scheduling information.
      * Available since API version 1.1.0.
-     * 
+     *
      * @param string $eventId the event identifier
-     * 
+     *
      * @return array the response result ['code' => 200, 'body' => '{The scheduling information for the specified event}']
      */
     public function getScheduling($eventId)
@@ -485,11 +493,11 @@ class OcEventsApi extends OcRest
     /**
      * Update the scheduling information of the event.
      * Available since API version 1.1.0.
-     * 
+     *
      * @param string $eventId the event identifier
      * @param string|array $scheduling The scheduling information.
      * @param boolean $allowConflict (optional) Allow conflicts when updating scheduling.
-     * 
+     *
      * @return array the response result ['code' => 204, 'reason' => 'NO CONTENT'] (The scheduling information for the specified event is updated)
      */
     public function updateScheduling($eventId, $scheduling, $allowConflict = false)
@@ -500,7 +508,7 @@ class OcEventsApi extends OcRest
                 'reason' => 'API Version (>= 1.1.0) is required'
             ];
         }
-        
+
         $uri = self::URI . "/{$eventId}/scheduling";
 
         $formData = [
