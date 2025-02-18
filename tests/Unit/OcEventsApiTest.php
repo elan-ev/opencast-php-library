@@ -180,7 +180,7 @@ class OcEventsApiTest extends TestCase
         $response3 = $this->ocEventsApi->addTrack(
             $identifier,
             $flavor,
-            \Tests\DataProvider\EventsDataProvider::getVttFile('DE', true),
+            \Tests\DataProvider\EventsDataProvider::getVttFile('de', true),
             true,
             $tags_de
         );

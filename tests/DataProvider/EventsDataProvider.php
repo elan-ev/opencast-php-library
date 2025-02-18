@@ -66,6 +66,7 @@ class EventsDataProvider {
 
     public static function getVttFile($lang = 'de', $overwrite = false)
     {
+        $lang = strtolower($lang);
         $overwitestr = $overwrite ? '_overwrite' : '';
         $filename = "/test_files/video_test{$overwitestr}_{$lang}.vtt";
         return Psr7\Utils::tryFopen(__DIR__   . $filename, 'r');
