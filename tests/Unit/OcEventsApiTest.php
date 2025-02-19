@@ -54,7 +54,7 @@ class OcEventsApiTest extends TestCase
      */
     public function get_single_event(string $identifier): string
     {
-        $responseAll = $this->ocEventsApi->getAll(['withacl' => true]);
+        $responseAll = $this->ocEventsApi->getAll(['withacl' => true, 'includeInternalPublication' => true]);
         $this->assertSame(200, $responseAll['code'], 'Failure to get event list');
         $events = $responseAll['body'];
         if (!empty($events)) {
@@ -289,7 +289,7 @@ class OcEventsApiTest extends TestCase
      */
     public function get_publications(string $identifier): string
     {
-        $response1 = $this->ocEventsApi->getPublications($identifier, true);
+        $response1 = $this->ocEventsApi->getPublications($identifier, true, true);
         $this->assertSame(200, $response1['code'], 'Failure to get publications of an event');
 
         $publications = $response1['body'];

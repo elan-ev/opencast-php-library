@@ -24,6 +24,7 @@ class OcEventsApi extends OcRest
      *      'withmetadata' => (boolean) {Whether the metadata catalogs should be included in the response. },
      *      'withscheduling' => (boolean) {Whether the scheduling information should be included in the response. (version 1.1.0 and higher)},
      *      'withpublications' => (boolean) {Whether the publication ids and urls should be included in the response.},
+     *      'includeInternalPublication' => (boolean) {Whether internal publications should be included.},
      *      'onlyWithWriteAccess' => (boolean) {Whether only to get the events to which we have write access.},
      *      'sort' => (array) {an assiciative array for sorting e.g. ['title' => 'DESC']},
      *      'limit' => (int) {the maximum number of results to return},
@@ -47,7 +48,7 @@ class OcEventsApi extends OcRest
 
         $acceptableParams = [
             'sign', 'withacl', 'withmetadata', 'withpublications',
-            'onlyWithWriteAccess', 'sort', 'limit', 'offset', 'filter'
+            'onlyWithWriteAccess', 'sort', 'limit', 'offset', 'filter', 'includeInternalPublication'
         ];
 
         if ($this->restClient->hasVersion('1.1.0')) {
@@ -106,6 +107,7 @@ class OcEventsApi extends OcRest
      *      'withmetadata' => (boolean) {Whether the metadata catalogs should be included in the response. },
      *      'withscheduling' => (boolean) {Whether the scheduling information should be included in the response. (version 1.1.0 and higher)},
      *      'withpublications' => (boolean) {Whether the publication ids and urls should be included in the response.}
+     *      'includeInternalPublication' => (boolean) {Whether internal publications should be included.}
      * ]
      *
      * @return array the response result ['code' => 200, 'body' => 'The event (Object)']
@@ -116,7 +118,7 @@ class OcEventsApi extends OcRest
         $query = [];
 
         $acceptableParams = [
-            'sign', 'withacl', 'withmetadata', 'withpublications'
+            'sign', 'withacl', 'withmetadata', 'withpublications', 'includeInternalPublication'
         ];
 
         if ($this->restClient->hasVersion('1.1.0')) {
@@ -438,13 +440,20 @@ class OcEventsApi extends OcRest
      *
      * @param string $eventId the event identifier
      * @param boolean $sign (optional) Whether publication urls (version 1.7.0 or higher) and distribution urls should be pre-signed.
+     * @param boolean $includeInternalPublication (optional) Whether internal publications should be included.
      *
      * @return array the response result ['code' => 200, 'body' => '{The list of publications}']
      */
-    public function getPublications($eventId, $sign = false)
+    public function getPublications($eventId, $sign = false, $includeInternalPublication = false)
     {
         $uri = self::URI . "/{$eventId}/publications";
-        $query['sign'] = $sign;
+        if ($sign) {
+            $query['sign'] = 'true';
+        }
+        if ($includeInternalPublication) {
+            $query['includeInternalPublication'] = 'true';
+        }
+
         $options = $this->restClient->getQueryParams($query);
         return $this->restClient->performGet($uri, $options);
     }
