@@ -61,4 +61,4 @@
 - Repair and enhance Event API `addTrack`under `/api/events/{eventId}/track` [#36]
   - Tags are now added, therefore it can be replaced by ingest method.
   - overwriteExisting flag has been fixed and works as expected now!
-
+- Introduce `includeInternalPublication` in Events API `getAll`, `get` and `getPublications` methods [#37]

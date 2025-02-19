@@ -13,6 +13,7 @@ class EventsDataProvider {
             [['withmetadata' => true]],
             [['withpublications' => true]],
             [['withscheduling' => true]],
+            [['includeInternalPublication' => true]],
             [['sort' => ['title' => 'DESC']]],
             [['limit' => 2]],
             [['offset' => 1, 'limit' => 2]],
