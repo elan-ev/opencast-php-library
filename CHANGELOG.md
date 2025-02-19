@@ -62,3 +62,8 @@
   - Tags are now added, therefore it can be replaced by ingest method.
   - overwriteExisting flag has been fixed and works as expected now!
 - Introduce `includeInternalPublication` in Events API `getAll`, `get` and `getPublications` methods [#37]
+- Deprecated methods cleanup! [#39]
+  - `OcWorkflow->getStatistics()`
+  - `OcWorkflow->getInstances()`
+  - `OcSeries->getTitles()`
+  - `OcSeries->getAll()`
