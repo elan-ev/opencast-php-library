@@ -175,7 +175,7 @@ $sorts = [
       'startDate' => 'ASC'
 ];
 ```
-<b>NOTE:</b> Sometimes a filter can occur multiple times for example in [Series API `/get`](https://docs.opencast.org/develop/developer/#api/series-api/#get-apiseries), filters like `subject` and `identifier` can occur multiple times. Therefore, an `Array` should be passed as filter value like following:
+<b>NOTE:</b> Sometimes a filter can occur multiple times for example in [Series API `/get`](https://docs.opencast.org/develop/developer/#architecture/api/series-api/#get-apiseries), filters like `subject` and `identifier` can occur multiple times. Therefore, an `Array` should be passed as filter value like following:
 ```php
 // for example:
 
@@ -427,4 +427,4 @@ $ocEventsApi = $opencast->eventsApi;
 ```
 # References
 - <a href="https://develop.opencast.org/rest_docs.html" target="_blank">Main Opencast REST Service Documentation</a>
-- <a href="https://docs.opencast.org/develop/developer/#api/#_top" target="_blank">Detailed Opencast REST API Endpoints Documentation</a>
+- <a href="https://docs.opencast.org/develop/developer/#architecture/api" target="_blank">Detailed Opencast REST API Endpoints Documentation</a>
