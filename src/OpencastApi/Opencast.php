@@ -193,10 +193,21 @@ class Opencast
         if (!empty($servicesJson['body']) && property_exists($servicesJson['body'], 'services')) {
             $service = $servicesJson['body']->services->service;
             if (is_array($service)) {
-                // Choose random ingest service.
-                $ingestService = $service[array_rand($service)];
+                // Filter running ingest services.
+                $running_services = array_filter($service, function ($s) {
+                    return $s->active && $s->online;
+                });
+                // If no running services, return.
+                if (empty($running_services)) {
+                    return;
+                }
+                // Take the first running service.
+                $ingestService = reset($running_services);
             } else {
-                // There is only one.
+                // There is only one and is running.
+                if (!($service->active && $service->online)) {
+                    return;
+                }
                 $ingestService = $service;
             }
 
