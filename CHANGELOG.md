@@ -67,3 +67,6 @@
   - `OcWorkflow->getInstances()`
   - `OcSeries->getTitles()`
   - `OcSeries->getAll()`
+
+# 1.9.1
+- Make sure ingest service is selected only when it is online and active [#47]
