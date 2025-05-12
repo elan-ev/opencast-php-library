@@ -195,7 +195,7 @@ class Opencast
             if (is_array($service)) {
                 // Filter running ingest services.
                 $running_services = array_filter($service, function ($s) {
-                    return $s->active && $s->online;
+                    return $s->active && $s->online && !$s->maintenance;
                 });
                 // If no running services, return.
                 if (empty($running_services)) {
@@ -205,7 +205,7 @@ class Opencast
                 $ingestService = reset($running_services);
             } else {
                 // There is only one and is running.
-                if (!($service->active && $service->online)) {
+                if (!($service->active && $service->online && !$service->maintenance)) {
                     return;
                 }
                 $ingestService = $service;
