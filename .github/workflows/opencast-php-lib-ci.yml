@@ -48,13 +48,13 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.1
+          php-version: 8.2
           coverage: none
 
       - name: Install composer dependencies
         uses: ramsey/composer-install@v3
         with:
-          dependency-versions: 8.1
+          dependency-versions: 8.2
 
       - name: Run PHPUnit
         run: vendor/bin/phpunit --display-incomplete --display-phpunit-deprecations  --display-deprecations --display-errors --display-warnings --display-skipped --display-notices
