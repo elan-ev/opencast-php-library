@@ -8,6 +8,7 @@ use OpencastApi\Opencast;
 
 class OcStatisticsApiTest extends TestCase
 {
+    private $ocStatisticsApi;
     protected function setUp(): void
     {
         parent::setUp();

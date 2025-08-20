@@ -8,6 +8,7 @@ use OpencastApi\Opencast;
 
 class OcWorkflowTest extends TestCase
 {
+    private $ocWorkflow;
     protected function setUp(): void
     {
         parent::setUp();

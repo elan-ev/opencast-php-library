@@ -8,6 +8,7 @@ use OpencastApi\Opencast;
 
 class OcSysinfoTest extends TestCase
 {
+    private $ocSysinfo;
     protected function setUp(): void
     {
         parent::setUp();

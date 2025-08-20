@@ -8,6 +8,7 @@ use OpencastApi\Opencast;
 
 class OcPlaylistsApiTest extends TestCase
 {
+    private $ocPlaylistsApi;
     protected function setUp(): void
     {
         parent::setUp();

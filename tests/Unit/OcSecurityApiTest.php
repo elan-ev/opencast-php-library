@@ -8,6 +8,7 @@ use OpencastApi\Opencast;
 
 class OcSecurityApiTest extends TestCase
 {
+    private $ocSecurityApi;
     protected function setUp(): void
     {
         parent::setUp();

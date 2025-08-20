@@ -8,6 +8,7 @@ use OpencastApi\Opencast;
 
 class OcListProvidersApiTest extends TestCase
 {
+    private $ocListProvidersApi;
     protected function setUp(): void
     {
         parent::setUp();

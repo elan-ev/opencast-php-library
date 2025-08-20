@@ -9,6 +9,7 @@ use OpencastApi\Util\OcUtils;
 
 class OcSearchTest extends TestCase
 {
+    private $ocSearch;
     protected function setUp(): void
     {
         parent::setUp();

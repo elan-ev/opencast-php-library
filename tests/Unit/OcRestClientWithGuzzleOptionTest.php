@@ -8,6 +8,9 @@ use OpencastApi\Opencast;
 
 class OcRestClientWithGuzzleOptionTest extends TestCase
 {
+    private $ocBaseApi;
+    private $ocEventApi;
+    private $ocBaseApiFaulty;
     protected function setUp(): void
     {
         parent::setUp();
