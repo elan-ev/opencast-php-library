@@ -2,23 +2,27 @@
 namespace OpencastApi\Rest;
 
 use GuzzleHttp\Client;
+use OpencastApi\Auth\JWT\OcJwtClaim;
+use OpencastApi\Auth\JWT\OcJwtHandler;
 
 class OcRestClient extends Client
 {
-    private $baseUri;
-    private $username;
-    private $password;
-    private $timeout = 0;
-    private $connectTimeout = 0;
-    private $disposableTimeout = null;
-    private $disposableConnectTimeout = null;
-    private $version;
-    private $headerExceptions = [];
-    private $additionalHeaders = [];
-    private $noHeader = false;
-    private $origin;
-    private $features = [];
-    private $globalOptions = [];
+    private string $baseUri;
+    private string $username;
+    private string $password;
+    private int $timeout = 0;
+    private int $connectTimeout = 0;
+    private ?int $disposableTimeout = null;
+    private ?int $disposableConnectTimeout = null;
+    private ?string $version = null;
+    private array $headerExceptions = [];
+    private array $additionalHeaders = [];
+    private bool $noHeader = false;
+    private ?array $origin = null;
+    private array $features = [];
+    private array $globalOptions = [];
+    private array $jwtConfig = [];
+    private ?OcJwtClaim $jwtClaim = null;
 
     /*
         $config = [
@@ -31,6 +35,11 @@ class OcRestClient extends Client
             'handler' => null,                               // The callable Handler or HandlerStack. (Default null). (optional)
             'features' => null,                              // A set of additional features [e.g. lucene search]. (Default null). (optional)
             'guzzle' => null,                                // Additional Guzzle Request Options. These options can overwrite some default options (Default null). (optional)
+            'jwt' => [                                      // JWT Configuration, null will deactivate the guard
+                'private_key' => 'your-private-key-content',    // Private Key string.
+                'algorithm' => 'ES256',                         // Selected algorithm. @see OpencastApi\Auth\JWT\OcJwtHandler::SUPPORTED_ALGORITHMS
+                'expiration' => 15                              // Expiration time in seconds. default to 15 seconds.
+            ],
         ]
     */
     public function __construct($config)
@@ -65,6 +74,10 @@ class OcRestClient extends Client
             $this->globalOptions = $config['guzzle'];
         }
 
+        if (isset($config['jwt']) && is_array($config['jwt'])) {
+            $this->jwtConfig = $config['jwt'];
+        }
+
         parent::__construct($parentConstructorConfig);
     }
 
@@ -84,6 +97,11 @@ class OcRestClient extends Client
         if (!isset($this->headerExceptions[$header]) || !in_array($path, $this->headerExceptions[$header])) {
             $this->headerExceptions[$header][] = $path;
         }
+    }
+
+    public function setJwtClaims(OcJwtClaim $jwtClaim)
+    {
+        $this->jwtClaim = $jwtClaim;
     }
 
     public function registerAdditionalHeader($header, $value)
@@ -159,6 +177,54 @@ class OcRestClient extends Client
         }
 
         $requestOptions = array_merge($generalOptions, $globalOptions, $options);
+        return $requestOptions;
+    }
+
+    /**
+     * Ensures JWT authentication for the request by injecting a JWT token into the request options.
+     *
+     * If JWT configuration and claims are set, this method generates a JWT token and adds it to the request
+     * according to the HTTP method (GET, POST, PUT, etc.). It also removes basic auth credentials if JWT is used.
+     *
+     * @param array $requestOptions The original request options.
+     * @param string $method The HTTP method (e.g., GET, POST, PUT).
+     * @return array The modified request options with JWT authentication applied.
+     */
+    private function ensureJwtAuthGuard(array $requestOptions, string $method): array
+    {
+        if (isset($this->jwtClaim) && !empty($this->jwtConfig)) {
+            $privateKeyString = $this->jwtConfig['private_key'];
+            $algorithmKey = $this->jwtConfig['algorithm'] ?? null;
+            $expDuration = $this->jwtConfig['expiration'] ?? null;
+
+            $jwtHandler = new OcJwtHandler($privateKeyString, $algorithmKey, $expDuration);
+            $jwtToken = $jwtHandler->issueToken($this->jwtClaim);
+
+            switch ($method) {
+                case 'GET':
+                    $requestOptions['query']['jwt'] = (string) $jwtToken;
+                    break;
+                case 'PUT':
+                case 'POST':
+                    if (isset($requestOptions['form_params'])) {
+                        $requestOptions['form_params']['jwt'] = (string) $jwtToken;
+                    } else if (isset($requestOptions['multipart'])) {
+                        $requestOptions['multipart'][] = [
+                            'name' => 'jwt',
+                            'contents' => (string) $jwtToken
+                        ];
+                    }
+                    break;
+                default:
+                    $requestOptions['headers'][] = "Authorization: Bearer " . (string) $jwtToken;
+                    break;
+            }
+
+            // As we now have a JWT token, we can remove the basic auth credentials.
+            if (isset($requestOptions['auth'])) {
+                unset($requestOptions['auth']);
+            }
+        }
         return $requestOptions;
     }
 
@@ -238,7 +304,9 @@ class OcRestClient extends Client
     {
         $this->prepareOrigin($uri, $options, 'GET');
         try {
-            $response = $this->get($uri, $this->addRequestOptions($uri, $options));
+            $requestOptions = $this->addRequestOptions($uri, $options);
+            $requestOptions = $this->ensureJwtAuthGuard($requestOptions, 'GET');
+            $response = $this->get($uri, $requestOptions);
             return $this->returnResult($response);
         } catch (\Throwable $th) {
             return $this->resolveException($th);
@@ -249,7 +317,9 @@ class OcRestClient extends Client
     {
         $this->prepareOrigin($uri, $options, 'POST');
         try {
-            $response = $this->post($uri, $this->addRequestOptions($uri, $options));
+            $requestOptions = $this->addRequestOptions($uri, $options);
+            $requestOptions = $this->ensureJwtAuthGuard($requestOptions, 'POST');
+            $response = $this->post($uri, $requestOptions);
             return $this->returnResult($response);
         } catch (\Throwable $th) {
             return $this->resolveException($th);
@@ -261,7 +331,9 @@ class OcRestClient extends Client
     {
         $this->prepareOrigin($uri, $options, 'PUT');
         try {
-            $response = $this->put($uri, $this->addRequestOptions($uri, $options));
+            $requestOptions = $this->addRequestOptions($uri, $options);
+            $requestOptions = $this->ensureJwtAuthGuard($requestOptions, 'PUT');
+            $response = $this->put($uri, $requestOptions);
             return $this->returnResult($response);
         } catch (\Throwable $th) {
             return $this->resolveException($th);
@@ -272,7 +344,9 @@ class OcRestClient extends Client
     {
         $this->prepareOrigin($uri, $options, 'DELETE');
         try {
-            $response = $this->delete($uri, $this->addRequestOptions($uri, $options));
+            $requestOptions = $this->addRequestOptions($uri, $options);
+            $requestOptions = $this->ensureJwtAuthGuard($requestOptions, 'DELETE');
+            $response = $this->delete($uri, $requestOptions);
             return $this->returnResult($response);
         } catch (\Throwable $th) {
             return $this->resolveException($th);

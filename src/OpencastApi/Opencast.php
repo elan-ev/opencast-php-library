@@ -72,6 +72,10 @@ class Opencast
     /** @var \OpencastApi\Rest\OcListProvidersApi $listProvidersApi */
     public $listProvidersApi;
 
+    /** @var \OpencastApi\Rest\OcInfo $info */
+    public $info;
+
+
     /*
         $config = [
             'url' => 'https://develop.opencast.org/',       // The API url of the opencast instance (required)
@@ -95,6 +99,11 @@ class Opencast
             'handler' => null,                               // The callable Handler or HandlerStack. (Default null). (optional)
             'features' => null,                              // A set of additional features [e.g. lucene search]. (Default null). (optional)
             'guzzle' => null,                                // Additional Guzzle Request Options. These options can overwrite some default options (Default null). (optional)
+            'jwt' => [                                      // JWT Configuration, null will deactivate the guard
+                'private_key' => 'your-private-key-content',    // Private Key string.
+                'algorithm' => 'ES256',                         // Selected algorithm. @see OpencastApi\Auth\JWT\OcJwtHandler::SUPPORTED_ALGORITHMS
+                'expiration' => 15                              // Expiration time in seconds. default to 15 seconds.
+            ],
         ]
     */
     /**
@@ -180,6 +189,9 @@ class Opencast
         }
         if (!isset($engageConfig['guzzle']) && isset($config['guzzle'])) {
             $engageConfig['guzzle'] = $config['guzzle'];
+        }
+        if (!isset($engageConfig['jwt']) && isset($config['jwt'])) {
+            $engageConfig['jwt'] = $config['jwt'];
         }
         $this->engageRestClient = new OcRestClient($engageConfig);
     }
