@@ -23,6 +23,7 @@ class OcRestClient extends Client
     private array $globalOptions = [];
     private array $jwtConfig = [];
     private ?OcJwtClaim $jwtClaim = null;
+    private ?OcJwtHandler $jwtHandler = null;
 
     /*
         $config = [
@@ -76,9 +77,19 @@ class OcRestClient extends Client
 
         if (isset($config['jwt']) && is_array($config['jwt'])) {
             $this->jwtConfig = $config['jwt'];
+            $this->jwtHandler = new OcJwtHandler(
+                $this->jwtConfig['private_key'],
+                $this->jwtConfig['algorithm'] ?? null,
+                $this->jwtConfig['expiration'] ?? null
+            );
         }
 
         parent::__construct($parentConstructorConfig);
+    }
+
+    public function getJwtHandler(): ?OcJwtHandler
+    {
+        return $this->jwtHandler;
     }
 
     public function readFeatures($key = null) {

@@ -3,6 +3,7 @@ namespace OpencastApi;
 
 use OpencastApi\Rest\OcRestClient;
 use OpencastApi\Rest\OcIngest;
+use OpencastApi\Auth\JWT\OcJwtHandler;
 
 class Opencast
 {
@@ -75,7 +76,6 @@ class Opencast
     /** @var \OpencastApi\Rest\OcInfo $info */
     public $info;
 
-
     /*
         $config = [
             'url' => 'https://develop.opencast.org/',       // The API url of the opencast instance (required)
@@ -117,6 +117,16 @@ class Opencast
         $this->restClient = new OcRestClient($config);
         $this->setEngageRestClient($config, $engageConfig);
         $this->setEndpointProperties($config, $enableingest);
+    }
+
+    /**
+     * Get the JWT Handler from the Rest Client.
+     *
+     * @return OcJwtHandler|null
+     */
+    public function getRestJwtHandler(): ?OcJwtHandler
+    {
+        return $this->restClient->getJwtHandler();
     }
 
     private function setEndpointProperties($config, $enableingest)
