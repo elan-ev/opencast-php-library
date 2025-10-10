@@ -113,7 +113,7 @@ class OcJwtHandler
             return false;
         }
 
-        return $this->config->validator->validate($token, new OcJwtValidationConstraint());
+        return $this->config->validator()->validate($token, new OcJwtValidationConstraint());
     }
 
     /**
