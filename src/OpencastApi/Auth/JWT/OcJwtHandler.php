@@ -91,7 +91,7 @@ class OcJwtHandler
     public function issueToken(OcJwtClaim $claim): string
     {
         if (!$claim->hasExp()) {
-            $expiryFormatted = OcJwtClaim::generateFormattedDateTimeObject(time() + (int) $this->expDuration);
+            $expiryFormatted = OcJwtClaim::generateFormattedDateTimeObject((int) $this->expDuration);
             $claim->setExp($expiryFormatted);
         }
 

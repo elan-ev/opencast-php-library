@@ -270,7 +270,6 @@ class OcJwtClaim
             throw new \InvalidArgumentException("JWT: Expiration time is required");
         }
         $data = [
-            // 'exp' => $this->exp->getTimestamp(),
             'exp' => $this->exp,
         ];
         if (!empty($this->sub)) {
@@ -375,7 +374,10 @@ class OcJwtClaim
             );
         }
 
-        $instance->setNbf($token->claims()->get('nbf') ?? null);
+        $nbf = $token->claims()->get('nbf');
+        if (!empty($nbf) && is_int($nbf)) {
+            $instance->setNbf($nbf);
+        }
 
         return $instance;
     }
@@ -438,16 +440,13 @@ class OcJwtClaim
      * Generates a formatted DateTimeImmutable object from a Unix timestamp.
      * Using RFC 3339 standards formatting required by Opencast.
      *
-     * @param int $timestamp The Unix timestamp to convert.
-     * @return \DateTimeImmutable The formatted DateTimeImmutable object.
+     * @param int $duration_seconds The duration of the token in seconds.
+     * @return DateTimeImmutable The formatted DateTimeImmutable object.
      */
-    public static function generateFormattedDateTimeObject(int $timestamp): \DateTimeImmutable
+    public static function generateFormattedDateTimeObject(int $duration_seconds): DateTimeImmutable
     {
-        $dt = new DateTimeImmutable();
-        $dt->setTimestamp($timestamp);
-
+        $dt = (new DateTimeImmutable())->modify("+{$duration_seconds} seconds");
         $dtFormatted = DateTimeImmutable::createFromFormat(DateTimeInterface::RFC3339, $dt->format(DateTimeInterface::RFC3339));
-
         return $dtFormatted;
     }
 }
