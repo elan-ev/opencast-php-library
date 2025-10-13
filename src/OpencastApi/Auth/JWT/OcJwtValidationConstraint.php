@@ -6,6 +6,7 @@ use Lcobucci\JWT\UnencryptedToken;
 use Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Validation\ConstraintViolation;
 use DateTimeImmutable;
+use Throwable;
 
 final class OcJwtValidationConstraint implements Constraint
 {
@@ -29,8 +30,8 @@ final class OcJwtValidationConstraint implements Constraint
 
         try {
             $ocClaim = OcJwtClaim::convertFromTokenWithValidation($token);
-        } catch (\Throwable $th) {
-            throw new ConstraintViolation('Invalid Opencast token claims!');
+        } catch (Throwable $th) {
+            throw ConstraintViolation::error('Invalid Opencast specific claims!', $this);
         }
 
         assert($ocClaim instanceof OcJwtClaim, 'Invalid Opencast JWT claim!');

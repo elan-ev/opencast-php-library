@@ -9,14 +9,9 @@ use Lcobucci\JWT\Encoding\CannotEncodeContent;
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\UnencryptedToken;
-use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Token\DataSet;
 use Lcobucci\JWT\Token\Plain;
 use Lcobucci\JWT\Token\Signature;
-
-use function array_diff;
-use function array_merge;
-use function in_array;
 
 final class OcJwtBuilder implements BuilderInterface
 {
@@ -26,11 +21,18 @@ final class OcJwtBuilder implements BuilderInterface
     /** @var array<non-empty-string, mixed> */
     private array $claims = [];
 
-    /** @deprecated Deprecated since v5.5, please use {@see self::new()} instead */
+    /**
+     * @inheritDoc
+     *
+     * Use {@see self::new()} instead of directly instantiating with `new OcJwtBuilder()` as it is deprecated.
+     */
     public function __construct(private readonly Encoder $encoder, private readonly ClaimsFormatter $claimFormatter)
     {
     }
 
+    /**
+     * @inheritDoc
+     */
     public static function new(Encoder $encoder, ClaimsFormatter $claimFormatter): self
     {
         return new self($encoder, $claimFormatter);
@@ -43,7 +45,7 @@ final class OcJwtBuilder implements BuilderInterface
     public function permittedFor(string ...$audiences): BuilderInterface
     {
         $configured = $this->claims[RegisteredClaims::AUDIENCE] ?? [];
-        $toAppend   = array_diff($audiences, $configured);
+        $toAppend = array_diff($audiences, $configured);
 
         return $this->setClaim(RegisteredClaims::AUDIENCE, array_merge($configured, $toAppend));
     }
@@ -108,7 +110,7 @@ final class OcJwtBuilder implements BuilderInterface
      */
     public function withHeader(string $name, mixed $value): BuilderInterface
     {
-        $new                 = clone $this;
+        $new = clone $this;
         $new->headers[$name] = $value;
 
         return $new;
@@ -127,7 +129,9 @@ final class OcJwtBuilder implements BuilderInterface
         return $this->setClaim($name, $value);
     }
 
-    /** @param non-empty-string $name */
+    /**
+     * @param non-empty-string $name
+     */
     private function setClaim(string $name, mixed $value): BuilderInterface
     {
         $new                = clone $this;
@@ -148,15 +152,18 @@ final class OcJwtBuilder implements BuilderInterface
         );
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getToken(Signer $signer, Key $key): UnencryptedToken
     {
-        $headers        = $this->headers;
+        $headers = $this->headers;
         $headers['alg'] = $signer->algorithmId();
 
         $encodedHeaders = $this->encode($headers);
-        $encodedClaims  = $this->encode($this->claimFormatter->formatClaims($this->claims));
+        $encodedClaims = $this->encode($this->claimFormatter->formatClaims($this->claims));
 
-        $signature        = $signer->sign($encodedHeaders . '.' . $encodedClaims, $key);
+        $signature = $signer->sign($encodedHeaders . '.' . $encodedClaims, $key);
         $encodedSignature = $this->encoder->base64UrlEncode($signature);
 
         return new Plain(

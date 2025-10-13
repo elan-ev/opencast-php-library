@@ -14,23 +14,36 @@ use Lcobucci\JWT\Encoding\CannotDecodeContent;
 use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Token\InvalidTokenStructure;
 use Lcobucci\JWT\Token;
-use Lcobucci\JWT\Token\Parser;
 use Lcobucci\JWT\Token\UnsupportedHeaderFound;
 use Lcobucci\JWT\UnencryptedToken;
 
 class OcJwtHandler
 {
+    /** @var int token expiration duration in seconds */
     private int $expDuration = 15; // Default to 15 seconds
+
+    /** @var Configuration configuration instance */
     private Configuration $config;
+
+    /** @var Signer signer instance */
     private Signer $signer;
+
+    /** @var array list of supported algorithms (Asymmetric) */
     const SUPPORTED_ALGORITHMS = [
         'ES256' => Sha256::class,
         'ES384' => Sha384::class,
         'EdDSA' => Eddsa::class
     ];
+
+    /** @var string default algorithm */
     const DEAFULT_ALGORITHM = 'ES256';
+
+    /** @var string default audience */
     const AUDIENCE = 'opencast-php-library';
 
+    /**
+     * Constructor
+     */
     public function __construct(string $privateKeyString, ?string $algorithmKey = null, ?int $expDuration = null)
     {
         $algorithmKey = $algorithmKey ?? self::DEFAULT_ALGORITHM;
@@ -52,9 +65,8 @@ class OcJwtHandler
 
         $signingKey = InMemory::plainText($privateKeyString);
 
-        // TODO: get that verification from config too!
-        // As it said in docs (if it makes problems go for this)
-        $verificationKey = InMemory::base64Encoded('mBC5v1sOKVvbdEitdSBenu59nfNfhwkedkJVNabosTw=');
+        // Randomly generated, but not effectively in-use.
+        $verificationKey = InMemory::base64Encoded(base64_encode(random_bytes(32)));
 
         $configuration = Configuration::forAsymmetricSigner(
             $this->signer,

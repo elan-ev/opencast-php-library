@@ -7,14 +7,28 @@ use DateTimeInterface;
 
 class OcJwtClaim
 {
+    /** @var string expiration claim */
     public const EXP = 'exp';
+
+    /** @var string not before claim */
     public const NBF = 'nbf';
+
+    /** @var string subject claim */
     public const SUB = 'sub';
+
+    /** @var string name claim */
     public const NAME = 'name';
+
+    /** @var string email claim */
     public const EMAIL = 'email';
+
+    /** @var string Opencast roles claim */
     public const ROLES = 'roles';
+
+    /** @var string Opencast ACLs claim */
     public const OC = 'oc';
 
+    /** @var array opencast claim set */
     public const OC_CLAIMS = [
         self::EXP,
         self::NBF,
@@ -25,8 +39,13 @@ class OcJwtClaim
         self::OC,
     ];
 
+    /** @var string opencast ACL event sign in oc claim */
     public const OC_EVENT = 'e:';
+
+    /** @var string opencast ACL series sign in oc claim */
     public const OC_SERIES = 's:';
+
+    /** @var string opencast ACL playlist sign in oc claim */
     public const OC_PLAYLIST = 'p:';
 
     /** @var DateTimeImmutable expiration time
@@ -254,7 +273,7 @@ class OcJwtClaim
      * Gets the access control lists (ACLs) as for "oc" claims of the JWT.
      * it is a combination of event, series and playlist ACLs in "oc" claims format.
      *
-     * @return array The ACLs to access the resource.
+     * @return array The ACLs to access the resource. Keys are "event", "series" and "playlist".
      */
     public function getAclsClaims(): array
     {
