@@ -134,4 +134,22 @@ class OcJwtHandler
 
         return $token;
     }
+
+    /**
+     * Returns the OcJwtClaim object from encoded token string.
+     *
+     * @param string $tokenString The JWT token string to convert to OcJwtClaim.
+     * @return OcJwtClaim|null The OcJwtClaim object or null if failed.
+     */
+    public function getOcJwtClaimFromTokenString(string $tokenString): ?OcJwtClaim {
+        try {
+            $token = $this->tokenParser($tokenString);
+            if ($token === null) {
+                return null;
+            }
+            return OcJwtClaim::convertFromTokenWithValidation($token);
+        } catch (\Throwable $th) {
+            return null;
+        }
+    }
 }

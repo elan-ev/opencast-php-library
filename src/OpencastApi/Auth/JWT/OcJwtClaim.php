@@ -7,6 +7,14 @@ use DateTimeInterface;
 
 class OcJwtClaim
 {
+    public const EXP = 'exp';
+    public const NBF = 'nbf';
+    public const SUB = 'sub';
+    public const NAME = 'name';
+    public const EMAIL = 'email';
+    public const ROLES = 'roles';
+    public const OC = 'oc';
+
     public const OC_CLAIMS = [
         self::EXP,
         self::NBF,
@@ -17,13 +25,9 @@ class OcJwtClaim
         self::OC,
     ];
 
-    public const EXP = 'exp';
-    public const NBF = 'nbf';
-    public const SUB = 'sub';
-    public const NAME = 'name';
-    public const EMAIL = 'email';
-    public const ROLES = 'roles';
-    public const OC = 'oc';
+    public const OC_EVENT = 'e:';
+    public const OC_SERIES = 's:';
+    public const OC_PLAYLIST = 'p:';
 
     /** @var DateTimeImmutable expiration time
      * A number timestamp in seconds since the unix epoch.
@@ -213,7 +217,8 @@ class OcJwtClaim
     public function setEventAcls(array $acls): void
     {
         foreach ($acls as $identifier => $actions) {
-            $this->eventAcls[] = ["e:{$identifier}" => $actions];
+            $key = self::OC_EVENT . $identifier;
+            $this->eventAcls[$key] = $actions;
         }
     }
 
@@ -226,7 +231,8 @@ class OcJwtClaim
     public function setSeriesAcls(array $acls): void
     {
         foreach ($acls as $identifier => $actions) {
-            $this->seriesAcls[] = ["s:{$identifier}" => $actions];
+            $key = self::OC_SERIES . $identifier;
+            $this->seriesAcls[$key] = $actions;
         }
     }
 
@@ -239,7 +245,8 @@ class OcJwtClaim
     public function setPlaylistAcls(array $acls): void
     {
         foreach ($acls as $identifier => $actions) {
-            $this->playlistAcls[] = ["p:{$identifier}" => $actions];
+            $key = self::OC_PLAYLIST . $identifier;
+            $this->playlistAcls[$key] = $actions;
         }
     }
 
@@ -247,13 +254,13 @@ class OcJwtClaim
      * Gets the access control lists (ACLs) as for "oc" claims of the JWT.
      * it is a combination of event, series and playlist ACLs in "oc" claims format.
      *
-     * @return array The ACLs assigned to the user.
+     * @return array The ACLs to access the resource.
      */
     public function getAclsClaims(): array
     {
         return [
             'event' => $this->eventAcls,
-            'serie' => $this->seriesAcls,
+            'series' => $this->seriesAcls,
             'playlist' => $this->playlistAcls,
         ];
     }
@@ -351,11 +358,11 @@ class OcJwtClaim
             $playlistAcls = [];
             foreach ($aclClaims as $aclKey => $actions) {
                 $identifier = substr($aclKey, 2);
-                if (str_starts_with($aclKey, 'e:')) {
+                if (str_starts_with($aclKey, self::OC_EVENT)) {
                     $eventAcls[$identifier] = $actions;
-                } elseif (str_starts_with($aclKey, 's:')) {
+                } elseif (str_starts_with($aclKey, self::OC_SERIES)) {
                     $seriesAcls[$identifier] = $actions;
-                } elseif (str_starts_with($aclKey, 'p:')) {
+                } elseif (str_starts_with($aclKey, self::OC_PLAYLIST)) {
                     $playlistAcls[$identifier] = $actions;
                 }
             }
@@ -420,11 +427,11 @@ class OcJwtClaim
             $playlistAcls = [];
             foreach ($aclClaims as $aclKey => $actions) {
                 $identifier = substr($aclKey, 2);
-                if (str_starts_with($aclKey, 'e:')) {
+                if (str_starts_with($aclKey, self::OC_EVENT)) {
                     $eventAcls[$identifier] = $actions;
-                } elseif (str_starts_with($aclKey, 's:')) {
+                } elseif (str_starts_with($aclKey, self::OC_SERIES)) {
                     $seriesAcls[$identifier] = $actions;
-                } elseif (str_starts_with($aclKey, 'p:')) {
+                } elseif (str_starts_with($aclKey, self::OC_PLAYLIST)) {
                     $playlistAcls[$identifier] = $actions;
                 }
             }
@@ -448,5 +455,44 @@ class OcJwtClaim
         $dt = (new DateTimeImmutable())->modify("+{$duration_seconds} seconds");
         $dtFormatted = DateTimeImmutable::createFromFormat(DateTimeInterface::RFC3339, $dt->format(DateTimeInterface::RFC3339));
         return $dtFormatted;
+    }
+
+    /**
+     * Check if the set of actions are matching the current actions of each opencast acl domain.
+     *
+     * @param string $key the key could be e:, s:, p: using self::OC_EVENT, self::OC_SERIES and self::OC_PLAYLIST.
+     * @param string $identifier the resources id, could be event id, series id or playlist id.
+     * @param array $actions the list of action to compare with.
+     *
+     * @return bool return true if both current and incoming actions of the oc claim match, false otherwise.
+     */
+    public function actionsMatchFor(string $key, string $identifier, array $actions): bool {
+        $acls = $this->getAclsClaims();
+        $sets = null;
+
+        switch ($key) {
+            case self::OC_EVENT:
+                $sets = $acls['event'] ?? null;
+                break;
+            case self::OC_SERIES:
+                $sets = $acls['series'] ?? null;
+                break;
+            case self::OC_PLAYLIST:
+                $sets = $acls['playlist'] ?? null;
+                break;
+            default:
+                return false;
+                break;
+        }
+
+        if (!empty($sets) && !empty($sets[$key . $identifier])) {
+            $current = array_values($sets[$key . $identifier]);
+            sort($current);
+            sort($actions);
+
+            return $current === $actions;
+        }
+
+        return false;
     }
 }

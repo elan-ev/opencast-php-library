@@ -180,12 +180,6 @@ final class OcJwtBuilder implements BuilderInterface
             if (!in_array($name, OcJwtClaim::OC_CLAIMS, true)) {
                 throw new \InvalidArgumentException(sprintf('Claim "%s" is not a valid Opencast claim.', $name));
             }
-            // Apply immediate object conversion when there is only one element, in "oc"!
-            if ($name === OcJwtClaim::OC) {
-                if (count($value) == 1) {
-                    $value = $value[0];
-                }
-            }
             $new->claims[$name] = $value;
         }
 
