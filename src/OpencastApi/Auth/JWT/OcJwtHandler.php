@@ -75,11 +75,20 @@ class OcJwtHandler
         );
 
         // Register Opencast specific builder.
-        $configuration = $configuration->withBuilderFactory(
-            static function (ClaimsFormatter $formatter) : Builder {
-                return OcJwtBuilder::new(new JoseEncoder(), $formatter);
-            }
-        );
+        $version = \Composer\InstalledVersions::getVersion('lcobucci/jwt');
+        if (version_compare($version, '5.5', '>=')) {
+            $configuration = $configuration->withBuilderFactory(
+                static function (ClaimsFormatter $formatter) : Builder {
+                    return OcJwtBuilder::new(new JoseEncoder(), $formatter);
+                }
+            );
+        } else {
+            $configuration->setBuilderFactory(
+                static function (ClaimsFormatter $formatter) : Builder {
+                    return OcJwtBuilder::new(new JoseEncoder(), $formatter);
+                }
+            );
+        }
 
         $this->config = $configuration;
     }

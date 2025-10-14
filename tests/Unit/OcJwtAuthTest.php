@@ -94,5 +94,41 @@ class OcJwtAuthTest extends OcTestCase
         $response3 = $this->exOcRestApi->performGet($mediaUrl);
         $this->assertSame(200, $response3['code'], 'Failure to access media directly with JWT.');
     }
+
+    /**
+     * @test
+     */
+    public function generate_validate_token(): void
+    {
+        $response1 = $this->ocEventsApi->getAll(['withpublications' => true, 'limit' => 4]);
+        $body1 = $response1['body'];
+        $attachmentUrl = $body1[0]->publications[0]->attachments[0]->url;
+        $eventId = $body1[0]->identifier;
+
+        $ocClaim = new OcJwtClaim();
+        $eventAcl = [
+            "$eventId" => ['read']
+        ];
+        $ocClaim->setEventAcls($eventAcl);
+        // Issue Token.
+        $accessToken = $this->exOcRestApi->getJwtHandler()->issueToken($ocClaim) ?? null;
+        $this->assertNotEmpty($accessToken);
+
+        // Attach the token to the url and get the content.
+        $attachmentUrlWithJwt = $attachmentUrl . '?jwt=' . $accessToken;
+        $fileContent = file_get_contents($attachmentUrlWithJwt);
+        $this->assertNotEmpty($fileContent);
+
+        // Validate the token.
+        $isValid = $this->exOcRestApi->getJwtHandler()->validateToken($accessToken);
+        $this->assertSame(true, $isValid, 'Invalid Token');
+
+        // Match ACL actions.
+        $oldClaim = $this->exOcRestApi->getJwtHandler()->getOcJwtClaimFromTokenString($accessToken);
+        $this->assertNotEmpty($oldClaim);
+
+        $matchedActions = $oldClaim->actionsMatchFor(OcJwtClaim::OC_EVENT, $eventId, ['read']);
+        $this->assertSame(true, $matchedActions, 'Actions mismatched.');
+    }
 }
 ?>
