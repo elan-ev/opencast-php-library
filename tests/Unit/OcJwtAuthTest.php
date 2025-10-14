@@ -3,12 +3,13 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
+use Tests\OcTestCase;
 use OpencastApi\Opencast;
 use OpencastApi\Rest\OcRestClient;
 use OpencastApi\Auth\JWT\OcJwtClaim;
 
-class OcJwtAuthTest extends TestCase
+#[\AllowDynamicProperties]
+class OcJwtAuthTest extends OcTestCase
 {
     private $ocInfo;
     private $jwtHandler;
@@ -17,10 +18,9 @@ class OcJwtAuthTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
+        echo "\n\n====== Start Testing (" . __CLASS__ . ") ======\n";
         $config = \Tests\DataProvider\SetupDataProvider::getConfigWithJwt();
-
         // Since we're using a personalized Opencast instance, we print the configuration beforehand to avoid confusion.
-        echo "\n=== JWT Auth Testing ===\n";
         echo "URL: {$config['url']}\n";
         echo "Username: {$config['username']}\n";
         echo "Algorithm: {$config['jwt']['algorithm']}\n";
