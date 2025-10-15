@@ -344,7 +344,7 @@ class OcEventsApiTest extends OcTestCase
         $enddate->modify('+3 hours');
         $enddateformated = $enddate->format('Y-m-d\TH:i:s.v\Z');
 
-        $captureId = 'capture_' . time();
+        $captureId = 'capture_' . time() . '_' . uniqid();
         $response = $this->ocCaptureAdmin->setAgentState($captureId, 'idle');
         $this->assertSame(200, $response['code'], 'Failed to create Capture Agent!');
 
