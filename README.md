@@ -144,11 +144,13 @@ $config = [
       ],
 ];
 ```
-**UPDATE (v2.0.0):** A new config parameter to activate JWT auth is introduced, in order to facilitate the JWT Component to issue/validate tokens etc. For more info refer to JWT section.
-**UPDATE (v1.9.0):** a new config parameter called "guzzle" is introduced, which is intended to pass additional guzzle request options to the call. These options will take precedence over the default configs like uri, auth and timeouts, but some other options like query, fome_params and json will be overwritten by the function if present.
-**UPDATE (v1.7.0):** the new items called `features` is added to the configuration array. As of now, it is meant to hanlde the toggle behavior to enable/disable Lucene search endpoint simply by adding `'features' => ['lucene' => true]`. Just keep in mind that this endpoint id off by default and won't work in Opencast 16 onwards. Therefore, developer must be very careful to use this feature and to toggle it!
+> **Update (v2.0.0):** A new configuration parameter has been introduced to enable **JWT authentication**, allowing the JWT component to issue and validate tokens. For more details, see the [JWT Authentication Mechanism](#jwt-authentication-mechanism).
 
-NOTE: the configuration for presentation (`engage` node) responsible for search has to follow the same definition as normal config. But in case any parameter is missing, the value will be taken from the main config param.
+> **UPDATE (v1.9.0):** a new config parameter called "guzzle" is introduced, which is intended to pass additional guzzle request options to the call. These options will take precedence over the default configs like uri, auth and timeouts, but some other options like query, fome_params and json will be overwritten by the function if present.
+
+> **UPDATE (v1.7.0):** the new items called `features` is added to the configuration array. As of now, it is meant to hanlde the toggle behavior to enable/disable Lucene search endpoint simply by adding `'features' => ['lucene' => true]`. Just keep in mind that this endpoint id off by default and won't work in Opencast 16 onwards. Therefore, developer must be very careful to use this feature and to toggle it!
+
+> NOTE: the configuration for presentation (`engage` node) responsible for search has to follow the same definition as normal config. But in case any parameter is missing, the value will be taken from the main config param.
 
 #### Extra: Dynamically loading the ingest endpoint class into Opencast instance.
 As of v1.3 it is possible to enable (Default) or disable  the ingest endpoint to be loaded into `OpencastApi\Opencast` by passing a boolean value as the last argument of the class as follows:
