@@ -4,6 +4,7 @@ namespace OpencastApi\Rest;
 use GuzzleHttp\Client;
 use OpencastApi\Auth\JWT\OcJwtClaim;
 use OpencastApi\Auth\JWT\OcJwtHandler;
+use GuzzleHttp\Exception\RequestException;
 
 class OcRestClient extends Client
 {
@@ -274,16 +275,17 @@ class OcRestClient extends Client
         return $this->version;
     }
 
-    private function resolveResponseBody(string $body)
+    private function resolveResponseBody($response)
     {
-        $result = json_decode($body);
+        $body = $response->getBody();
+        $body->rewind();
+        $contents = $body->getContents() ?? '';
+        $result = json_decode($contents);
         if ($result !== null) {
             return $result;
         }
-        // TODO: Here we can add more return type if needed...
-
-        if (!empty($body)) {
-            return $body;
+        if (!empty($contents)) {
+            return $contents;
         }
 
         return null;
@@ -294,11 +296,7 @@ class OcRestClient extends Client
         $result = [];
         $result['code'] = $response->getStatusCode();
         $result['reason'] = $response->getReasonPhrase();
-        $body = '';
-        if ($result['code'] < 400 && !empty((string) $response->getBody())) {
-            $body = $this->resolveResponseBody((string) $response->getBody());
-        }
-        $result['body'] = $body;
+        $result['body'] = $this->resolveResponseBody($response);
 
         $location = '';
         if ($response->hasHeader('Location')) {
@@ -369,8 +367,18 @@ class OcRestClient extends Client
         $error = [];
         $error['code'] = $th->getCode();
         $error['reason'] = $th->getMessage();
-        $error['body'] = '';
-        $error['location'] = '';
+
+        $bodyContents = '';
+        $location = '';
+        if ($th instanceof RequestException && $th->hasResponse()) {
+            $response = $th->getResponse();
+            $bodyContents = $this->resolveResponseBody($response);
+            if ($response->hasHeader('Location')) {
+                $location = $response->getHeader('Location');
+            }
+        }
+        $error['body'] = $bodyContents;
+        $error['location'] = $location;
         $error['origin'] = !empty($this->origin) ? $this->origin : null;
         if (!empty($error['reason'])) {
             return $error;
