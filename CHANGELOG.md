@@ -70,3 +70,8 @@
 
 # 1.9.1
 - Make sure ingest service is selected only when it is online and active [#47]
+
+# 2.0.0
+* Introduced **JWT Authentication Mechanism** ([#50])
+* Updated PHPUnit tests and configurations
+* Extended GitHub CI supported PHP versions to **8.1 – 8.4**
