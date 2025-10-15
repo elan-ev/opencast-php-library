@@ -75,3 +75,4 @@
 * Introduced **JWT Authentication Mechanism** ([#50])
 * Updated PHPUnit tests and configurations
 * Extended GitHub CI supported PHP versions to **8.1 – 8.4**
+* Return response body on HTTP errors (e.g. 409 Conflict) [#52]
